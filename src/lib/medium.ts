@@ -211,6 +211,10 @@ function inferTypeFromContent(input: { title?: string; excerpt?: string; html?: 
   const text = `${input.title || ''} ${input.excerpt || ''} ${stripHtml(input.html || '')}`.toLowerCase();
 
   const hardDoctorSignals = [
+    'science for smile',
+    'science for smiles',
+    'clinical question',
+    'clinical takeaway',
     'clinical disclaimer',
     'for clinician education',
     'for clinicians',
@@ -220,6 +224,7 @@ function inferTypeFromContent(input: { title?: string; excerpt?: string; html?: 
     'clinical protocol',
     'meta-analysis',
     'randomized trial',
+    'randomised trial',
   ];
 
   if (hardDoctorSignals.some((signal) => text.includes(signal))) {
@@ -231,6 +236,12 @@ function inferTypeFromContent(input: { title?: string; excerpt?: string; html?: 
     'protocol insight',
     'clinical implementation',
     'multicenter',
+    'multicentre',
+    'andrology lab',
+    'controlled ovarian stimulation',
+    'embryo selection',
+    'endometrial receptivity',
+    'multi-omics',
     'non-invasive pgt-a',
     'embryology',
     'implantation potential',
