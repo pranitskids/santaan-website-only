@@ -3,6 +3,14 @@ import { getSantaanBlogPosts, type BlogType } from '@/lib/medium';
 import { isPatientReadyPost } from '@/lib/patient-content';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
+const uncachedJsonHeaders = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+  'CDN-Cache-Control': 'no-store',
+  'Netlify-CDN-Cache-Control': 'no-store',
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,9 +36,12 @@ export async function GET(request: NextRequest) {
       ? posts.filter(isPatientReadyPost).slice(0, requestedLimit || 6)
       : posts;
 
-    return NextResponse.json({ posts: visiblePosts });
+    return NextResponse.json({ posts: visiblePosts }, { headers: uncachedJsonHeaders });
   } catch (error) {
     console.error('Failed to fetch Santaan blog posts:', error);
-    return NextResponse.json({ error: 'Failed to fetch blog posts' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch blog posts' },
+      { status: 500, headers: uncachedJsonHeaders }
+    );
   }
 }
