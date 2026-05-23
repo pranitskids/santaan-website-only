@@ -44,7 +44,7 @@ export function Insights() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await fetch('/api/blogs?type=blog&limit=3');
+                const response = await fetch('/api/blogs?type=blog&limit=6');
                 const data = await response.json();
 
                 if (response.ok && Array.isArray(data.posts)) {
@@ -90,10 +90,10 @@ export function Insights() {
                             Patient guides
                         </span>
                         <h2 className="text-3xl md:text-5xl font-playfair font-bold text-santaan-teal">
-                            Start with three clear fertility guides
+                            Insights &amp; Stories
                         </h2>
                         <p className="text-gray-600 mt-3 max-w-xl text-sm md:text-base">
-                            Keep the homepage focused on patient education: practical explainers, common questions, and next-step clarity.
+                            Practical fertility explainers, patient questions, and Santaan stories for couples who want clarity before they take the next step.
                         </p>
                     </div>
                     <div className="flex items-center gap-4">
@@ -120,7 +120,7 @@ export function Insights() {
                 {/* Grid */}
                 {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {[1, 2, 3].map((i) => (
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
                             <div key={i} className="h-96 bg-gray-200 rounded-2xl animate-pulse" />
                         ))}
                     </div>

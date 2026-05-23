@@ -13,6 +13,41 @@ interface SantaanPost {
     tags: string[];
 }
 
+const fallbackNewsPosts: SantaanPost[] = [
+    {
+        slug: 'break-the-silence-on-endometriosis-29th-march-2026-bigfm-92-7-tcmg9h',
+        title: 'Break the Silence on Endometriosis 29th March, 2026 (BIGFM 92.7)',
+        publishedAt: '2026-03-28T06:30:00.000Z',
+        excerpt:
+            'Dr Kaninika Panda will share doctor tips for managing endometriosis on BIG 92.7 FM, helping patients understand symptoms, fertility impact, and when to seek care.',
+        tags: ['santaan-news', 'endometriosis', 'radio'],
+    },
+    {
+        slug: 'break-the-silence-on-endometriosis-tune-in-today-tcld6s',
+        title: 'Break the Silence on Endometriosis - Tune In Today!',
+        publishedAt: '2026-03-28T05:30:00.000Z',
+        excerpt:
+            'A patient-awareness update from Santaan Bhubaneswar focused on endometriosis, fertility concerns, and practical doctor-led guidance.',
+        tags: ['santaan-news', 'endometriosis'],
+    },
+    {
+        slug: 'break-the-silence-on-endometriosis-tune-in-today',
+        title: 'Break the Silence on Endometriosis - Tune In Today!',
+        publishedAt: '2026-03-27T06:30:00.000Z',
+        excerpt:
+            'Dr Kaninika Panda shares important guidance on endometriosis and fertility so women can identify symptoms earlier and seek timely help.',
+        tags: ['santaan-news', 'endometriosis'],
+    },
+    {
+        slug: 'santaan-now-in-angul-sanker-cinema-road',
+        title: 'Now in Angul: Santaan Fertility and Research Institute',
+        publishedAt: '2026-02-25T06:30:00.000Z',
+        excerpt:
+            'Santaan Fertility and Research Institute is now available in Angul to support couples with evidence-driven fertility consultation closer to home.',
+        tags: ['campaign', 'launch', 'angul'],
+    },
+];
+
 // Map category keywords to icons and colors
 const getCategoryStyle = (categories: string[]) => {
     const cats = categories.map(c => c.toLowerCase());
@@ -47,14 +82,15 @@ export function NewsAnnouncements() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch('/api/blogs?type=news&limit=3');
+                const response = await fetch('/api/blogs?type=news&limit=4');
                 const data = await response.json();
 
                 if (response.ok && Array.isArray(data.posts)) {
-                    setPosts(data.posts);
+                    setPosts(data.posts.length > 0 ? data.posts : fallbackNewsPosts);
                 }
             } catch (error) {
                 console.error('Failed to fetch Santaan news updates:', error);
+                setPosts(fallbackNewsPosts);
             } finally {
                 setIsLoading(false);
             }
@@ -63,10 +99,7 @@ export function NewsAnnouncements() {
         fetchNews();
     }, []);
 
-    // Don't render if no news posts
-    if (!isLoading && posts.length === 0) {
-        return null;
-    }
+    const displayPosts = !isLoading && posts.length === 0 ? fallbackNewsPosts : posts;
 
     return (
         <section className="py-14 bg-gradient-to-b from-santaan-cream to-white relative overflow-hidden">
@@ -79,13 +112,13 @@ export function NewsAnnouncements() {
                     <div>
                     <span className="text-santaan-teal font-medium tracking-wide uppercase text-sm flex items-center gap-2">
                         <Bell className="w-4 h-4" />
-                        Clinic updates
+                        What&apos;s New
                     </span>
                     <h2 className="text-3xl md:text-4xl font-playfair font-bold mt-2 text-gray-900">
-                        Recent updates from Santaan
+                        News &amp; Announcements
                     </h2>
                     <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-600">
-                        Keep this section light: seminars, awards, launches, and announcements. The deeper archive can stay available for SEO without crowding the homepage.
+                        Seminars, awards, launches, and announcements stay visible here, while the deeper archive remains available for SEO.
                     </p>
                     </div>
                     <Link
@@ -103,7 +136,7 @@ export function NewsAnnouncements() {
                     </div>
                 ) : (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {posts.map((post, i) => {
+                        {displayPosts.map((post, i) => {
                             const { icon: IconComponent, color, type } = getCategoryStyle(post.tags);
                             
                             return (

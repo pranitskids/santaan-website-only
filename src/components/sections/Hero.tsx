@@ -1,5 +1,6 @@
 import { ArrowRight, MessageCircle, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/Button';
 import { PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
 import { cn } from '@/lib/utils';
@@ -23,18 +24,28 @@ export function Hero() {
             </div>
 
             <div className="container relative z-10 px-4 md:px-6 text-center max-w-4xl mx-auto">
+                <div className="mx-auto mb-8 max-w-3xl rounded-3xl border border-white/20 bg-white/10 px-6 py-5 text-white shadow-2xl backdrop-blur-md">
+                    <p className="font-playfair text-lg md:text-xl">संतानः वंशस्य सातत्यम्, जीवनस्य समृद्धिः, प्रीतेः स्वरूपम्।</p>
+                    <p className="mt-2 text-sm text-white/70">Santānaḥ vaṃśasya sātatyam, jīvanasya samṛddhiḥ, prīteḥ svarūpam.</p>
+                    <p className="mt-2 text-sm md:text-base text-white/90">
+                        &quot;Santaan is the continuity of lineage, the prosperity of life, and the embodiment of love.&quot;
+                    </p>
+                </div>
+
                 <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-sm font-medium tracking-wide border border-white/20 shadow-sm">
-                    Private, evidence-backed fertility care
+                    Evidence-backed, research-led care
                 </span>
 
                 <h1 className="text-3xl md:text-5xl font-playfair font-bold text-white mb-5 leading-tight drop-shadow-md">
-                    Trying for pregnancy longer than expected?
-                    <span className="block text-santaan-amber">Let&apos;s talk about the next step clearly.</span>
+                    Evidence-Driven IVF &amp; Fertility Care in Bhubaneswar, Berhampur and Bangalore
                 </h1>
 
+                <h2 className="mb-6 font-playfair text-2xl md:text-4xl font-bold text-white drop-shadow-md">
+                    Where Science Meets <span className="text-santaan-amber">Hope</span>
+                </h2>
+
                 <p className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto leading-relaxed drop-shadow-sm font-medium">
-                    Santaan offers IVF, IUI, ICSI, fertility diagnostics, and male-factor care in Bhubaneswar, Berhampur,
-                    and Bangalore, with specialist guidance that feels private, practical, and never pushy.
+                    Advanced diagnostics, compassionate specialists, and personalized treatment pathways for your fertility journey.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-8 md:mb-10">
@@ -73,6 +84,19 @@ export function Hero() {
                         Book on WhatsApp
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </a>
+
+                    <Link
+                        href="/fertility-insights"
+                        className={cn(
+                            buttonVariants({
+                                variant: 'outline',
+                                size: 'lg',
+                                className: 'w-full sm:w-auto border-white/40 text-white hover:bg-white/10 backdrop-blur-sm',
+                            })
+                        )}
+                    >
+                        Read Today&apos;s Insight
+                    </Link>
 
                     <a
                         href={PRIMARY_CALL_HREF}
