@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/meta-audiences",
+      "schedule": "30 20 * * *"
+    },
+    {
+      "path": "/api/cron/zoho-cliq-morning",
+      "schedule": "30 3 * * *"
+    },
+    {
+      "path": "/api/cron/zoho-cliq-evening",
+      "schedule": "00 14 * * *"
+    }
+  ]
+}
