@@ -27,6 +27,7 @@ const secondaryNavigation = [
     { name: 'Fertility conditions', href: '/fertility-conditions' },
     { name: 'Fertility guides', href: '/fertility-guides' },
     { name: 'Know your score', href: '/know-your-score' },
+    { name: 'Patient stories', href: '/patient-stories' },
     { name: 'Fertility tips', href: '/fertility-tips' },
     { name: 'At-home testing', href: '/at-home-fertility-testing' },
     { name: 'Doctor insights', href: '/clinical-insights' },

@@ -135,6 +135,11 @@ export function Footer() {
                                     Fertility insights
                                 </Link>
                             </li>
+                            <li>
+                                <Link href="/patient-stories" className="text-gray-300 hover:text-santaan-amber transition-colors">
+                                    Patient stories
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 

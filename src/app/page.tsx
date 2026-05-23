@@ -14,6 +14,7 @@ import AtHomeTesting from "@/components/sections/AtHomeTesting";
 import { SuccessStories } from "@/components/sections/SuccessStories";
 import { VideoTestimonials } from "@/components/sections/VideoTestimonials";
 import { SocialCarousel } from "@/components/sections/SocialCarousel";
+import { PatientReviewsSection } from "@/components/sections/PatientReviews";
 import { Doctors } from "@/components/sections/Doctors";
 import { Locations } from "@/components/sections/Locations";
 import { PractoBookingSection } from "@/components/sections/PractoBookingSection";
@@ -26,6 +27,7 @@ import { SOCIAL_CAMPAIGNS } from "@/data/socialCampaigns";
 import { buildMetadata } from "@/lib/seo";
 import { buildFaqSchema, buildLocalClinicSchemas, buildOrganizationSchema } from "@/lib/schema";
 import { getSiteUrl } from "@/lib/site";
+import { getApprovedPatientReviews } from "@/lib/patient-reviews";
 
 export const metadata = buildMetadata({
   title: "Santaan IVF | IVF & Fertility Centres in Odisha & Bangalore",
@@ -45,6 +47,7 @@ export default function Home() {
   const faqSchema = buildFaqSchema(faqs);
   const organizationSchema = buildOrganizationSchema();
   const localClinicSchemas = buildLocalClinicSchemas();
+  const featuredPatientReviews = getApprovedPatientReviews({ featured: true, limit: 6 });
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -80,6 +83,7 @@ export default function Home() {
       
       {/* 1. Build Trust First - Social Proof */}
       <SuccessStories />
+      <PatientReviewsSection reviews={featuredPatientReviews} />
       <VideoTestimonials items={SANTAAN_YOUTUBE_VIDEOS} />
       <SocialCarousel
         items={SOCIAL_CAMPAIGNS}

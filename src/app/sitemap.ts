@@ -17,6 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/fertility-tips',
     '/fertility-insights',
     '/clinical-insights',
+    '/patient-stories',
     '/contact-centres',
     '/our-doctors',
     '/at-home-fertility-testing',
