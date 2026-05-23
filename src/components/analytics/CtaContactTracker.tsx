@@ -123,7 +123,6 @@ const emitGoogleLeadSignals = (input: {
 export default function CtaContactTracker() {
     useEffect(() => {
         if (typeof window === "undefined") return;
-        if (window.location.pathname.startsWith("/admin")) return;
 
         const handleClick = (event: MouseEvent) => {
             const origin = event.target as HTMLElement | null;
