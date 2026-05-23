@@ -67,7 +67,9 @@ export function getClinicalQuality(post: SantaanBlogPost): ClinicalQuality {
   const wordCount = plain.split(/\s+/).filter(Boolean).length;
 
   const hasStructuredSections = /<h[1-6]|<ol|<ul/i.test(html);
-  const hasReferenceHeading = /(>|\s)(references|citations|sources)\s*(<|$)/i.test(plain) || /<h[1-6][^>]*>\s*(references|citations|sources)\s*<\/h[1-6]>/i.test(html);
+  const hasReferenceHeading =
+    /\b(references|citations|sources)\b/i.test(plain) ||
+    /<h[1-6][^>]*>\s*(references|citations|sources)\s*<\/h[1-6]>/i.test(html);
   const doiOrPmidSignal = /\bdoi:\s*10\.\d{4,9}\/[-._;()/:a-z0-9]+\b|\bPMID[:\s]*\d{5,9}\b/i.test(plain);
   const citationLinks = getCitationLinks(html);
   const citationLinkCount = citationLinks.length;

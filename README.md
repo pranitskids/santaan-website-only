@@ -86,6 +86,19 @@ Use:
 
 Do not commit real secrets.
 
+Minimum production set:
+
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_GTM_ID`
+- `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID`
+- `META_PIXEL_ID`
+- `AICRM_LEAD_WEBHOOK_URL`
+
+Optional:
+
+- `RSS2JSON_API_KEY` if RSS2JSON rate limits the Medium feed
+- `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` only if you want a website-side Medium cache
+
 ## Local Setup
 
 ```bash
@@ -99,7 +112,7 @@ npm run dev
 
 1. Create a new Netlify site from this repo
 2. Set the production branch
-3. Add the website env vars from `env.website.example`
+3. Add the website env vars from `.env.example`
 4. Add the real AICRM webhook URL
 5. Deploy
 6. Test preview before domain cutover

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Phone, MessageCircle, CalendarCheck } from 'lucide-react';
 import { PRIMARY_CALL_HREF, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
 
@@ -20,7 +21,7 @@ export default function StickyContactBar() {
           WhatsApp
         </a>
 
-        <a
+        <Link
           href="/#book-consultation"
           data-cta-kind="book"
           data-center="Network"
@@ -29,7 +30,7 @@ export default function StickyContactBar() {
         >
           <CalendarCheck className="w-4 h-4" />
           Book
-        </a>
+        </Link>
 
         <a
           href={PRIMARY_CALL_HREF}

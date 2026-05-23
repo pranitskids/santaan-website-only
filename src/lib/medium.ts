@@ -4,8 +4,6 @@ import { blogPosts } from '@/db/schema';
 import { LEGACY_BLOG_SEEDS } from '@/content/legacyBlogSeeds';
 
 const MEDIUM_FEED_URL = 'https://medium.com/feed/@santaanIVF';
-// Add a random cache-busting parameter to bypass rss2json's heavy caching
-const RSS2JSON_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_FEED_URL)}&api_key=${process.env.RSS2JSON_API_KEY || ''}&_cacheBust=${Date.now()}`;
 
 export type BlogType = 'blog' | 'news' | 'doctor';
 
@@ -44,6 +42,13 @@ interface Rss2JsonResponse {
 }
 
 type BlogRow = typeof blogPosts.$inferSelect;
+
+function hasConfiguredBlogStore(): boolean {
+  const url = process.env.TURSO_DATABASE_URL?.trim();
+  if (!url) return false;
+  if (url.startsWith('file:')) return true;
+  return Boolean(process.env.TURSO_AUTH_TOKEN?.trim());
+}
 
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
   const existingSlugs = new Set(posts.map((post) => post.slug));
@@ -478,19 +483,29 @@ export async function syncMediumPostsToStore(options?: { limit?: number }) {
 }
 
 export async function getSantaanBlogPosts(options?: { limit?: number; type?: BlogType }): Promise<SantaanBlogPost[]> {
-  const storedPosts = await readStoredPosts(options);
+  let storedPosts: SantaanBlogPost[] = [];
+  if (hasConfiguredBlogStore()) {
+    try {
+      storedPosts = await readStoredPosts(options);
+    } catch (error) {
+      console.error('Stored blog read failed:', error);
+    }
+  }
+
   if (storedPosts.length > 0) {
     return storedPosts;
   }
 
-  try {
-    await syncMediumPostsToStore({ limit: options?.limit ? Math.max(options.limit, 20) : 60 });
-    const refreshedPosts = await readStoredPosts(options);
-    if (refreshedPosts.length > 0) {
-      return refreshedPosts;
+  if (hasConfiguredBlogStore()) {
+    try {
+      await syncMediumPostsToStore({ limit: options?.limit ? Math.max(options.limit, 20) : 60 });
+      const refreshedPosts = await readStoredPosts(options);
+      if (refreshedPosts.length > 0) {
+        return refreshedPosts;
+      }
+    } catch (error) {
+      console.error('Blog sync fallback failed:', error);
     }
-  } catch (error) {
-    console.error('Blog sync fallback failed:', error);
   }
 
   try {
@@ -507,31 +522,39 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
     return legacySeed;
   }
 
-  await ensureBlogPostsTable();
-
-  let existing = await db
-    .select()
-    .from(blogPosts)
-    .where(and(eq(blogPosts.slug, slug), eq(blogPosts.isActive, true)))
-    .get();
+  let existing: BlogRow | undefined;
+  if (hasConfiguredBlogStore()) {
+    try {
+      await ensureBlogPostsTable();
+      existing = await db
+        .select()
+        .from(blogPosts)
+        .where(and(eq(blogPosts.slug, slug), eq(blogPosts.isActive, true)))
+        .get();
+    } catch (error) {
+      console.error('Stored blog detail read failed:', error);
+    }
+  }
 
   if (existing) {
     return mapRowToPost(existing);
   }
 
-  try {
-    await syncMediumPostsToStore({ limit: 80 });
-    existing = await db
-      .select()
-      .from(blogPosts)
-      .where(and(eq(blogPosts.slug, slug), eq(blogPosts.isActive, true)))
-      .get();
+  if (hasConfiguredBlogStore()) {
+    try {
+      await syncMediumPostsToStore({ limit: 80 });
+      existing = await db
+        .select()
+        .from(blogPosts)
+        .where(and(eq(blogPosts.slug, slug), eq(blogPosts.isActive, true)))
+        .get();
 
-    if (existing) {
-      return mapRowToPost(existing);
+      if (existing) {
+        return mapRowToPost(existing);
+      }
+    } catch (error) {
+      console.error('Blog detail sync fallback failed:', error);
     }
-  } catch (error) {
-    console.error('Blog detail sync fallback failed:', error);
   }
 
   try {
