@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSantaanBlogPosts, type BlogType } from '@/lib/medium';
-import { isPatientReadyPost } from '@/lib/patient-content';
+import { isPatientAudiencePost } from '@/lib/patient-content';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       type,
     });
     const visiblePosts = type === 'blog'
-      ? posts.filter(isPatientReadyPost).slice(0, requestedLimit || 6)
+      ? posts.filter(isPatientAudiencePost).slice(0, requestedLimit || 6)
       : posts;
 
     return NextResponse.json({ posts: visiblePosts }, { headers: uncachedJsonHeaders });

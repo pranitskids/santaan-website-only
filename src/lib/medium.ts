@@ -396,13 +396,29 @@ async function ensureBlogPostsTable() {
 }
 
 async function fetchMediumFeedPosts(options?: { limit?: number; type?: BlogType }): Promise<SantaanBlogPost[]> {
-  // Use a dynamic cache-buster so each fetch gets the latest if possible
-  const dynamicUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_FEED_URL)}&api_key=${process.env.RSS2JSON_API_KEY || ''}&_t=${Date.now()}`;
+  // Use a dynamic cache-buster so each fetch gets the latest if possible.
+  const params = new URLSearchParams({
+    rss_url: MEDIUM_FEED_URL,
+    _t: String(Date.now()),
+  });
+  const apiKey = process.env.RSS2JSON_API_KEY?.trim();
+  if (apiKey) {
+    params.set('api_key', apiKey);
+  }
+  const dynamicUrl = `https://api.rss2json.com/v1/api.json?${params.toString()}`;
   
-  const response = await fetch(dynamicUrl, {
+  let response = await fetch(dynamicUrl, {
     next: { revalidate: 3600 },
     headers: { Accept: 'application/json' },
   });
+
+  if (!response.ok && response.status === 422 && apiKey) {
+    params.delete('api_key');
+    response = await fetch(`https://api.rss2json.com/v1/api.json?${params.toString()}`, {
+      next: { revalidate: 3600 },
+      headers: { Accept: 'application/json' },
+    });
+  }
 
   if (!response.ok) {
     throw new Error(`Failed to fetch Medium feed: ${response.status}`);

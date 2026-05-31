@@ -4,9 +4,11 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Input } from '@/components/ui/input';
 import { getSantaanBlogPosts } from '@/lib/medium';
-import { isPatientReadyPost } from '@/lib/patient-content';
+import { isPatientAudiencePost } from '@/lib/patient-content';
 import { buildMetadata } from '@/lib/seo';
 import { tagToSlug } from '@/lib/tag-utils';
+
+const PATIENT_BLOG_LIMIT = 24;
 
 export const metadata = buildMetadata({
   title: 'Fertility Insights and Stories',
@@ -22,18 +24,19 @@ export const metadata = buildMetadata({
   ],
 });
 
-export default async function FertilityInsightsPage({ searchParams }: { searchParams?: { q?: string } }) {
-  const query = typeof searchParams?.q === 'string' ? searchParams.q.trim() : '';
+export default async function FertilityInsightsPage({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {
+  const resolvedSearchParams = await searchParams;
+  const query = typeof resolvedSearchParams?.q === 'string' ? resolvedSearchParams.q.trim() : '';
 
   const posts = await getSantaanBlogPosts({ type: 'blog', limit: 90 }).catch(() => []);
-  const readyPosts = posts.filter(isPatientReadyPost);
+  const patientPosts = posts.filter(isPatientAudiencePost).slice(0, PATIENT_BLOG_LIMIT);
   const visiblePosts = query
-    ? readyPosts.filter((post) => {
+    ? patientPosts.filter((post) => {
         const haystack = `${post.title} ${post.excerpt}`.toLowerCase();
         return haystack.includes(query.toLowerCase());
       })
-    : readyPosts;
-  const tagCounts = readyPosts.reduce<Record<string, number>>((acc, post) => {
+    : patientPosts;
+  const tagCounts = patientPosts.reduce<Record<string, number>>((acc, post) => {
     post.tags.forEach((tag) => {
       const slug = tagToSlug(tag);
       if (!slug) return;

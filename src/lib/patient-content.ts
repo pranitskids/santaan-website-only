@@ -1,4 +1,5 @@
 import type { SantaanBlogPost } from '@/lib/medium';
+import { tagToSlug } from '@/lib/tag-utils';
 
 export interface PatientContentQuality {
   wordCount: number;
@@ -41,6 +42,13 @@ export function getPatientContentQuality(post: SantaanBlogPost): PatientContentQ
 }
 
 export function isPatientReadyPost(post: SantaanBlogPost): boolean {
-  if (post.type === 'doctor') return false;
+  if (!isPatientAudiencePost(post)) return false;
   return getPatientContentQuality(post).isReady;
+}
+
+export function isPatientAudiencePost(post: SantaanBlogPost): boolean {
+  // If post is explicitly doctor or news, it's not for patients
+  if (post.type === 'doctor' || post.type === 'news') return false;
+  // All other posts (type: 'blog') are for patients
+  return true;
 }
