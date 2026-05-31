@@ -248,7 +248,7 @@ function inferTypeFromContent(input: { title?: string; excerpt?: string; html?: 
     'follicle intelligence',
   ];
   const softHits = softDoctorSignals.reduce((count, signal) => (text.includes(signal) ? count + 1 : count), 0);
-  if (softHits >= 2) {
+  if (softHits >= 3) {
     return 'doctor';
   }
 
@@ -404,27 +404,29 @@ async function fetchMediumFeedPosts(options?: { limit?: number; type?: BlogType 
   const apiKey = process.env.RSS2JSON_API_KEY?.trim();
   if (apiKey) {
     params.set('api_key', apiKey);
+    params.set('count', String(Math.min(Math.max(options?.limit || 20, 10), 100)));
   }
-  const dynamicUrl = `https://api.rss2json.com/v1/api.json?${params.toString()}`;
-  
-  let response = await fetch(dynamicUrl, {
-    next: { revalidate: 3600 },
-    headers: { Accept: 'application/json' },
-  });
 
-  if (!response.ok && response.status === 422 && apiKey) {
-    params.delete('api_key');
-    response = await fetch(`https://api.rss2json.com/v1/api.json?${params.toString()}`, {
+  const fetchFeed = async (feedParams: URLSearchParams): Promise<Rss2JsonResponse> => {
+    const response = await fetch(`https://api.rss2json.com/v1/api.json?${feedParams.toString()}`, {
       next: { revalidate: 3600 },
       headers: { Accept: 'application/json' },
     });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Medium feed: ${response.status}`);
+    }
+
+    return (await response.json()) as Rss2JsonResponse;
+  };
+
+  let data = await fetchFeed(params);
+  if (data.status !== 'ok' && apiKey) {
+    params.delete('api_key');
+    params.delete('count');
+    data = await fetchFeed(params);
   }
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch Medium feed: ${response.status}`);
-  }
-
-  const data = (await response.json()) as Rss2JsonResponse;
   if (data.status !== 'ok') {
     throw new Error('Invalid Medium feed response');
   }

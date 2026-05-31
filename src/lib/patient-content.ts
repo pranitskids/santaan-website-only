@@ -1,5 +1,4 @@
 import type { SantaanBlogPost } from '@/lib/medium';
-import { tagToSlug } from '@/lib/tag-utils';
 
 export interface PatientContentQuality {
   wordCount: number;
