@@ -2,6 +2,7 @@ import { and, desc, eq, sql } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { blogPosts } from '@/db/schema';
 import { LEGACY_BLOG_SEEDS } from '@/content/legacyBlogSeeds';
+import { MEDIUM_ARCHIVE_SEEDS } from '@/content/mediumArchiveSeeds';
 
 const MEDIUM_FEED_URL = 'https://medium.com/feed/@santaanIVF';
 
@@ -52,8 +53,13 @@ function hasConfiguredBlogStore(): boolean {
 
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
   const existingSlugs = new Set(posts.map((post) => post.slug));
-  const eligibleLegacy = LEGACY_BLOG_SEEDS.filter((seed) => !existingSlugs.has(seed.slug));
-  const merged = [...posts, ...eligibleLegacy];
+  const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS];
+  const eligibleFallback = fallbackSeeds.filter((seed) => {
+    if (existingSlugs.has(seed.slug)) return false;
+    existingSlugs.add(seed.slug);
+    return true;
+  });
+  const merged = [...posts, ...eligibleFallback];
   const typeFiltered = options?.type ? merged.filter((post) => post.type === options.type) : merged;
   typeFiltered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
@@ -420,14 +426,20 @@ async function fetchMediumFeedPosts(options?: { limit?: number; type?: BlogType 
     return (await response.json()) as Rss2JsonResponse;
   };
 
-  let data = await fetchFeed(params);
-  if (data.status !== 'ok' && apiKey) {
+  let data: Rss2JsonResponse | null = null;
+  try {
+    data = await fetchFeed(params);
+  } catch (error) {
+    if (!apiKey) throw error;
+  }
+
+  if (data?.status !== 'ok' && apiKey) {
     params.delete('api_key');
     params.delete('count');
     data = await fetchFeed(params);
   }
 
-  if (data.status !== 'ok') {
+  if (!data || data.status !== 'ok') {
     throw new Error('Invalid Medium feed response');
   }
 

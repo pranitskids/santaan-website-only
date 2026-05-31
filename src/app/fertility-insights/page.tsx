@@ -8,7 +8,7 @@ import { isPatientAudiencePost } from '@/lib/patient-content';
 import { buildMetadata } from '@/lib/seo';
 import { tagToSlug } from '@/lib/tag-utils';
 
-const PATIENT_BLOG_LIMIT = 24;
+const PATIENT_BLOG_LIMIT = 72;
 
 export const metadata = buildMetadata({
   title: 'Fertility Insights and Stories',

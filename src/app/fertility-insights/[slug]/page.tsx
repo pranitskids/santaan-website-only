@@ -28,7 +28,7 @@ function getRelatedLinks(tags: string[]) {
 
 export async function generateStaticParams() {
   const posts = await getSantaanBlogPosts({ type: 'blog', limit: 90 }).catch(() => []);
-  return posts.filter(isPatientReadyPost).slice(0, 30).map((post) => ({ slug: post.slug }));
+  return posts.filter(isPatientReadyPost).map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
