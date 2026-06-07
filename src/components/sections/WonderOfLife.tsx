@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import { Sparkles, Microscope, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sparkles, Microscope, ChevronDown, ChevronUp } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
@@ -186,6 +186,12 @@ const journeySteps = [
 
 export function WonderOfLife() {
     const targetRef = useRef<HTMLDivElement>(null);
+    useLayoutEffect(() => {
+        if (getComputedStyle(document.documentElement).position === 'static') {
+            document.documentElement.style.position = 'relative';
+        }
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: targetRef,
     });
