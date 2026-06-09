@@ -1,7 +1,14 @@
 import { redirect } from 'next/navigation';
-import { getSantaanBlogPostBySlug } from '@/lib/medium';
+import { getSantaanBlogPostBySlug, getSantaanBlogPosts } from '@/lib/medium';
 
 type Params = Promise<{ slug: string }>;
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const posts = await getSantaanBlogPosts({ limit: 180 }).catch(() => []);
+  return posts.map((post) => ({ slug: post.slug }));
+}
 
 export default async function LegacyBlogDetailRedirect({ params }: { params: Params }) {
   const { slug } = await params;

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, BookOpen, Calendar, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
@@ -13,6 +12,10 @@ interface SantaanPost {
     eyebrow?: string;
     thumbnail?: string;
     excerpt: string;
+}
+
+interface InsightsProps {
+    posts?: SantaanPost[];
 }
 
 const fallbackGuides: SantaanPost[] = [
@@ -36,33 +39,7 @@ const fallbackGuides: SantaanPost[] = [
     },
 ];
 
-export function Insights() {
-    const [posts, setPosts] = useState<SantaanPost[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await fetch('/api/blogs?type=blog&limit=6');
-                const data = await response.json();
-
-                if (response.ok && Array.isArray(data.posts)) {
-                    setPosts(data.posts);
-                } else {
-                    setError(true);
-                }
-            } catch (err) {
-                console.error("Failed to fetch Santaan blog posts", err);
-                setError(true);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchPosts();
-    }, []);
-
+export function Insights({ posts = [] }: InsightsProps) {
     // Helper to format date
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -75,7 +52,7 @@ export function Insights() {
 
 
 
-    const displayPosts = !loading && (error || posts.length === 0) ? fallbackGuides : posts;
+    const displayPosts = posts.length > 0 ? posts : fallbackGuides;
 
     return (
         <section id="insights" className="py-20 bg-santaan-cream relative overflow-hidden">
@@ -118,60 +95,52 @@ export function Insights() {
                 </div>
 
                 {/* Grid */}
-                {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="h-96 bg-gray-200 rounded-2xl animate-pulse" />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {displayPosts.map((post, index) => (
-                            <motion.div
-                                key={post.slug || post.href}
-                                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                            >
-                                {/* Content */}
-                                <div className="p-5 flex flex-col grow">
-                                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                                        <Calendar className="w-3 h-3" />
-                                        {post.publishedAt ? formatDate(post.publishedAt) : post.eyebrow}
-                                    </div>
-
-                                    <h3 className="text-lg md:text-xl font-playfair font-bold text-gray-900 mb-3 group-hover:text-santaan-amber transition-colors line-clamp-2 min-h-[3.4rem]">
-                                        {post.title}
-                                    </h3>
-                                    
-                                    {/* Thumbnail Image */}
-                                    {post.thumbnail && (
-                                        <div className="relative h-40 w-full overflow-hidden rounded-lg mb-3">
-                                            <img
-                                                src={post.thumbnail}
-                                                alt={post.title}
-                                                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
-                                        </div>
-                                    )}
-
-                                    <div className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4 grow min-h-[4.2rem]">
-                                        <p className="line-clamp-3">{post.excerpt}</p>
-                                    </div>
-
-                                    <Link href={post.href || `/fertility-insights/${post.slug}`} className="mt-auto flex items-center text-santaan-amber text-sm font-bold uppercase tracking-wide group-hover:gap-2 transition-all">
-                                        Read this guide
-                                        <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </Link>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {displayPosts.map((post, index) => (
+                        <motion.div
+                            key={post.slug || post.href}
+                            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                        >
+                            {/* Content */}
+                            <div className="p-5 flex flex-col grow">
+                                <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                                    <Calendar className="w-3 h-3" />
+                                    {post.publishedAt ? formatDate(post.publishedAt) : post.eyebrow}
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                )}
+
+                                <h3 className="text-lg md:text-xl font-playfair font-bold text-gray-900 mb-3 group-hover:text-santaan-amber transition-colors line-clamp-2 min-h-[3.4rem]">
+                                    {post.title}
+                                </h3>
+                                
+                                {/* Thumbnail Image */}
+                                {post.thumbnail && (
+                                    <div className="relative h-40 w-full overflow-hidden rounded-lg mb-3">
+                                        <img
+                                            src={post.thumbnail}
+                                            alt={post.title}
+                                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4 grow min-h-[4.2rem]">
+                                    <p className="line-clamp-3">{post.excerpt}</p>
+                                </div>
+
+                                <Link href={post.href || `/fertility-insights/${post.slug}`} className="mt-auto flex items-center text-santaan-amber text-sm font-bold uppercase tracking-wide group-hover:gap-2 transition-all">
+                                    Read this guide
+                                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </Link>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     );

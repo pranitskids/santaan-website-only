@@ -12,6 +12,14 @@ import { getSiteUrl } from '@/lib/site';
 
 type Params = Promise<{ slug: string }>;
 
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const doctorPosts = await getSantaanBlogPosts({ type: 'doctor', limit: 90 }).catch(() => []);
+  const redirectPosts = await getSantaanBlogPosts({ type: 'blog', limit: 90 }).catch(() => []);
+  return [...doctorPosts.filter(isClinicalReadyPost), ...redirectPosts].map((post) => ({ slug: post.slug }));
+}
+
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
   const post = await getSantaanBlogPostBySlug(slug);

@@ -17,6 +17,8 @@ import {
 
 type Params = Promise<{ slug: string }>;
 
+export const dynamicParams = false;
+
 function pagePath(slug: string) {
   return `/${slug}`;
 }

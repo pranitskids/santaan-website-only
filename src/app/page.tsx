@@ -28,6 +28,8 @@ import { buildMetadata } from "@/lib/seo";
 import { buildFaqSchema, buildLocalClinicSchemas, buildOrganizationSchema } from "@/lib/schema";
 import { getSiteUrl } from "@/lib/site";
 import { getApprovedPatientReviews } from "@/lib/patient-reviews";
+import { getSantaanBlogPosts } from "@/lib/medium";
+import { isPatientAudiencePost } from "@/lib/patient-content";
 
 export const metadata = buildMetadata({
   title: "Santaan IVF | IVF & Fertility Centres in Odisha & Bangalore",
@@ -43,11 +45,29 @@ export const metadata = buildMetadata({
   ],
 });
 
-export default function Home() {
+export default async function Home() {
   const faqSchema = buildFaqSchema(faqs);
   const organizationSchema = buildOrganizationSchema();
   const localClinicSchemas = buildLocalClinicSchemas();
   const featuredPatientReviews = getApprovedPatientReviews({ featured: true, limit: 6 });
+  const homepageBlogPosts = await getSantaanBlogPosts({ type: "blog", limit: 24 })
+    .then((posts) => posts.filter(isPatientAudiencePost).slice(0, 6))
+    .catch(() => []);
+  const homepageNewsPosts = await getSantaanBlogPosts({ type: "news", limit: 4 }).catch(() => []);
+  const insightCards = homepageBlogPosts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    publishedAt: post.publishedAt,
+    thumbnail: post.thumbnail,
+    excerpt: post.excerpt,
+  }));
+  const newsCards = homepageNewsPosts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    publishedAt: post.publishedAt,
+    excerpt: post.excerpt,
+    tags: post.tags,
+  }));
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -91,7 +111,7 @@ export default function Home() {
         description="Fertility awareness, IVF guidance and Santaan milestones—built for clarity, not confusion."
       />
       <Awards />
-      <NewsAnnouncements />
+      <NewsAnnouncements posts={newsCards} />
       
       {/* 2. Address Confusion - Problem Awareness */}
       <MythBusting />
@@ -103,7 +123,7 @@ export default function Home() {
       <PractoBookingSection />
       
       {/* 4. Educate - Knowledge Building */}
-      <Insights />
+      <Insights posts={insightCards} />
       <WonderOfLife />
       
       {/* 5. Establish Credibility - Expertise & Infrastructure */}

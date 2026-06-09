@@ -2,14 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSantaanBlogPosts, type BlogType } from '@/lib/medium';
 import { isPatientAudiencePost } from '@/lib/patient-content';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-export const fetchCache = 'force-no-store';
+export const revalidate = 86400;
 
-const uncachedJsonHeaders = {
-  'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-  'CDN-Cache-Control': 'no-store',
-  'Netlify-CDN-Cache-Control': 'no-store',
+const cachedJsonHeaders = {
+  'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+  'CDN-Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+  'Vercel-CDN-Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+  'Netlify-CDN-Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
 };
 
 export async function GET(request: NextRequest) {
@@ -36,12 +35,12 @@ export async function GET(request: NextRequest) {
       ? posts.filter(isPatientAudiencePost).slice(0, requestedLimit || 6)
       : posts;
 
-    return NextResponse.json({ posts: visiblePosts }, { headers: uncachedJsonHeaders });
+    return NextResponse.json({ posts: visiblePosts }, { headers: cachedJsonHeaders });
   } catch (error) {
     console.error('Failed to fetch Santaan blog posts:', error);
     return NextResponse.json(
       { error: 'Failed to fetch blog posts' },
-      { status: 500, headers: uncachedJsonHeaders }
+      { status: 500, headers: cachedJsonHeaders }
     );
   }
 }

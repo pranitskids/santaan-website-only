@@ -81,9 +81,9 @@
 [[headers]]
   for = "/api/blogs"
   [headers.values]
-    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
-    CDN-Cache-Control = "no-store"
-    Netlify-CDN-Cache-Control = "no-store"
+    Cache-Control = "public, s-maxage=86400, stale-while-revalidate=604800"
+    CDN-Cache-Control = "public, s-maxage=86400, stale-while-revalidate=604800"
+    Netlify-CDN-Cache-Control = "public, s-maxage=86400, stale-while-revalidate=604800"
     X-Robots-Tag = "noindex, nofollow, noarchive"
 
 [[headers]]

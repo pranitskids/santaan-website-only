@@ -103,22 +103,11 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                     <div className="flex items-start gap-2">
                                         <Phone className="w-4 h-4 text-santaan-amber mt-0.5 flex-shrink-0" />
                                         <div className="flex flex-col gap-1">
-                                            {loc.phones.map((phone) => {
-                                                const cleanPhone = phone.replace(/\s/g, '');
-                                                return (
-                                                    <a
-                                                        key={phone}
-                                                        href={`tel:${cleanPhone}`}
-                                                        data-cta-kind="call"
-                                                        data-center={loc.city}
-                                                        data-cta-target={`tel:${cleanPhone}`}
-                                                        className="text-white/90 text-sm hover:text-santaan-amber transition-colors"
-                                                        onClick={() => trackLocationEvent(`location_call_${loc.city}`)}
-                                                    >
-                                                        {phone}
-                                                    </a>
-                                                );
-                                            })}
+                                            {loc.phones.map((phone) => (
+                                                <p key={phone} className="text-white/90 text-sm">
+                                                    Ph: {phone}
+                                                </p>
+                                            ))}
                                         </div>
                                     </div>
 

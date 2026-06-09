@@ -10,6 +10,8 @@ import { getTreatmentPageBySlug, treatmentSlugs } from '@/content/treatments';
 
 type Params = Promise<{ slug: string }>;
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return treatmentSlugs.map((slug) => ({ slug }));
 }

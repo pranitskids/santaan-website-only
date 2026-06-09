@@ -9,6 +9,20 @@ import { slugToLabel, tagToSlug } from '@/lib/tag-utils';
 
 type Params = Promise<{ tag: string }>;
 
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const doctorPosts = await getSantaanBlogPosts({ type: 'doctor', limit: 90 }).catch(() => []);
+  const tags = new Set<string>();
+  doctorPosts.filter(isClinicalReadyPost).forEach((post) => {
+    post.tags.forEach((tag) => {
+      const slug = tagToSlug(tag);
+      if (slug) tags.add(slug);
+    });
+  });
+  return Array.from(tags).map((tag) => ({ tag }));
+}
+
 export async function generateMetadata({ params }: { params: Params }) {
   const { tag } = await params;
   const label = slugToLabel(tag);
@@ -104,4 +118,3 @@ export default async function ClinicalInsightsTagPage({ params }: { params: Para
     </main>
   );
 }
-

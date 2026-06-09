@@ -9,6 +9,20 @@ import { slugToLabel, tagToSlug } from '@/lib/tag-utils';
 
 type Params = Promise<{ tag: string }>;
 
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const posts = await getSantaanBlogPosts({ type: 'blog', limit: 120 }).catch(() => []);
+  const tags = new Set<string>();
+  posts.filter(isPatientReadyPost).forEach((post) => {
+    post.tags.forEach((tag) => {
+      const slug = tagToSlug(tag);
+      if (slug) tags.add(slug);
+    });
+  });
+  return Array.from(tags).map((tag) => ({ tag }));
+}
+
 export async function generateMetadata({ params }: { params: Params }) {
   const { tag } = await params;
   const label = slugToLabel(tag);

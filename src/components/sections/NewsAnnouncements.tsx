@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Bell, Trophy, Calendar, Megaphone, ExternalLink, Loader2, Newspaper } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Bell, Trophy, Calendar, Megaphone, ExternalLink, Newspaper } from 'lucide-react';
 import Link from 'next/link';
 
 interface SantaanPost {
@@ -11,6 +10,10 @@ interface SantaanPost {
     publishedAt: string;
     excerpt: string;
     tags: string[];
+}
+
+interface NewsAnnouncementsProps {
+    posts?: SantaanPost[];
 }
 
 const fallbackNewsPosts: SantaanPost[] = [
@@ -75,31 +78,8 @@ const formatDate = (dateString: string) => {
     });
 };
 
-export function NewsAnnouncements() {
-    const [posts, setPosts] = useState<SantaanPost[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                const response = await fetch('/api/blogs?type=news&limit=4');
-                const data = await response.json();
-
-                if (response.ok && Array.isArray(data.posts)) {
-                    setPosts(data.posts.length > 0 ? data.posts : fallbackNewsPosts);
-                }
-            } catch (error) {
-                console.error('Failed to fetch Santaan news updates:', error);
-                setPosts(fallbackNewsPosts);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchNews();
-    }, []);
-
-    const displayPosts = !isLoading && posts.length === 0 ? fallbackNewsPosts : posts;
+export function NewsAnnouncements({ posts = [] }: NewsAnnouncementsProps) {
+    const displayPosts = posts.length > 0 ? posts : fallbackNewsPosts;
 
     return (
         <section className="py-14 bg-gradient-to-b from-santaan-cream to-white relative overflow-hidden">
@@ -130,55 +110,49 @@ export function NewsAnnouncements() {
                     </Link>
                 </div>
 
-                {isLoading ? (
-                    <div className="flex justify-center items-center py-12">
-                        <Loader2 className="w-8 h-8 animate-spin text-santaan-teal" />
-                    </div>
-                ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {displayPosts.map((post, i) => {
-                            const { icon: IconComponent, color, type } = getCategoryStyle(post.tags);
-                            
-                            return (
-                                <motion.div
-                                    key={post.slug}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="group bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-lg hover:border-santaan-teal/20 transition-all"
-                                >
-                                    <div className="flex items-start gap-3 mb-3">
-                                        <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border ${color}`}>
-                                            <IconComponent className="w-4 h-4" />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full capitalize ${color}`}>
-                                                {type}
-                                            </span>
-                                            <span className="text-xs text-gray-400 ml-2">
-                                                {formatDate(post.publishedAt)}
-                                            </span>
-                                        </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {displayPosts.map((post, i) => {
+                        const { icon: IconComponent, color, type } = getCategoryStyle(post.tags);
+                        
+                        return (
+                            <motion.div
+                                key={post.slug}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="group bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-lg hover:border-santaan-teal/20 transition-all"
+                            >
+                                <div className="flex items-start gap-3 mb-3">
+                                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border ${color}`}>
+                                        <IconComponent className="w-4 h-4" />
                                     </div>
-                                    
-                                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-santaan-teal transition-colors">
-                                        {post.title}
-                                    </h3>
-                                    
-                                    <p className="text-gray-500 text-sm line-clamp-2 mb-3">
-                                        {post.excerpt}
-                                    </p>
-                                    
-                                    <Link href={`/fertility-insights/${post.slug}`} className="inline-flex items-center gap-1 text-santaan-teal text-sm font-medium group-hover:gap-2 transition-all">
-                                        Read update
-                                        <ExternalLink className="w-3.5 h-3.5" />
-                                    </Link>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                )}
+                                    <div className="flex-1 min-w-0">
+                                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full capitalize ${color}`}>
+                                            {type}
+                                        </span>
+                                        <span className="text-xs text-gray-400 ml-2">
+                                            {formatDate(post.publishedAt)}
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-santaan-teal transition-colors">
+                                    {post.title}
+                                </h3>
+                                
+                                <p className="text-gray-500 text-sm line-clamp-2 mb-3">
+                                    {post.excerpt}
+                                </p>
+                                
+                                <Link href={`/fertility-insights/${post.slug}`} className="inline-flex items-center gap-1 text-santaan-teal text-sm font-medium group-hover:gap-2 transition-all">
+                                    Read update
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                </Link>
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
         </section>
     );
