@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Calendar, MessageCircle, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, Calendar, MessageCircle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -12,28 +12,28 @@ import { PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } 
 
 type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
 
-const primaryNavigation = [
-    { name: 'Centres', href: '/contact-centres' },
+const desktopPrimaryNavigation = [
+    { name: 'IVF Centres', href: '/contact-centres' },
+    { name: 'Female Fertility', href: '/female-fertility' },
+    { name: 'Male Fertility', href: '/male-infertility-clinic' },
     { name: 'Treatments', href: '/treatments' },
     { name: 'Pricing', href: '/pricing' },
-    { name: 'Success rates', href: '/success-rates' },
+    { name: 'Success Rates', href: '/success-rates' },
     { name: 'Doctors', href: '/our-doctors' },
-    { name: 'Insights', href: '/fertility-insights' },
+    { name: 'Fertility Insights', href: '/fertility-insights' },
+    { name: 'Clinical Insights', href: '/clinical-insights' },
 ];
 
-const secondaryNavigation = [
-    { name: 'Female fertility', href: '/female-fertility' },
-    { name: 'Male fertility', href: '/male-infertility-clinic' },
-    { name: 'Fertility conditions', href: '/fertility-conditions' },
-    { name: 'Fertility guides', href: '/fertility-guides' },
-    { name: 'Know your score', href: '/know-your-score' },
-    { name: 'Patient stories', href: '/patient-stories' },
-    { name: 'Fertility tips', href: '/fertility-tips' },
-    { name: 'At-home testing', href: '/at-home-fertility-testing' },
-    { name: 'Doctor insights', href: '/clinical-insights' },
+const desktopSupportNavigation = [
+    { name: 'Fertility Conditions', href: '/fertility-conditions' },
+    { name: 'Fertility Guides', href: '/fertility-guides' },
+    { name: 'Know Your Score', href: '/know-your-score' },
+    { name: 'Patient Stories', href: '/patient-stories' },
+    { name: 'Fertility Tips', href: '/fertility-tips' },
+    { name: 'At-home Testing', href: '/at-home-fertility-testing' },
 ];
 
-const navigation = [...primaryNavigation, ...secondaryNavigation];
+const navigation = [...desktopPrimaryNavigation, ...desktopSupportNavigation];
 
 function trackHeaderEvent(label: string) {
     if (typeof window === 'undefined') return;
@@ -101,33 +101,16 @@ export function HeaderClient() {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden lg:flex flex-1 items-center justify-center gap-3 xl:gap-5 px-6">
-                        {primaryNavigation.map((item) => (
+                    <div className="hidden lg:flex flex-1 items-center justify-center gap-2 xl:gap-3 px-4 min-w-0">
+                        {desktopPrimaryNavigation.map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className={navLinkClass}
+                                className={cn(navLinkClass, 'tracking-tight')}
                             >
                                 {item.name}
                             </Link>
                         ))}
-                        <div className="group relative">
-                            <button type="button" className={cn(navLinkClass, 'inline-flex items-center gap-1')}>
-                                More
-                                <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
-                            </button>
-                            <div className="invisible absolute right-0 top-full z-50 mt-3 w-64 translate-y-2 rounded-2xl border border-gray-100 bg-white p-3 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                                {secondaryNavigation.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        className="block rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-santaan-cream hover:text-santaan-teal"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
                     </div>
 
                     {/* Actions */}
@@ -145,7 +128,7 @@ export function HeaderClient() {
                         >
                             <Phone className="w-4 h-4" />
                             <span>Call</span>
-                            <span className="hidden lg:inline">{PRIMARY_CALL_NUMBER}</span>
+                            <span className="hidden 2xl:inline">{PRIMARY_CALL_NUMBER}</span>
                         </a>
                         <a
                             href={PRIMARY_WHATSAPP_BOOKING_URL}
@@ -164,8 +147,8 @@ export function HeaderClient() {
                             onClick={() => trackHeaderEvent('header_whatsapp_primary')}
                         >
                             <MessageCircle className="w-4 h-4" />
-                            <span className="hidden xl:inline">Book on WhatsApp</span>
-                            <span className="xl:hidden">WhatsApp</span>
+                            <span className="hidden 2xl:inline">Book on WhatsApp</span>
+                            <span className="2xl:hidden">WhatsApp</span>
                         </a>
                     </div>
 
@@ -187,6 +170,26 @@ export function HeaderClient() {
                             )}
                         </button>
                     </div>
+                </nav>
+                <nav
+                    className={cn(
+                        'hidden lg:flex items-center justify-center gap-4 pt-2 text-[11px] font-medium tracking-wide',
+                        isScrolled ? 'text-gray-500' : 'text-white/75 drop-shadow-sm'
+                    )}
+                    aria-label="Supporting fertility topics"
+                >
+                    {desktopSupportNavigation.map((item) => (
+                        <Link
+                            key={item.name}
+                            href={item.href}
+                            className={cn(
+                                'whitespace-nowrap transition-colors',
+                                isScrolled ? 'hover:text-santaan-teal' : 'hover:text-santaan-amber'
+                            )}
+                        >
+                            {item.name}
+                        </Link>
+                    ))}
                 </nav>
             </div>
 
