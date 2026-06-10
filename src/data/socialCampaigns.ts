@@ -27,8 +27,9 @@ export const SOCIAL_CAMPAIGNS: SocialItem[] = [
     url: 'https://www.facebook.com/share/v/185SiFdzZM/',
   },
   {
-    title: 'Santaan IVF · Instagram reel highlight',
+    title: 'Endometriosis explained · Dr. Kaninika',
     platform: 'instagram',
     url: 'https://www.instagram.com/reel/DWBuSsxkR1_/?igsh=MTNmcWp2czlocGx4cg==',
+    previewUrl: 'https://www.youtube.com/watch?v=csktAi1dVTU',
   },
 ];
