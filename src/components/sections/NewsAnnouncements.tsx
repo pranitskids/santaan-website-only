@@ -16,6 +16,10 @@ interface NewsAnnouncementsProps {
     posts?: SantaanPost[];
 }
 
+type DisplayAnnouncement = SantaanPost & {
+    relatedCount?: number;
+};
+
 const fallbackNewsPosts: SantaanPost[] = [
     {
         slug: 'break-the-silence-on-endometriosis-29th-march-2026-bigfm-92-7-tcmg9h',
@@ -51,6 +55,72 @@ const fallbackNewsPosts: SantaanPost[] = [
     },
 ];
 
+const normalizeSignal = (value: string) =>
+    value
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
+const getAnnouncementGroupKey = (post: SantaanPost) => {
+    const normalizedTags = post.tags.map(normalizeSignal);
+    const explicitCampaignTag = normalizedTags.find(
+        tag =>
+            tag.startsWith('campaign-') ||
+            tag.startsWith('event-') ||
+            tag.startsWith('launch-') ||
+            tag.startsWith('award-') ||
+            tag.startsWith('announcement-')
+    );
+
+    if (explicitCampaignTag) {
+        return explicitCampaignTag;
+    }
+
+    const normalizedTitle = post.title
+        .toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/\b\d{1,2}(st|nd|rd|th)?\s+[a-z]+\s*,?\s+\d{4}\b/g, '')
+        .replace(/\b\d{1,2}\s+[a-z]+\s+\d{4}\b/g, '')
+        .replace(/\b\d{4}\b/g, '')
+        .replace(/\b(tune in today|today|bigfm|radio|live|update)\b/g, '')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+
+    if (normalizedTitle.includes('break the silence on endometriosis')) {
+        return 'campaign-endometriosis-awareness';
+    }
+
+    return `title-${normalizeSignal(normalizedTitle || post.slug)}`;
+};
+
+const getTime = (dateString: string) => {
+    const time = new Date(dateString).getTime();
+    return Number.isNaN(time) ? 0 : time;
+};
+
+const groupAnnouncements = (posts: SantaanPost[], limit = 3): DisplayAnnouncement[] => {
+    const groups = new Map<string, SantaanPost[]>();
+
+    for (const post of posts) {
+        const key = getAnnouncementGroupKey(post);
+        groups.set(key, [...(groups.get(key) ?? []), post]);
+    }
+
+    return Array.from(groups.values())
+        .map(group => {
+            const sortedGroup = [...group].sort((a, b) => getTime(b.publishedAt) - getTime(a.publishedAt));
+            const representative = sortedGroup[0];
+
+            return {
+                ...representative,
+                relatedCount: sortedGroup.length > 1 ? sortedGroup.length - 1 : undefined,
+            };
+        })
+        .sort((a, b) => getTime(b.publishedAt) - getTime(a.publishedAt))
+        .slice(0, limit);
+};
+
 // Map category keywords to icons and colors
 const getCategoryStyle = (categories: string[]) => {
     const cats = categories.map(c => c.toLowerCase());
@@ -79,7 +149,8 @@ const formatDate = (dateString: string) => {
 };
 
 export function NewsAnnouncements({ posts = [] }: NewsAnnouncementsProps) {
-    const displayPosts = posts.length > 0 ? posts : fallbackNewsPosts;
+    const sourcePosts = posts.length > 0 ? posts : fallbackNewsPosts;
+    const displayPosts = groupAnnouncements(sourcePosts);
 
     return (
         <section className="py-14 bg-gradient-to-b from-santaan-cream to-white relative overflow-hidden">
@@ -144,6 +215,12 @@ export function NewsAnnouncements({ posts = [] }: NewsAnnouncementsProps) {
                                 <p className="text-gray-500 text-sm line-clamp-2 mb-3">
                                     {post.excerpt}
                                 </p>
+
+                                {post.relatedCount ? (
+                                    <p className="mb-3 text-xs font-semibold text-santaan-teal">
+                                        +{post.relatedCount} related update{post.relatedCount > 1 ? 's' : ''} in the archive
+                                    </p>
+                                ) : null}
                                 
                                 <Link href={`/fertility-insights/${post.slug}`} className="inline-flex items-center gap-1 text-santaan-teal text-sm font-medium group-hover:gap-2 transition-all">
                                     Read update
