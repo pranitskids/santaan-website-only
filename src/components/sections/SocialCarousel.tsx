@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-type Platform = 'youtube' | 'instagram' | 'facebook';
+type Platform = 'youtube' | 'youtube-short' | 'instagram' | 'instagram-reel' | 'facebook';
 
 export interface SocialItem {
   title: string;
@@ -24,11 +26,19 @@ function ytIdFromUrl(url: string) {
 
 function buildThumb(item: SocialItem) {
   if (item.thumb) return item.thumb;
-  if (item.platform === 'youtube') {
+  if (item.platform === 'youtube' || item.platform === 'youtube-short') {
     const id = ytIdFromUrl(item.url);
     return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : undefined;
   }
   return undefined;
+}
+
+function platformLabel(platform: Platform) {
+  if (platform === 'youtube-short') return 'YouTube Short';
+  if (platform === 'instagram-reel') return 'Instagram Reel';
+  if (platform === 'youtube') return 'YouTube';
+  if (platform === 'instagram') return 'Instagram';
+  return 'Facebook';
 }
 
 export function SocialCarousel({
@@ -42,14 +52,67 @@ export function SocialCarousel({
   description?: string;
   sectionId?: string;
 }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const updateScrollProgress = () => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+    setScrollProgress(maxScroll > 0 ? scroller.scrollLeft / maxScroll : 0);
+  };
+
+  const scrollByCards = (direction: 'previous' | 'next') => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    scroller.scrollBy({
+      left: direction === 'next' ? scroller.clientWidth * 0.8 : -scroller.clientWidth * 0.8,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <section id={sectionId} className="py-16 bg-white">
       <div className="container px-4 md:px-6 mx-auto">
-        <div className="mb-6">
-          <h3 className="text-xl md:text-2xl font-playfair font-bold text-gray-900">{heading}</h3>
-          <p className="text-gray-600 mt-2">{description}</p>
+        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h3 className="text-xl md:text-2xl font-playfair font-bold text-gray-900">{heading}</h3>
+            <p className="text-gray-600 mt-2">{description}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              href="https://www.youtube.com/@santaan7688/videos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-santaan-teal/20 px-4 py-2 text-sm font-semibold text-santaan-teal hover:bg-santaan-teal/5"
+            >
+              View channel
+            </Link>
+            <button
+              type="button"
+              aria-label="Scroll campaign highlights left"
+              onClick={() => scrollByCards('previous')}
+              className="rounded-full border border-santaan-teal/20 p-2 text-santaan-teal hover:bg-santaan-teal/5"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              aria-label="Scroll campaign highlights right"
+              onClick={() => scrollByCards('next')}
+              className="rounded-full border border-santaan-teal/20 p-2 text-santaan-teal hover:bg-santaan-teal/5"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
-        <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] no-scrollbar">
+        <div
+          ref={scrollerRef}
+          onScroll={updateScrollProgress}
+          className="overflow-x-auto pb-4 [scrollbar-color:#2f5f5b_#edf4ef] [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-santaan-teal/70 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-santaan-sage/20"
+        >
           <div className="grid grid-flow-col auto-cols-[75%] sm:auto-cols-[45%] md:auto-cols-[30%] gap-4 snap-x snap-mandatory">
             {items.map((it, i) => {
               const thumb = buildThumb(it);
@@ -70,12 +133,21 @@ export function SocialCarousel({
                   </div>
                   <div className="p-4">
                     <p className="font-semibold text-gray-900 line-clamp-2">{it.title}</p>
-                    <p className="text-xs text-gray-600 mt-1 capitalize">{it.platform}</p>
+                    <p className="text-xs text-gray-600 mt-1">{platformLabel(it.platform)}</p>
                   </div>
                 </Link>
               );
             })}
           </div>
+        </div>
+        <div className="mt-1 flex items-center gap-3" aria-hidden="true">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-santaan-sage/20">
+            <div
+              className="h-full rounded-full bg-santaan-teal transition-all duration-300"
+              style={{ width: `${Math.max(18, Math.round(scrollProgress * 100))}%` }}
+            />
+          </div>
+          <p className="hidden text-xs font-medium text-gray-500 sm:block">Scroll for more videos</p>
         </div>
       </div>
     </section>

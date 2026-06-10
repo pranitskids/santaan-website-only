@@ -30,6 +30,7 @@ import { getSiteUrl } from "@/lib/site";
 import { getApprovedPatientReviews } from "@/lib/patient-reviews";
 import { getSantaanBlogPosts } from "@/lib/medium";
 import { isPatientAudiencePost } from "@/lib/patient-content";
+import { getSantaanYoutubeHighlights } from "@/lib/youtube";
 
 export const metadata = buildMetadata({
   title: "Santaan IVF | IVF & Fertility Centres in Odisha & Bangalore",
@@ -54,6 +55,11 @@ export default async function Home() {
     .then((posts) => posts.filter(isPatientAudiencePost).slice(0, 6))
     .catch(() => []);
   const homepageNewsPosts = await getSantaanBlogPosts({ type: "news", limit: 4 }).catch(() => []);
+  const latestYoutubeItems = await getSantaanYoutubeHighlights({ limit: 8 });
+  const curatedNonYoutubeItems = SOCIAL_CAMPAIGNS.filter((item) => !item.platform.startsWith("youtube"));
+  const campaignItems = latestYoutubeItems.length > 0
+    ? [...latestYoutubeItems, ...curatedNonYoutubeItems]
+    : SOCIAL_CAMPAIGNS;
   const insightCards = homepageBlogPosts.map((post) => ({
     slug: post.slug,
     title: post.title,
@@ -106,9 +112,9 @@ export default async function Home() {
       <PatientReviewsSection reviews={featuredPatientReviews} />
       <VideoTestimonials items={SANTAAN_YOUTUBE_VIDEOS} />
       <SocialCarousel
-        items={SOCIAL_CAMPAIGNS}
+        items={campaignItems}
         heading="Campaign highlights"
-        description="Fertility awareness, IVF guidance and Santaan milestones—built for clarity, not confusion."
+        description="Latest Santaan YouTube videos, Shorts and curated social highlights for fertility awareness."
       />
       <Awards />
       <NewsAnnouncements posts={newsCards} />
