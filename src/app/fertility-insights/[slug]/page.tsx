@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ArrowLeft, CalendarDays, Clock, ExternalLink } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { CostGuideLinks } from '@/components/seo/CostGuideLinks';
 import { getSantaanBlogPostBySlug, getSantaanBlogPosts } from '@/lib/medium';
 import { isPatientReadyPost } from '@/lib/patient-content';
 import { buildBlogPostingSchema, buildBreadcrumbSchema } from '@/lib/schema';
@@ -163,6 +164,8 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
               </div>
             </div>
           )}
+
+          <CostGuideLinks tags={post.tags} articleTitle={post.title} />
 
           {relatedPosts.length > 0 && (
             <div className="mt-10 bg-white rounded-2xl border border-gray-100 p-6 md:p-8">

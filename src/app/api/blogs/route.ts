@@ -3,6 +3,7 @@ import { getSantaanBlogPosts, type BlogType } from '@/lib/medium';
 import { isPatientAudiencePost } from '@/lib/patient-content';
 
 export const revalidate = 86400;
+export const dynamic = 'force-dynamic';
 
 const cachedJsonHeaders = {
   'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',

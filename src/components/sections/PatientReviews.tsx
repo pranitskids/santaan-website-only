@@ -15,7 +15,7 @@ function ReviewStars({ rating }: { rating?: number }) {
   if (!count) return null;
 
   return (
-    <div className="flex items-center gap-1 text-santaan-amber" aria-label={`${count} out of 5 stars`}>
+    <div className="flex items-center gap-1 text-santaan-amber" role="img" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, index) => (
         <Star key={index} className="h-4 w-4 fill-current" />
       ))}

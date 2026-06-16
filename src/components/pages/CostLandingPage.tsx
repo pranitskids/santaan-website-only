@@ -57,7 +57,7 @@ export function CostLandingPage({ page }: CostLandingPageProps) {
               data-cta-kind="whatsapp"
               data-center="Network"
               data-cta-target={whatsappHref}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-700 text-white font-semibold hover:bg-emerald-800 transition-colors"
             >
               <MessageCircle className="h-4 w-4" />
               Ask for cost estimate
@@ -175,7 +175,7 @@ export function CostLandingPage({ page }: CostLandingPageProps) {
                 data-cta-kind="whatsapp"
                 data-center="Network"
                 data-cta-target={whatsappHref}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-700 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-800 transition-colors"
               >
                 Ask on WhatsApp
                 <ArrowRight className="h-4 w-4" />

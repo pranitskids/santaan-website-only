@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Quote } from 'lucide-react';
 
@@ -80,12 +77,8 @@ export function SuccessStories() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                     {stories.map((story, i) => (
-                        <motion.div
+                        <article
                             key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.2 }}
                             className="bg-[#FDF6F0] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
                         >
                             <div className="relative h-64 overflow-hidden">
@@ -107,7 +100,7 @@ export function SuccessStories() {
                                 <Quote className="absolute top-4 right-4 w-8 h-8 text-santaan-teal/10" />
                                 <p className="text-gray-700 italic leading-relaxed mb-4">&quot;{story.quote}&quot;</p>
                             </div>
-                        </motion.div>
+                        </article>
                     ))}
                 </div>
             </div>

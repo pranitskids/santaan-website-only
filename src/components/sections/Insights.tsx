@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { ArrowUpRight, BookOpen, Calendar, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 
@@ -96,14 +93,10 @@ export function Insights({ posts = [] }: InsightsProps) {
 
                 {/* Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {displayPosts.map((post, index) => (
-                        <motion.div
+                    {displayPosts.map((post) => (
+                        <article
                             key={post.slug || post.href}
                             className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
                         >
                             {/* Content */}
                             <div className="p-5 flex flex-col grow">
@@ -138,7 +131,7 @@ export function Insights({ posts = [] }: InsightsProps) {
                                     <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </Link>
                             </div>
-                        </motion.div>
+                        </article>
                     ))}
                 </div>
             </div>

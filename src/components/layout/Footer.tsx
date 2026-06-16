@@ -1,59 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import { Facebook, Instagram, Linkedin, Twitter, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { readUtmParams } from "@/lib/utm";
 import { CENTER_PROFILES } from "@/data/centers";
-
-type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
+import { FooterNewsletterForm } from "@/components/layout/FooterNewsletterForm";
 
 export function Footer() {
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-    const [message, setMessage] = useState("");
-
-    const handleSubscribe = async (event: React.FormEvent) => {
-        event.preventDefault();
-        if (!name.trim() || !phone.trim()) return;
-
-        setStatus("loading");
-        setMessage("");
-
-        try {
-            const response = await fetch("/api/newsletter/subscribe", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, phone, utm: readUtmParams() }),
-            });
-
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data?.error || "Failed to subscribe");
-            }
-
-            setStatus("success");
-            setMessage(data?.message || "You’re in. We will follow up on WhatsApp.");
-            setName("");
-            setPhone("");
-
-            const analyticsWindow = window as GtagWindow;
-            if (analyticsWindow.gtag) {
-                analyticsWindow.gtag('event', 'sign_up', {
-                    event_category: 'engagement',
-                    event_label: 'whatsapp_tips_signup'
-                });
-            }
-        } catch (error: unknown) {
-            setStatus("error");
-            const errorMessage = error instanceof Error ? error.message : "Failed to subscribe";
-            setMessage(errorMessage);
-        }
-    };
-
     return (
         <footer id="footer" className="bg-santaan-teal text-white pt-20 pb-10">
             <div className="container mx-auto px-4 md:px-6">
@@ -169,39 +120,7 @@ export function Footer() {
                         <p className="text-gray-300 mb-4 text-sm">
                             Short fertility guidance, myth-busting, and the next useful step, shared privately on WhatsApp.
                         </p>
-                        <form className="space-y-2" onSubmit={handleSubscribe}>
-                            <input
-                                type="text"
-                                placeholder="Your name"
-                                value={name}
-                                onChange={(event) => setName(event.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-santaan-amber"
-                            />
-                            <input
-                                type="tel"
-                                placeholder="WhatsApp number"
-                                value={phone}
-                                onChange={(event) => setPhone(event.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:border-santaan-amber"
-                            />
-                            <Button
-                                fullWidth
-                                className="bg-santaan-amber hover:bg-[#E08E45]"
-                                disabled={status === "loading"}
-                            >
-                                {status === "loading" ? "Saving..." : "Get WhatsApp tips"}
-                            </Button>
-                            {message && (
-                                <p
-                                    className={`text-xs ${status === "success" ? "text-emerald-200" : "text-rose-200"}`}
-                                >
-                                    {message}
-                                </p>
-                            )}
-                            <p className="text-xs text-gray-400">
-                                We use this only for fertility guidance and follow-up on WhatsApp.
-                            </p>
-                        </form>
+                        <FooterNewsletterForm />
                     </div>
                 </div>
 

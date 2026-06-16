@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { Award, Trophy, ShieldCheck, Medal } from 'lucide-react';
 
 const awards = [
@@ -49,12 +46,8 @@ export function Awards() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {awards.map((award, i) => (
-                        <motion.div
+                        <article
                             key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
                             className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-santaan-amber/20 group text-center"
                         >
                             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-santaan-amber/10 flex items-center justify-center text-santaan-amber group-hover:scale-110 transition-transform duration-300">
@@ -65,7 +58,7 @@ export function Awards() {
                             <p className="text-gray-500 text-xs leading-relaxed">
                                 {award.desc}
                             </p>
-                        </motion.div>
+                        </article>
                     ))}
                 </div>
             </div>

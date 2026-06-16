@@ -14,8 +14,13 @@ This site should use `https://www.santaan.in` as the canonical public website.
    - `https://www.santaan.in/icsi-cost`
    - `https://www.santaan.in/egg-freezing-cost`
    - `https://www.santaan.in/founder-notes`
-3. If Google reports "Discovered, not indexed", wait after the first crawl and add internal links from relevant Medium posts or Santaan pages.
-4. If Google chooses a different canonical, check whether an old domain or Medium URL is competing with the Santaan URL.
+3. Also inspect representative archive URLs after Medium sync:
+   - `https://www.santaan.in/fertility-insights`
+   - `https://www.santaan.in/clinical-insights`
+   - One recent patient article URL
+   - One recent doctor article URL
+4. If Google reports "Discovered, not indexed", wait after the first crawl and add internal links from relevant Medium posts or Santaan pages.
+5. If Google chooses a different canonical, check whether an old domain or Medium URL is competing with the Santaan URL.
 
 ## Domain Consolidation
 

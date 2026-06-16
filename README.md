@@ -31,8 +31,9 @@ Those systems should stay in AICRM / Cloudflare.
 Recommended deployment:
 
 - GitHub repo owned by Santaan team
-- Netlify site owned by Santaan team
-- website env vars managed in that Netlify project
+- Vercel project `santaan-web-static-check`
+- production branch `compute-light-vercel-test`
+- website env vars managed in that Vercel project
 - CRM webhook managed by AICRM team
 
 ## Main Public Flows
@@ -67,10 +68,11 @@ Medium publishing is preserved.
 Writer workflow:
 
 1. publish on Medium
-2. website pulls feed through RSS2JSON
-3. content appears on website insight pages
+2. website pulls feed through RSS2JSON at build/redeploy time
+3. posts are merged with the static Santaan archive in `src/content/mediumArchiveSeeds.ts`
+4. content appears on Santaan URLs for SEO
 
-Main content API:
+Diagnostic content API:
 
 - `/api/blogs`
 
@@ -97,7 +99,8 @@ Minimum production set:
 Optional:
 
 - `RSS2JSON_API_KEY` if RSS2JSON rate limits the Medium feed
-- `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` only if you want a website-side Medium cache
+
+Do not add old website/CRM compute secrets such as `TURSO_*`, `BOLNA_*`, `ZOHO_*`, `GROQ_*`, voice webhooks, or cron secrets to this website-only project.
 
 ## Local Setup
 
@@ -108,14 +111,14 @@ npm run build
 npm run dev
 ```
 
-## Netlify Setup
+## Vercel Setup
 
-1. Create a new Netlify site from this repo
-2. Set the production branch
-3. Add the website env vars from `.env.example`
-4. Add the real AICRM webhook URL
-5. Deploy
-6. Test preview before domain cutover
+1. Use project `santaan-web-static-check`.
+2. Keep production branch as `compute-light-vercel-test`.
+3. Add only website env vars from `.env.example`.
+4. Add the real AICRM webhook URL only when form testing is required.
+5. Deploy.
+6. Confirm public pages build as static/SSG and `/api/blogs` is not called by normal page browsing.
 
 ## Important Files
 
@@ -144,5 +147,6 @@ Only files with `status: approved` are published. Set `featured: true` to includ
 Use:
 
 - [docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md:1)
+- [docs/MEDIUM_TO_SANTAAN_ARCHIVE_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/MEDIUM_TO_SANTAAN_ARCHIVE_WORKFLOW.md:1)
 
-For Netlify + CRM webhook setup, that handoff file is the source of truth.
+For Vercel + CRM webhook setup, these handoff files are the source of truth.

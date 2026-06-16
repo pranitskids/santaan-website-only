@@ -99,7 +99,7 @@ export default async function ServicePage({ params }: { params: Params }) {
               data-cta-kind="whatsapp"
               data-center="Network"
               data-cta-target={whatsappHref}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-700 text-white font-semibold hover:bg-emerald-800 transition-colors"
             >
               <MessageCircle className="w-4 h-4" />
               Book on WhatsApp

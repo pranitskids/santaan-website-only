@@ -68,7 +68,7 @@ consent: "public_review"
 - Only `status: approved` appears on the website.
 - Only `featured: true` appears in the homepage review section.
 - All approved reviews appear on `/patient-stories`.
-- The site deploys automatically after GitHub changes are merged and Netlify builds.
+- The site deploys automatically after GitHub changes are merged into the configured Vercel production branch.
 
 ## Editorial Safety
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, XCircle, CheckCircle, BookOpen } from 'lucide-react';
 
 const MYTHS = [
@@ -88,12 +87,8 @@ export function MythBusting() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto">
                     {MYTHS.map((item) => (
-                        <motion.div
+                        <article
                             key={item.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: (item.id % 3) * 0.1 }}
                             className={`bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border-2 ${expandedId === item.id ? 'border-santaan-teal/40 shadow-santaan-teal/10' : 'border-transparent hover:border-santaan-sage/20'}`}
                         >
                             <button
@@ -120,14 +115,8 @@ export function MythBusting() {
                                 </div>
                             </button>
 
-                            <AnimatePresence>
-                                {expandedId === item.id && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        className="overflow-hidden"
-                                    >
+                            {expandedId === item.id && (
+                                    <div className="overflow-hidden">
                                         <div className="px-5 md:px-6 pb-5 md:pb-6 text-gray-700 bg-linear-to-b from-santaan-cream/20 to-transparent">
                                             <div className="pt-4 border-t border-santaan-sage/20">
                                                 <h4 className="font-playfair font-bold text-santaan-teal mb-3 flex items-center gap-2">
@@ -139,10 +128,9 @@ export function MythBusting() {
                                                 </p>
                                             </div>
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 )}
-                            </AnimatePresence>
-                        </motion.div>
+                        </article>
                     ))}
                 </div>
             </div>

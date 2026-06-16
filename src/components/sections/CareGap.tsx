@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { MapPin, IndianRupee, HeartCrack, Globe2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -69,12 +66,8 @@ export function CareGap() {
 
                     <div className="lg:w-1/2 grid grid-cols-1 gap-6">
                         {gapPoints.map((point, i) => (
-                            <motion.div
+                            <article
                                 key={i}
-                                initial={{ opacity: 0, x: 20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
                                 className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-colors border border-white/5 flex gap-5 items-start"
                             >
                                 <div className="bg-white/10 p-3 rounded-lg shrink-0">
@@ -87,7 +80,7 @@ export function CareGap() {
                                         {point.desc}
                                     </p>
                                 </div>
-                            </motion.div>
+                            </article>
                         ))}
                     </div>
 

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { Microscope, Dna, Database, FileCheck, Users, BarChart3, Shield, Zap, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/Button';
@@ -25,12 +22,7 @@ export function SantaanLab() {
                 <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
 
                     {/* Left: Tech Innovations */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="space-y-6"
-                    >
+                    <div className="space-y-6">
                         <div className="bg-gradient-to-br from-santaan-teal/5 via-santaan-sage/5 to-santaan-amber/5 rounded-2xl p-6 border-2 border-santaan-teal/20">
                             <div className="flex items-center gap-3 mb-6">
                                 <Microscope className="w-8 h-8 text-santaan-teal" />
@@ -104,15 +96,10 @@ export function SantaanLab() {
                             </div>
                         </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Right: SAISOP Quality Framework */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="space-y-6"
-                    >
+                    <div className="space-y-6">
                         <div className="bg-gradient-to-br from-santaan-teal/5 via-santaan-amber/5 to-santaan-sage/5 rounded-2xl p-6 border-2 border-santaan-teal/20">
                             <div className="flex items-center gap-2 mb-4">
                                 <Sparkles className="w-6 h-6 text-santaan-amber" />
@@ -207,7 +194,7 @@ export function SantaanLab() {
                                 </Link>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                 </div>
             </div>

@@ -76,6 +76,16 @@ export const servicePageData: Record<string, ServicePageData> = {
         answer:
           'Yes. You can begin with at-home testing and then proceed to specialist consultation with your reports for faster treatment planning.',
       },
+      {
+        question: 'What is the typical IVF cost in Bhubaneswar?',
+        answer:
+          'A practical planning range is often ₹1.2 lakh to ₹2.5 lakh or more per cycle, depending on medicines, lab steps, ICSI or freezing needs, and what the written estimate includes.',
+      },
+      {
+        question: 'How should I compare IVF quotes in Bhubaneswar?',
+        answer:
+          'Compare written inclusions: scans, injections, retrieval, embryology, transfer, anesthesia, freezing, storage, and cancellation rules. A low headline price can exclude important steps.',
+      },
     ],
   },
   'ivf-clinic-berhampur': {
@@ -126,6 +136,16 @@ export const servicePageData: Record<string, ServicePageData> = {
         question: 'How do I book consultation at Santaan Berhampur?',
         answer:
           'Use call, WhatsApp, or online booking. Our team will schedule appointment slots and share pre-visit preparation details.',
+      },
+      {
+        question: 'What affects IVF cost in Berhampur?',
+        answer:
+          'The final estimate depends on ovarian reserve, medicines, semen factors, monitoring needs, embryology steps, and whether add-ons such as ICSI or freezing are medically required.',
+      },
+      {
+        question: 'Can local access reduce the overall treatment cost?',
+        answer:
+          'Local access can reduce travel, stay, and missed-work costs. Still, compare the complete treatment plan, because procedure pricing depends on protocol and lab requirements.',
       },
     ],
   },
@@ -178,6 +198,11 @@ export const servicePageData: Record<string, ServicePageData> = {
         answer:
           'Couples who have been trying for a while, have irregular cycles, low AMH, semen-factor concerns, or want a specialist-led second opinion can start with the Angul center.',
       },
+      {
+        question: 'Can I get an IVF cost estimate from Angul?',
+        answer:
+          'Yes. Start with evaluation and report review. The final estimate depends on diagnosis, protocol, medicines, and whether advanced treatment coordination is needed through the Santaan network.',
+      },
     ],
   },
   'ivf-clinic-bangalore-aecs-layout': {
@@ -228,6 +253,16 @@ export const servicePageData: Record<string, ServicePageData> = {
         question: 'Is male-factor workup included in your pathway?',
         answer:
           'Yes. Male-factor evaluation is included in our standard fertility workup and treatment planning framework.',
+      },
+      {
+        question: 'Why can IVF cost in Bangalore vary so much?',
+        answer:
+          'Bangalore IVF pricing varies because of clinic overheads, lab model, medicine dose, ICSI, PGT, freezing, and transfer strategy. Compare written inclusions rather than only package price.',
+      },
+      {
+        question: 'Can busy professionals get a transparent estimate before starting?',
+        answer:
+          'Yes. We recommend a diagnosis-first estimate that separates consultation, tests, medicines, retrieval, embryology, transfer, and optional add-ons before the cycle begins.',
       },
     ],
   },

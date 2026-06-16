@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
 import type { ElementType } from 'react';
 
@@ -63,12 +60,8 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                 {/* Clinical Doctors */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                     {doctors.map((doc, i) => (
-                        <motion.div
+                        <article
                             key={i}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
                             className="bg-white p-6 rounded-2xl text-center shadow-sm hover:shadow-md transition-all border border-transparent hover:border-santaan-teal/20"
                         >
                             {doc.image ? (
@@ -83,7 +76,7 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                             <h3 className="font-playfair font-bold text-lg text-gray-900 mb-1">{doc.name}</h3>
                             <p className="text-santaan-teal text-sm font-medium mb-2">{doc.role}</p>
                             <p className="text-xs text-gray-500">{doc.specialty}</p>
-                        </motion.div>
+                        </article>
                     ))}
                 </div>
 
@@ -96,12 +89,8 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                 <div className="max-w-3xl mx-auto">
                     <div className="grid md:grid-cols-2 gap-6">
                         {management.map((member, i) => (
-                            <motion.div
+                            <article
                                 key={i}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
                                 className="bg-linear-to-br from-santaan-teal/5 to-santaan-amber/5 p-6 rounded-2xl text-center shadow-sm hover:shadow-md transition-all border-2 border-santaan-teal/20"
                             >
                                 {member.image ? (
@@ -116,7 +105,7 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                                 <h3 className="font-playfair font-bold text-lg text-gray-900 mb-1">{member.name}</h3>
                                 <p className="text-santaan-teal text-sm font-medium mb-2">{member.role}</p>
                                 <p className="text-xs text-gray-500">{member.specialty}</p>
-                            </motion.div>
+                            </article>
                         ))}
                     </div>
                 </div>

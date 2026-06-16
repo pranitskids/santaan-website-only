@@ -71,12 +71,11 @@ export function Hero() {
                         data-cta-kind="whatsapp"
                         data-center="Network"
                         data-cta-target={PRIMARY_WHATSAPP_BOOKING_URL}
-                        aria-label="Start a private conversation with Santaan on WhatsApp"
                         className={cn(
                             buttonVariants({
                                 size: 'lg',
                                 className:
-                                    'group w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 border-none shadow-lg hover:shadow-xl transition-all',
+                                    'group w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 border-none shadow-lg hover:shadow-xl transition-all',
                             })
                         )}
                     >
@@ -103,7 +102,6 @@ export function Hero() {
                         data-cta-kind="call"
                         data-center="Network"
                         data-cta-target={PRIMARY_CALL_HREF}
-                        aria-label={`Call Santaan at ${PRIMARY_CALL_NUMBER}`}
                         className={cn(
                             buttonVariants({
                                 variant: 'outline',

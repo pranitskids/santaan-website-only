@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { faqs } from "@/data/faqs";
 
@@ -40,20 +39,13 @@ export function FAQ() {
                                 )}
                             </button>
 
-                            <AnimatePresence>
-                                {openIndex === index && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        className="overflow-hidden"
-                                    >
+                            {openIndex === index && (
+                                    <div className="overflow-hidden">
                                         <div className="p-6 pt-0 text-gray-600 leading-relaxed border-t border-transparent">
                                             {faq.answer}
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 )}
-                            </AnimatePresence>
                         </div>
                     ))}
                 </div>

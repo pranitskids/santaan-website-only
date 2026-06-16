@@ -6,7 +6,6 @@ import { Menu, X, Phone, Calendar, MessageCircle } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
 
@@ -141,7 +140,7 @@ export function HeaderClient() {
                                 buttonVariants({
                                     size: 'sm',
                                     className:
-                                        'h-9 bg-emerald-600 px-4 text-white hover:bg-emerald-700 hover:text-white border-none shadow-sm',
+                                        'h-9 bg-emerald-700 px-4 text-white hover:bg-emerald-800 hover:text-white border-none shadow-sm',
                                 })
                             )}
                             onClick={() => trackHeaderEvent('header_whatsapp_primary')}
@@ -193,21 +192,13 @@ export function HeaderClient() {
                 </nav>
             </div>
 
-            <AnimatePresence>
-                {searchOpen ? (
-                    <motion.div
+            {searchOpen ? (
+                    <div
                         className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-24"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
                         onClick={() => setSearchOpen(false)}
                     >
-                        <motion.div
+                        <div
                             className="w-full max-w-xl rounded-2xl bg-white border border-gray-200 shadow-xl p-5"
-                            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                            transition={{ duration: 0.18 }}
                             onClick={(event) => event.stopPropagation()}
                         >
                             <div className="flex items-center justify-between gap-4">
@@ -225,18 +216,13 @@ export function HeaderClient() {
                                 <Input name="q" placeholder="Search fertility topics (PCOS, IVF, AMH…)" autoFocus />
                                 <Button type="submit">Go</Button>
                             </form>
-                        </motion.div>
-                    </motion.div>
+                        </div>
+                    </div>
                 ) : null}
-            </AnimatePresence>
 
             {/* Mobile Menu */}
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+            {mobileMenuOpen && (
+                    <div
                         className="lg:hidden bg-white border-t border-gray-100 overflow-hidden"
                     >
                         <div className="space-y-1 px-4 pb-3 pt-2">
@@ -275,7 +261,7 @@ export function HeaderClient() {
                                         className={cn(
                                             buttonVariants({
                                                 fullWidth: true,
-                                                className: 'w-full justify-center bg-emerald-600 hover:bg-emerald-700',
+                                                className: 'w-full justify-center bg-emerald-700 hover:bg-emerald-800',
                                             })
                                         )}
                                     >
@@ -305,9 +291,8 @@ export function HeaderClient() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 )}
-            </AnimatePresence>
         </header>
     );
 }

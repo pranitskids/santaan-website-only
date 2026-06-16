@@ -391,6 +391,7 @@ export function FertilityReadinessAssessment() {
                                                 <select
                                                     value={selectedFactors.find(f => f.factorId === factor.id)?.value as string || 'none'}
                                                     onChange={(e) => handleFactorChange(factor.id, e.target.value)}
+                                                    aria-label={`Select ${factor.label}`}
                                                     className={`text-xs w-full px-2 py-1.5 rounded-lg border focus:outline-none focus:ring-2 focus:ring-santaan-teal ${isSelected
                                                         ? 'bg-white text-gray-900 border-white'
                                                         : 'bg-white text-gray-700 border-gray-200'
@@ -543,7 +544,7 @@ export function FertilityReadinessAssessment() {
                                                 <motion.button
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.95 }}
-                                                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-full shadow-md transition-colors"
+                                                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-full shadow-md transition-colors"
                                                     onClick={() => {
                                                         if (typeof window !== 'undefined' && (window as any).gtag) {
                                                             (window as any).gtag('event', 'click', {

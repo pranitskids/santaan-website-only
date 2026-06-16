@@ -1,12 +1,7 @@
-"use client";
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import type { ElementType } from 'react';
 import { CENTER_PROFILES, buildPrimaryWhatsappUrl, getCenterMapsUrl } from '@/data/centers';
-
-type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
 
 interface LocationsProps {
     headingAs?: Extract<ElementType, 'h1' | 'h2'>;
@@ -14,17 +9,6 @@ interface LocationsProps {
 
 export function Locations({ headingAs = 'h2' }: LocationsProps) {
     const HeadingTag = headingAs;
-
-    const trackLocationEvent = (eventLabel: string) => {
-        if (typeof window === 'undefined') return;
-        const analyticsWindow = window as GtagWindow;
-        if (!analyticsWindow.gtag) return;
-
-        analyticsWindow.gtag('event', 'click', {
-            event_category: 'contact',
-            event_label: eventLabel
-        });
-    };
 
     return (
         <section className="py-24 bg-santaan-teal text-white relative overflow-hidden">
@@ -44,16 +28,12 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                 </div>
 
                 <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-                    {CENTER_PROFILES.map((loc, i) => {
+                    {CENTER_PROFILES.map((loc) => {
                         const mapHref = getCenterMapsUrl(loc);
 
                         return (
-                            <motion.article
+                            <article
                                 key={loc.slug}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.12 }}
                                 className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-white/15 transition-colors flex flex-col"
                             >
                                 <div className="flex items-start justify-between mb-6">
@@ -94,7 +74,6 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         <a
                                             href={`mailto:${loc.email}`}
                                             className="text-white/90 text-sm hover:text-santaan-amber transition-colors"
-                                            onClick={() => trackLocationEvent(`location_email_${loc.city}`)}
                                         >
                                             {loc.email}
                                         </a>
@@ -118,7 +97,6 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-white/90 text-sm hover:text-santaan-amber transition-colors inline-flex items-center gap-1"
-                                            onClick={() => trackLocationEvent(`location_map_${loc.city}`)}
                                         >
                                             Open in Maps
                                             <ExternalLink className="w-3.5 h-3.5" />
@@ -153,7 +131,6 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                     <Link
                                         href={loc.href}
                                         className="inline-flex items-center justify-between rounded-xl bg-white text-santaan-teal px-4 py-3 text-sm font-semibold hover:bg-santaan-cream transition-colors"
-                                        onClick={() => trackLocationEvent(`location_page_${loc.city}`)}
                                     >
                                         Explore {loc.city} page
                                         <ArrowRight className="w-4 h-4" />
@@ -166,13 +143,12 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         data-center={loc.city}
                                         data-cta-target="whatsapp_booking"
                                         className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
-                                        onClick={() => trackLocationEvent(`location_book_${loc.city}`)}
                                     >
                                         <MessageCircle className="w-4 h-4" />
                                         Book on WhatsApp
                                     </a>
                                 </div>
-                            </motion.article>
+                            </article>
                         );
                     })}
                 </div>

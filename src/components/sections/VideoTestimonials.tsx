@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Play } from 'lucide-react';
 import Image from 'next/image';
 
@@ -64,10 +64,12 @@ function isRemote(src: string) {
 }
 
 export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(items.length > 0 ? 0 : null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const active = activeIndex === null ? null : items[activeIndex];
-  const embedUrl = useMemo(() => (active ? buildEmbedUrl(active.videoUrl) : null), [active]);
+  const preview = active || items[0] || null;
+  const embedUrl = active ? buildEmbedUrl(active.videoUrl) : null;
+  const previewThumb = preview ? preview.thumbnail || defaultThumbnail(preview.videoUrl) : null;
 
   return (
     <section id="video-testimonials" className="py-24 bg-white">
@@ -94,6 +96,31 @@ export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) 
                   allowFullScreen
                 />
               </div>
+            ) : preview ? (
+              <button
+                type="button"
+                onClick={() => setActiveIndex(activeIndex ?? 0)}
+                className="group relative block w-full aspect-video overflow-hidden bg-gray-100 text-left"
+              >
+                {previewThumb ? (
+                  isRemote(previewThumb) ? (
+                    <img src={previewThumb} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+                  ) : (
+                    <Image src={previewThumb} alt="" fill className="object-cover" sizes="(min-width: 1024px) 66vw, 100vw" />
+                  )
+                ) : (
+                  <div className="h-full w-full bg-linear-to-r from-santaan-sage/30 to-santaan-teal/20" />
+                )}
+                <span className="absolute inset-0 flex items-center justify-center bg-black/30 transition group-hover:bg-black/40">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-santaan-teal shadow-xl">
+                    <Play className="h-7 w-7 fill-current" />
+                  </span>
+                </span>
+                <span className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/90 p-4 shadow-lg backdrop-blur-sm">
+                  <span className="block text-sm font-semibold uppercase tracking-[0.18em] text-santaan-teal">Play video</span>
+                  <span className="mt-1 block text-lg font-semibold text-gray-900">{preview.name}</span>
+                </span>
+              </button>
             ) : (
               <div className="w-full aspect-video flex items-center justify-center text-center p-10">
                 <div>
@@ -105,11 +132,11 @@ export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) 
               </div>
             )}
 
-            {active && (
+            {preview && (
               <div className="p-6 md:p-8 bg-white border-t border-gray-100">
-                <p className="text-gray-800 text-lg leading-relaxed italic">“{active.quote}”</p>
+                <p className="text-gray-800 text-lg leading-relaxed italic">“{preview.quote}”</p>
                 <p className="mt-4 text-sm text-gray-600">
-                  <span className="font-semibold text-gray-900">{active.name}</span> · {active.label}
+                  <span className="font-semibold text-gray-900">{preview.name}</span> · {preview.label}
                 </p>
               </div>
             )}
@@ -118,12 +145,11 @@ export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) 
           <div className="space-y-4">
             {items.map((item, index) => {
               const thumb = item.thumbnail || defaultThumbnail(item.videoUrl);
-              const selected = index === activeIndex;
+              const selected = index === (activeIndex ?? 0);
               return (
                 <button
                   key={`${item.name}-${index}`}
                   onClick={() => setActiveIndex(index)}
-                  aria-label={`Play video: ${item.name}`}
                   className={`w-full text-left rounded-2xl border transition-colors overflow-hidden bg-white ${
                     selected ? 'border-santaan-teal shadow-md' : 'border-gray-100 hover:border-santaan-teal/40'
                   }`}

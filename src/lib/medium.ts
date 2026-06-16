@@ -41,7 +41,7 @@ interface Rss2JsonResponse {
 
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
   const existingSlugs = new Set(posts.map((post) => post.slug));
-  const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS];
+  const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].map(normalizeArchivedPost);
   const eligibleFallback = fallbackSeeds.filter((seed) => {
     if (existingSlugs.has(seed.slug)) return false;
     existingSlugs.add(seed.slug);
@@ -56,6 +56,15 @@ function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: numb
   }
 
   return typeFiltered;
+}
+
+function normalizeArchivedPost(post: SantaanBlogPost): SantaanBlogPost {
+  const html = sanitizeMediumHtml(post.html);
+  return {
+    ...post,
+    html,
+    thumbnail: post.thumbnail || extractFirstImageUrl(html),
+  };
 }
 
 function stripHtml(input: string): string {
@@ -84,6 +93,33 @@ function unwrapGoogleSearchRedirect(url: string): string {
     return url;
   }
   return url;
+}
+
+function escapeRegExp(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function rewriteLegacySantaanLinks(html: string): string {
+  const replacements = [
+    ['https://ivf.santaan.in/male-infertility-clinic', 'https://www.santaan.in/male-infertility-clinic'],
+    ['https://ivf.santaan.in/', 'https://www.santaan.in/ivf-cost-in-india-2026'],
+    ['https://santaan.in/ivf-treatment', 'https://www.santaan.in/treatments/ivf'],
+    ['https://santaan.in/technology', 'https://www.santaan.in/treatments/ivf'],
+    ['https://santaan.in/contact-us', 'https://www.santaan.in/contact-centres'],
+    ['https://santaan.in/contact', 'https://www.santaan.in/contact-centres'],
+  ].sort((a, b) => b[0].length - a[0].length);
+
+  return replacements.reduce(
+    (updatedHtml, [from, to]) => updatedHtml.replace(new RegExp(escapeRegExp(from), 'g'), to),
+    html
+  );
+}
+
+function normalizeLegacyPhoneCtas(html: string): string {
+  return html.replace(
+    /(\+91[\s\u00a0\u2013\u2014-]*)?(?:81051[\s\u00a0]*08416|97772[\s\u00a0]*68755|9777268755|969[\s\u00a0]*208[\s\u00a0]*1966|933[\s\u00a0]*732[\s\u00a0]*6896)/g,
+    '+91 96689 04011'
+  );
 }
 
 function stripInternalPublishingTail(html: string): string {
@@ -147,6 +183,8 @@ function sanitizeMediumHtml(input: string): string {
     /href=["'](https?:\/\/www\.google\.com\/search\?q=[^"']+)["']/gi,
     (_full, href: string) => `href="${unwrapGoogleSearchRedirect(href)}"`
   );
+  html = rewriteLegacySantaanLinks(html);
+  html = normalizeLegacyPhoneCtas(html);
 
   // Remove dangling separators often used before internal notes.
   html = html.replace(/<p>\s*[—-]\s*[—-]?\s*<\/p>\s*$/gi, '');
@@ -366,7 +404,7 @@ export async function getSantaanBlogPosts(options?: { limit?: number; type?: Blo
 export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlogPost | null> {
   const fallbackSeed = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].find((post) => post.slug === slug);
   if (fallbackSeed) {
-    return fallbackSeed;
+    return normalizeArchivedPost(fallbackSeed);
   }
 
   try {
