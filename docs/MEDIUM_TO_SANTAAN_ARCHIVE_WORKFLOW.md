@@ -28,12 +28,17 @@ Santaan's safer model is:
 2. Use `audience-patient` for patient-facing articles.
 3. Use `audience-doctor` or `doctor-insights` for clinical articles.
 4. Add topic tags such as `ivf-cost`, `pcos`, `male-infertility`, `iui`, or `egg-freezing`.
-5. The `Sync Medium Archive` GitHub Action runs daily at 8:00 AM IST.
+5. The `Sync Medium Archive` GitHub Action runs daily at 4:00 PM IST.
 6. If it finds a new Medium post, it commits that post into `src/content/mediumArchiveSeeds.ts`.
 7. Vercel auto-deploys `compute-light-vercel-test` after the commit.
 8. Open `/fertility-insights` or `/clinical-insights` and confirm the post appears.
 
 For urgent same-day publishing, ask the website team to run `Sync Medium Archive` manually from GitHub Actions. Do not change public pages back to runtime Medium fetching.
+
+## Writer Timing Expectation
+
+- If the Medium article is published before `4:00 PM IST`, it should usually appear on Santaan later that afternoon after the GitHub Action and Vercel deploy complete.
+- If the Medium article is published after `4:00 PM IST`, it will normally appear the next day unless the website team runs the sync manually.
 
 ## One-Time Automation Setup
 

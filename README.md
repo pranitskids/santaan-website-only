@@ -68,12 +68,13 @@ Medium publishing is preserved.
 Writer workflow:
 
 1. publish on Medium
-2. GitHub Actions runs `npm run sync:medium-archive` daily at 8:00 AM IST
+2. GitHub Actions runs `npm run sync:medium-archive` daily at 4:00 PM IST
 3. new posts are committed into the static Santaan archive in `src/content/mediumArchiveSeeds.ts`
 4. Vercel auto-deploys the production branch after that commit
 5. content appears on Santaan URLs for SEO
 
 For urgent posts, run the `Sync Medium Archive` workflow manually from GitHub Actions instead of redeploying by hand.
+Writers can expect posts published before 4:00 PM IST to usually appear on Santaan shortly after the sync and Vercel build complete.
 
 Diagnostic content API:
 
@@ -135,6 +136,12 @@ Daily article publishing does not require daily manual deploys.
 - Dry run: `npm run sync:medium-archive -- --dry-run`
 
 Important GitHub Actions note: scheduled workflows run from the repository default branch. If `compute-light-vercel-test` is not the default branch, keep this workflow file present on the default branch too, or make `compute-light-vercel-test` the default branch. The workflow still checks out and pushes only `compute-light-vercel-test`.
+
+Suggested writer expectation:
+
+- Publish before `4:00 PM IST` for same-day appearance.
+- Website update usually lands shortly after `4:00 PM IST` once GitHub Actions and Vercel finish.
+- If a post is published after `4:00 PM IST`, it will appear the next day unless the team runs `Sync Medium Archive` manually.
 
 ## Important Files
 

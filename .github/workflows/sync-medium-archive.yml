@@ -3,8 +3,8 @@ name: Sync Medium Archive
 on:
   workflow_dispatch:
   schedule:
-    # 8:00 AM IST daily. The job commits only when Medium has new posts.
-    - cron: '30 2 * * *'
+    # 4:00 PM IST daily. The job commits only when Medium has new posts.
+    - cron: '30 10 * * *'
 
 permissions:
   contents: write
