@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { servicePageSlugs } from '@/content/servicePages';
+import { seoCostPageSlugs } from '@/content/seoCostPages';
 import { isClinicalReadyPost } from '@/lib/clinical';
 import { getSantaanBlogPosts } from '@/lib/medium';
 import { isPatientReadyPost } from '@/lib/patient-content';
@@ -24,11 +25,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/pricing',
     '/success-rates',
     '/treatments',
+    '/founder-notes',
     '/privacy',
     '/terms',
   ];
 
   const serviceRoutes = servicePageSlugs.map((slug) => `/${slug}`);
+  const costRoutes = seoCostPageSlugs.map((slug) => `/${slug}`);
 
   const blogPosts = await getSantaanBlogPosts({ limit: 160 }).catch(() => []);
   const readyPosts = blogPosts.filter((post) => (post.type === 'doctor' ? isClinicalReadyPost(post) : isPatientReadyPost(post)));
@@ -47,6 +50,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route.startsWith('/ivf-clinic-') ? 0.9 : 0.7,
   }));
 
+  const costEntries = costRoutes.map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.85,
+  }));
+
   const blogEntries = readyPosts.map((post) => {
     const route = post.type === 'doctor' ? `/clinical-insights/${post.slug}` : `/fertility-insights/${post.slug}`;
     const lastModified = Number.isNaN(new Date(post.publishedAt).getTime()) ? now : new Date(post.publishedAt);
@@ -59,5 +69,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return [...staticEntries, ...serviceEntries, ...blogEntries];
+  return [...staticEntries, ...serviceEntries, ...costEntries, ...blogEntries];
 }

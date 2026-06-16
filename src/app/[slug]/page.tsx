@@ -3,7 +3,9 @@ import { notFound } from 'next/navigation';
 import { MapPin, PhoneCall, MessageCircle, CalendarCheck } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { CostLandingPage } from '@/components/pages/CostLandingPage';
 import { getServicePageBySlug, servicePageSlugs } from '@/content/servicePages';
+import { getSeoCostPageBySlug, seoCostPageSlugs } from '@/content/seoCostPages';
 import { buildBreadcrumbSchema, buildFaqSchema, buildMedicalClinicSchema } from '@/lib/schema';
 import { buildMetadata } from '@/lib/seo';
 import { getSiteUrl } from '@/lib/site';
@@ -24,27 +26,44 @@ function pagePath(slug: string) {
 }
 
 export async function generateStaticParams() {
-  return servicePageSlugs.map((slug) => ({ slug }));
+  return [...servicePageSlugs, ...seoCostPageSlugs].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
   const page = getServicePageBySlug(slug);
 
-  if (!page) {
-    return {};
+  if (page) {
+    return buildMetadata({
+      title: page.title,
+      description: page.description,
+      path: pagePath(slug),
+      keywords: [page.primaryKeyword, 'fertility clinic', 'ivf treatment', ...(page.city ? [page.city] : [])],
+    });
   }
 
-  return buildMetadata({
-    title: page.title,
-    description: page.description,
-    path: pagePath(slug),
-    keywords: [page.primaryKeyword, 'fertility clinic', 'ivf treatment', ...(page.city ? [page.city] : [])],
-  });
+  const costPage = getSeoCostPageBySlug(slug);
+
+  if (costPage) {
+    return buildMetadata({
+      title: costPage.title,
+      description: costPage.description,
+      path: pagePath(slug),
+      keywords: [costPage.primaryKeyword, 'ivf cost', 'fertility treatment cost', 'fertility emi', 'Santaan IVF'],
+    });
+  }
+
+  return {};
 }
 
 export default async function ServicePage({ params }: { params: Params }) {
   const { slug } = await params;
+  const costPage = getSeoCostPageBySlug(slug);
+
+  if (costPage) {
+    return <CostLandingPage page={costPage} />;
+  }
+
   const page = getServicePageBySlug(slug);
 
   if (!page) {

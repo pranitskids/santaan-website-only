@@ -45,6 +45,16 @@ const faqs = [
   },
 ];
 
+const costGuideLinks = [
+  { href: '/ivf-cost-in-india-2026', label: 'IVF cost in India 2026', description: 'National planning range, add-ons and comparison checklist.' },
+  { href: '/ivf-cost-bhubaneswar', label: 'IVF cost in Bhubaneswar', description: 'Local cost guidance for Bhubaneswar couples.' },
+  { href: '/ivf-cost-berhampur', label: 'IVF cost in Berhampur', description: 'Transparent IVF planning for South Odisha families.' },
+  { href: '/ivf-cost-bangalore', label: 'IVF cost in Bangalore', description: 'Bangalore IVF pricing factors and lab add-ons.' },
+  { href: '/iui-cost', label: 'IUI cost in India', description: 'When IUI is worth trying and when to reassess.' },
+  { href: '/icsi-cost', label: 'ICSI cost in India', description: 'ICSI add-on cost and when it is medically useful.' },
+  { href: '/egg-freezing-cost', label: 'Egg freezing cost in India', description: 'Cycle, storage and future-use cost planning.' },
+];
+
 export default function PricingPage() {
   const faqSchema = buildFaqSchema(faqs);
 
@@ -222,6 +232,25 @@ export default function PricingPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 leading-relaxed">{faq.answer}</p>
                 </details>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8 mt-10">
+            <h3 className="text-xl md:text-2xl font-playfair font-bold text-santaan-teal">Cost guides by treatment and city</h3>
+            <p className="mt-3 text-gray-600 max-w-3xl">
+              Use these focused guides when you want to compare one specific treatment or city before booking a consultation.
+            </p>
+            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {costGuideLinks.map((guide) => (
+                <Link
+                  key={guide.href}
+                  href={guide.href}
+                  className="rounded-xl border border-santaan-sage/30 bg-santaan-cream/40 p-4 hover:bg-white transition-colors"
+                >
+                  <h4 className="font-semibold text-gray-900">{guide.label}</h4>
+                  <p className="mt-2 text-sm text-gray-700 leading-relaxed">{guide.description}</p>
+                </Link>
               ))}
             </div>
           </div>
