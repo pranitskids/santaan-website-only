@@ -9,6 +9,7 @@
     "lint": "eslint",
     "assets:check": "node src/scripts/check-public-assets.mjs",
     "assets:check:strict": "node src/scripts/check-public-assets.mjs --strict",
+    "sync:medium-archive": "node src/scripts/sync-medium-archive.mjs",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:pull": "drizzle-kit pull",

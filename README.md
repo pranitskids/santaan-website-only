@@ -68,9 +68,12 @@ Medium publishing is preserved.
 Writer workflow:
 
 1. publish on Medium
-2. website pulls feed through RSS2JSON at build/redeploy time
-3. posts are merged with the static Santaan archive in `src/content/mediumArchiveSeeds.ts`
-4. content appears on Santaan URLs for SEO
+2. GitHub Actions runs `npm run sync:medium-archive` daily at 8:00 AM IST
+3. new posts are committed into the static Santaan archive in `src/content/mediumArchiveSeeds.ts`
+4. Vercel auto-deploys the production branch after that commit
+5. content appears on Santaan URLs for SEO
+
+For urgent posts, run the `Sync Medium Archive` workflow manually from GitHub Actions instead of redeploying by hand.
 
 Diagnostic content API:
 
@@ -100,6 +103,8 @@ Optional:
 
 - `RSS2JSON_API_KEY` if RSS2JSON rate limits the Medium feed
 
+GitHub Actions should also have repository secret `RSS2JSON_API_KEY` so daily Medium syncs are stable.
+
 Do not add old website/CRM compute secrets such as `TURSO_*`, `BOLNA_*`, `ZOHO_*`, `GROQ_*`, voice webhooks, or cron secrets to this website-only project.
 
 ## Local Setup
@@ -119,6 +124,17 @@ npm run dev
 4. Add the real AICRM webhook URL only when form testing is required.
 5. Deploy.
 6. Confirm public pages build as static/SSG and `/api/blogs` is not called by normal page browsing.
+
+## Automatic Medium Sync
+
+Daily article publishing does not require daily manual deploys.
+
+- Workflow file: `.github/workflows/sync-medium-archive.yml`
+- Production branch updated by workflow: `compute-light-vercel-test`
+- Script: `npm run sync:medium-archive`
+- Dry run: `npm run sync:medium-archive -- --dry-run`
+
+Important GitHub Actions note: scheduled workflows run from the repository default branch. If `compute-light-vercel-test` is not the default branch, keep this workflow file present on the default branch too, or make `compute-light-vercel-test` the default branch. The workflow still checks out and pushes only `compute-light-vercel-test`.
 
 ## Important Files
 
