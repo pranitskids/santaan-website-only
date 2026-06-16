@@ -1,0 +1,62 @@
+name: Sync Medium Archive
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 8:00 AM IST daily. The job commits only when Medium has new posts.
+    - cron: '30 2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-medium-archive
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout production website branch
+        uses: actions/checkout@v4
+        with:
+          ref: compute-light-vercel-test
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync Medium posts into static Santaan archive
+        run: npm run sync:medium-archive
+        env:
+          RSS2JSON_API_KEY: ${{ secrets.RSS2JSON_API_KEY }}
+
+      - name: Verify static website build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://www.santaan.in
+          NEXT_PUBLIC_GTM_ID: GTM-P45XTFCS
+          NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
+          GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
+          META_PIXEL_ID: ${{ secrets.META_PIXEL_ID }}
+          RSS2JSON_API_KEY: ${{ secrets.RSS2JSON_API_KEY }}
+
+      - name: Commit archive update
+        run: |
+          if [ -z "$(git status --porcelain src/content/mediumArchiveSeeds.ts)" ]; then
+            echo "No Medium archive changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/mediumArchiveSeeds.ts
+          git commit -m "Sync Medium archive"
+          git push origin HEAD:compute-light-vercel-test
