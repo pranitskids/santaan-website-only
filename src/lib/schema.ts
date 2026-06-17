@@ -87,12 +87,20 @@ export function buildMedicalClinicSchema(center: CenterProfile) {
 
   return {
     '@context': 'https://schema.org',
-    '@type': 'MedicalClinic',
+    '@type': ['MedicalClinic', 'MedicalBusiness'],
     name: center.centerName,
     description: center.summary,
     url: `${baseUrl}${center.href}`,
     telephone: center.phones[0],
     email: center.email,
+    priceRange: '₹₹',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: PRIMARY_CALL_NUMBER,
+      contactType: 'appointments',
+      areaServed: 'IN',
+      availableLanguage: ['English', 'Hindi', 'Odia'],
+    },
     hasMap: getCenterMapsUrl(center),
     areaServed: center.areaServed.map((area) => ({
       '@type': 'AdministrativeArea',

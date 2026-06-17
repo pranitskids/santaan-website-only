@@ -67,6 +67,11 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/ivf-clinic-bangalore-aecs-layout" className="text-gray-300 hover:text-santaan-amber transition-colors">
+                                    IVF Bangalore
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/our-doctors" className="text-gray-300 hover:text-santaan-amber transition-colors">
                                     Doctors
                                 </Link>

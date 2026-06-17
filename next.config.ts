@@ -47,6 +47,26 @@ const nextConfig: NextConfig = {
         destination: "/ivf-clinic-bangalore-aecs-layout",
         permanent: true,
       },
+      {
+        source: "/ivf-clinic-bangalore",
+        destination: "/ivf-clinic-bangalore-aecs-layout",
+        permanent: true,
+      },
+      {
+        source: "/ivf-centre-bangalore",
+        destination: "/ivf-clinic-bangalore-aecs-layout",
+        permanent: true,
+      },
+      {
+        source: "/ivf-center-bangalore",
+        destination: "/ivf-clinic-bangalore-aecs-layout",
+        permanent: true,
+      },
+      {
+        source: "/ivf-cost-bengaluru",
+        destination: "/ivf-cost-bangalore",
+        permanent: true,
+      },
     ];
   },
   async headers() {

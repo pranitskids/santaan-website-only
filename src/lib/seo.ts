@@ -27,6 +27,9 @@ export function buildMetadata({ title, description, path, keywords = [], type = 
     keywords,
     alternates: {
       canonical,
+      languages: {
+        'en-IN': canonical,
+      },
     },
     openGraph: {
       title,
@@ -79,6 +82,9 @@ export const defaultSeoMetadata: Metadata = {
     'Evidence-driven fertility and IVF care across Bhubaneswar, Berhampur and Bangalore, backed by compassionate doctors and advanced diagnostics.',
   alternates: {
     canonical: getSiteUrl(),
+    languages: {
+      'en-IN': getSiteUrl(),
+    },
   },
   openGraph: {
     title: 'Santaan IVF | Fertility & IVF Centre in Odisha & Bangalore',
