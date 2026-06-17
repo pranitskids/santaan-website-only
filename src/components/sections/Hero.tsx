@@ -37,7 +37,7 @@ export function Hero() {
                 </span>
 
                 <h1 className="text-3xl md:text-5xl font-playfair font-bold text-white mb-5 leading-tight drop-shadow-md">
-                    Evidence-Driven IVF &amp; Fertility Care in Bhubaneswar, Berhampur and Bangalore
+                    Evidence-Driven IVF &amp; Fertility Care in Bhubaneswar, Berhampur and Angul
                 </h1>
 
                 <h2 className="mb-6 font-playfair text-2xl md:text-4xl font-bold text-white drop-shadow-md">

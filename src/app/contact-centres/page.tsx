@@ -6,14 +6,13 @@ import { buildMetadata } from '@/lib/seo';
 export const metadata = buildMetadata({
   title: 'Contact Santaan IVF Centres',
   description:
-    'Contact Santaan IVF centres in Bhubaneswar, Berhampur, Angul and Bangalore. Find city-specific fertility centre details, phone numbers and booking paths.',
+    'Contact Santaan IVF centres in Bhubaneswar, Berhampur and Angul. Find city-specific fertility centre details, phone numbers and booking paths.',
   path: '/contact-centres',
   keywords: [
     'santaan ivf contact',
     'ivf clinic bhubaneswar',
     'ivf clinic berhampur',
     'ivf clinic angul',
-    'fertility centre bangalore',
   ],
 });
 

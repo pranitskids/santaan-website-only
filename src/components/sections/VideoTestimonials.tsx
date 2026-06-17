@@ -80,7 +80,7 @@ export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) 
             Expert explainers from Santaan
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto mt-4">
-            Evidence-driven IVF and fertility care with clear, practical guidance from our specialists in Bhubaneswar, Berhampur and Bangalore.
+            Evidence-driven IVF and fertility care with clear, practical guidance from our specialists in Bhubaneswar, Berhampur and Angul.
           </p>
         </div>
 

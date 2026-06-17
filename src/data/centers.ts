@@ -150,23 +150,6 @@ export const CENTER_PROFILES: CenterProfile[] = [
     areaServed: ['Angul', 'Talcher', 'Central Odisha'],
     reviews: [],
   },
-  {
-    name: 'Bangalore (AECS Layout)',
-    city: 'Bangalore',
-    slug: 'ivf-clinic-bangalore-aecs-layout',
-    href: '/ivf-clinic-bangalore-aecs-layout',
-    centerName: 'Santaan IVF Bangalore AECS Layout',
-    fullAddress: 'AECS Layout, Brookefield, Bengaluru, Karnataka',
-    addressLine: 'AECS Layout, Brookefield, Bengaluru, Karnataka',
-    region: 'Karnataka',
-    email: 'info@santaan.in',
-    phones: ['+91 8105108416'],
-    summary:
-      'Built for the Bengaluru IT corridor, with privacy-conscious fertility planning, structured diagnostics, and continuity-friendly support for busy professionals.',
-    mapQuery: 'Santaan IVF AECS Layout Brookefield Bengaluru',
-    hours: [],
-    areaServed: ['AECS Layout', 'Brookefield', 'Whitefield', 'Bengaluru IT Corridor'],
-  },
 ];
 
 export const CENTER_CONTACTS: CenterContact[] = CENTER_PROFILES.map(({ name, phones, city }) => ({

@@ -49,7 +49,6 @@ const costGuideLinks = [
   { href: '/ivf-cost-in-india-2026', label: 'IVF cost in India 2026', description: 'National planning range, add-ons and comparison checklist.' },
   { href: '/ivf-cost-bhubaneswar', label: 'IVF cost in Bhubaneswar', description: 'Local cost guidance for Bhubaneswar couples.' },
   { href: '/ivf-cost-berhampur', label: 'IVF cost in Berhampur', description: 'Transparent IVF planning for South Odisha families.' },
-  { href: '/ivf-cost-bangalore', label: 'IVF cost in Bangalore', description: 'Bangalore IVF pricing factors and lab add-ons.' },
   { href: '/iui-cost', label: 'IUI cost in India', description: 'When IUI is worth trying and when to reassess.' },
   { href: '/icsi-cost', label: 'ICSI cost in India', description: 'ICSI add-on cost and when it is medically useful.' },
   { href: '/egg-freezing-cost', label: 'Egg freezing cost in India', description: 'Cycle, storage and future-use cost planning.' },

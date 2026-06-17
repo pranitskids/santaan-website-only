@@ -6,7 +6,7 @@ import { buildMetadata } from '@/lib/seo';
 export const metadata = buildMetadata({
   title: 'Our Fertility Doctors',
   description:
-    'Meet Santaan IVF fertility specialists and center heads across Odisha and Bangalore. Explore doctor expertise in IVF, IUI, PCOS and male infertility care.',
+    'Meet Santaan IVF fertility specialists and center heads across Odisha. Explore doctor expertise in IVF, IUI, PCOS and male infertility care.',
   path: '/our-doctors',
   keywords: ['ivf specialist', 'fertility doctor', 'santaan doctors'],
 });

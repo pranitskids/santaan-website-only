@@ -235,66 +235,6 @@ export const seoCostPages: Record<string, SeoCostPageData> = {
       ...sharedRelated,
     ],
   },
-  'ivf-cost-bangalore': {
-    slug: 'ivf-cost-bangalore',
-    title: 'IVF Cost in Bangalore',
-    description:
-      'Compare IVF cost in Bangalore with Santaan AECS Layout. Learn price ranges, medicines, ICSI, PGT, freezing and practical cost questions before treatment.',
-    h1: 'IVF Cost in Bangalore',
-    kicker: 'Bangalore Cost Planning',
-    intro:
-      'In Bangalore, IVF costs can vary widely across clinics because of lab inclusions, doctor model, medicines, ICSI, PGT and freezing decisions. A useful estimate should be transparent enough to compare.',
-    primaryKeyword: 'IVF cost Bangalore',
-    planningRange: '₹1,50,000–₹3,00,000+ depending on city, protocol and add-ons',
-    quickAnswer:
-      'IVF cost in Bangalore can move higher than smaller cities because of city overheads, lab model and add-on choices. Patients should compare written inclusions, not only advertised package price.',
-    rows: [
-      { item: 'IVF cycle planning', range: '₹1,50,000–₹3,00,000+', note: 'City and clinic model can influence the range.' },
-      { item: 'ICSI add-on', range: '₹25,000–₹55,000+', note: 'Often separate from base IVF.' },
-      { item: 'PGT embryo testing', range: '₹1,00,000–₹2,50,000+', note: 'Usually embryo-count dependent.' },
-      { item: 'Freezing/storage', range: '₹35,000–₹1,00,000+', note: 'Ask duration and renewal policy.' },
-    ],
-    factors: [
-      'Clinic location and lab model',
-      'Doctor availability and monitoring plan',
-      'Medicine dose and response',
-      'ICSI, PGT, freezing or donor pathway',
-      'Whether virtual follow-up reduces visit burden',
-    ],
-    sections: [
-      {
-        heading: 'Why Bangalore estimates need careful comparison',
-        body:
-          'Bangalore patients often see a wide spread of quotes. The important question is whether the estimate covers the complete cycle pathway or only part of the treatment journey.',
-      },
-      {
-        heading: 'Santaan AECS Layout approach',
-        body:
-          'Santaan’s Bangalore pathway is designed for busy professionals who need clear milestones, discreet communication and practical treatment planning without unnecessary add-ons.',
-      },
-    ],
-    faqs: [
-      {
-        question: 'Why does IVF cost more in some Bangalore clinics?',
-        answer:
-          'Costs can rise because of clinic overheads, imported consumables, lab model, add-ons, medicine dose and how the package defines a cycle.',
-      },
-      {
-        question: 'Should I compare IVF packages or full treatment plans?',
-        answer:
-          'Compare full treatment plans. A package may not include medicines, freezing, ICSI, PGT, anesthesia or repeat transfer-related costs.',
-      },
-      {
-        question: 'Can I reduce visits with virtual follow-up?',
-        answer:
-          'Some follow-up steps can be coordinated remotely, but scans, procedures and key monitoring steps require in-person care.',
-      },
-    ],
-    related: [
-      { href: '/ivf-clinic-bangalore-aecs-layout', label: 'IVF centre in AECS Layout', description: 'Explore Santaan Bangalore and its care pathway.' },
-      ...sharedRelated,
-    ],
-  },
   'iui-cost': {
     slug: 'iui-cost',
     title: 'IUI Cost in India',

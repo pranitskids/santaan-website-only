@@ -10,7 +10,7 @@ import Link from 'next/link';
 export const metadata = buildMetadata({
   title: 'Patient Stories & Reviews',
   description:
-    'Read curated Santaan IVF patient stories and public feedback from families across Bhubaneswar, Berhampur, Angul and Bangalore.',
+    'Read curated Santaan IVF patient stories and public feedback from families across Bhubaneswar, Berhampur and Angul.',
   path: '/patient-stories',
   keywords: ['Santaan IVF reviews', 'fertility patient stories', 'IVF patient feedback'],
 });

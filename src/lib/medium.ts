@@ -2,6 +2,10 @@ import { LEGACY_BLOG_SEEDS } from '@/content/legacyBlogSeeds';
 import { MEDIUM_ARCHIVE_SEEDS } from '@/content/mediumArchiveSeeds';
 
 const MEDIUM_FEED_URL = 'https://medium.com/feed/@santaanIVF';
+const EXCLUDED_PUBLIC_POST_SLUGS = new Set([
+  'santaan-ivf-now-serving-bengalurus-it-corridor-aecs-layout',
+  'ivf-treatment-cost-in-bangalore-understanding-the-price-procedure-and-success',
+]);
 
 export type BlogType = 'blog' | 'news' | 'doctor';
 
@@ -40,14 +44,16 @@ interface Rss2JsonResponse {
 }
 
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
-  const existingSlugs = new Set(posts.map((post) => post.slug));
+  const visiblePosts = posts.filter((post) => !EXCLUDED_PUBLIC_POST_SLUGS.has(post.slug));
+  const existingSlugs = new Set(visiblePosts.map((post) => post.slug));
   const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].map(normalizeArchivedPost);
   const eligibleFallback = fallbackSeeds.filter((seed) => {
+    if (EXCLUDED_PUBLIC_POST_SLUGS.has(seed.slug)) return false;
     if (existingSlugs.has(seed.slug)) return false;
     existingSlugs.add(seed.slug);
     return true;
   });
-  const merged = [...posts, ...eligibleFallback];
+  const merged = [...visiblePosts, ...eligibleFallback];
   const typeFiltered = options?.type ? merged.filter((post) => post.type === options.type) : merged;
   typeFiltered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
@@ -402,6 +408,10 @@ export async function getSantaanBlogPosts(options?: { limit?: number; type?: Blo
 }
 
 export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlogPost | null> {
+  if (EXCLUDED_PUBLIC_POST_SLUGS.has(slug)) {
+    return null;
+  }
+
   const fallbackSeed = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].find((post) => post.slug === slug);
   if (fallbackSeed) {
     return normalizeArchivedPost(fallbackSeed);

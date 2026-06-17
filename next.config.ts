@@ -44,27 +44,37 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/bengaluru-aecs-layout",
-        destination: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
         permanent: true,
       },
       {
         source: "/ivf-clinic-bangalore",
-        destination: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
         permanent: true,
       },
       {
         source: "/ivf-centre-bangalore",
-        destination: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
         permanent: true,
       },
       {
         source: "/ivf-center-bangalore",
-        destination: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
+        permanent: true,
+      },
+      {
+        source: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
+        permanent: true,
+      },
+      {
+        source: "/ivf-cost-bangalore",
+        destination: "/ivf-cost-in-india-2026",
         permanent: true,
       },
       {
         source: "/ivf-cost-bengaluru",
-        destination: "/ivf-cost-bangalore",
+        destination: "/ivf-cost-in-india-2026",
         permanent: true,
       },
     ];

@@ -33,14 +33,14 @@ import { isPatientAudiencePost } from "@/lib/patient-content";
 import { getSantaanYoutubeHighlights } from "@/lib/youtube";
 
 export const metadata = buildMetadata({
-  title: "Santaan IVF | IVF & Fertility Centres in Odisha & Bangalore",
+  title: "Santaan IVF | IVF & Fertility Centres in Odisha",
   description:
-    "Evidence-driven fertility and IVF care in Bhubaneswar, Berhampur and Bangalore with advanced diagnostics, compassionate specialists, and personalized treatment pathways.",
+    "Evidence-driven fertility and IVF care in Bhubaneswar, Berhampur and Angul with advanced diagnostics, compassionate specialists, and personalized treatment pathways.",
   path: "/",
   keywords: [
     "ivf centre in bhubaneswar",
     "ivf clinic in berhampur",
-    "fertility centre in bangalore",
+    "ivf clinic in angul",
     "male infertility clinic",
     "pcos fertility treatment",
   ],

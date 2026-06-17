@@ -205,67 +205,6 @@ export const servicePageData: Record<string, ServicePageData> = {
       },
     ],
   },
-  'ivf-clinic-bangalore-aecs-layout': {
-    slug: 'ivf-clinic-bangalore-aecs-layout',
-    title: 'IVF Centre in AECS Layout, Bangalore',
-    description:
-      'Santaan IVF Bangalore AECS Layout delivers tech-enabled fertility evaluation, IVF planning, and discreet support for couples in the Bengaluru IT corridor.',
-    h1: 'IVF Centre in AECS Layout, Bangalore',
-    kicker: 'Bangalore IT Corridor Fertility Care',
-    intro:
-      'Designed for busy professionals, Santaan Bangalore combines evidence-driven clinical pathways with convenient follow-up and discreet communication support.',
-    primaryKeyword: 'IVF centre in AECS Layout',
-    city: 'Bangalore',
-    sections: [
-      {
-        heading: 'Built for fast-paced professional lives',
-        body:
-          'Our workflows are structured for time-constrained couples. We keep diagnostics, specialist consultations, and follow-up communication efficient without compromising medical depth.',
-      },
-      {
-        heading: 'Integrated male and female fertility assessment',
-        body:
-          'We evaluate both partners together so treatment planning is complete from the beginning. This avoids delays caused by one-sided assessment and improves decision quality.',
-      },
-      {
-        heading: 'Data-backed planning for IVF and beyond',
-        body:
-          'Protocol recommendations are based on ovarian reserve, endocrine markers, semen health, and cycle history. You get realistic timelines and clear decision points.',
-      },
-      {
-        heading: 'Confidential and continuity-focused support',
-        body:
-          'We offer privacy-conscious communication, structured updates, and practical coordination for professionals balancing treatment with demanding schedules.',
-      },
-    ],
-    faqs: [
-      {
-        question: 'Do you serve couples in the Bangalore IT corridor?',
-        answer:
-          'Yes. The AECS Layout center is designed to serve professionals across the IT corridor with flexible fertility pathways and follow-up.',
-      },
-      {
-        question: 'Can I combine in-person visits with virtual follow-up?',
-        answer:
-          'Yes. Initial diagnostics are planned in-person, and selected follow-up steps can be coordinated efficiently through remote support.',
-      },
-      {
-        question: 'Is male-factor workup included in your pathway?',
-        answer:
-          'Yes. Male-factor evaluation is included in our standard fertility workup and treatment planning framework.',
-      },
-      {
-        question: 'Why can IVF cost in Bangalore vary so much?',
-        answer:
-          'Bangalore IVF pricing varies because of clinic overheads, lab model, medicine dose, ICSI, PGT, freezing, and transfer strategy. Compare written inclusions rather than only package price.',
-      },
-      {
-        question: 'Can busy professionals get a transparent estimate before starting?',
-        answer:
-          'Yes. We recommend a diagnosis-first estimate that separates consultation, tests, medicines, retrieval, embryology, transfer, and optional add-ons before the cycle begins.',
-      },
-    ],
-  },
   'male-infertility-clinic': {
     slug: 'male-infertility-clinic',
     title: 'Male Infertility Clinic',

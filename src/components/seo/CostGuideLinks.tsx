@@ -44,12 +44,6 @@ const defaultGuides = [
     description: 'Transparent cost planning for South Odisha couples.',
     match: ['berhampur', 'ganjam', 'south odisha'],
   },
-  {
-    href: '/ivf-cost-bangalore',
-    label: 'IVF cost in Bangalore',
-    description: 'Compare Bangalore IVF estimates, ICSI, PGT and freezing costs.',
-    match: ['bangalore', 'bengaluru', 'aecs'],
-  },
 ];
 
 function selectGuides(tags: string[] = [], articleTitle = '') {
