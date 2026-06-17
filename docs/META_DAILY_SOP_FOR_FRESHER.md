@@ -33,8 +33,9 @@ Do this once every working day.
 3. Record spend, leads, calls, WhatsApp conversations, cost per result, and notes in the reporting sheet.
 4. Check if any campaign/ad set/ad has delivery warnings, rejected ads, or payment alerts.
 5. Check comments/messages on active ads for patient queries or negative feedback.
-6. Share urgent patient enquiries with the CRM/counselling team. Do not answer medical questions yourself.
-7. Do not publish drafts, pause campaigns, increase budgets, or create new ads without approval.
+6. Classify every spending campaign as `working`, `needs proof`, `leaking`, `blocked`, or `learning`.
+7. Share urgent patient enquiries with the CRM/counselling team. Do not answer medical questions yourself.
+8. Do not publish drafts, pause campaigns, increase budgets, or create new ads without approval.
 
 ## Weekly Optimisation Rhythm
 
@@ -78,6 +79,8 @@ Pause after approval when:
 - Campaign objective is not aligned with WhatsApp/call/book consultation.
 
 Never judge only by Meta's raw lead count. Use qualified lead and appointment quality from AICRM.
+
+No campaign should stay in `needs proof` or `leaking` for more than three working days without a founder-approved action.
 
 ## Current Campaign Direction
 
@@ -147,6 +150,8 @@ Maintain these columns at minimum:
 - Notes
 - Recommended action: keep, scale, repair, pause
 - Approval status
+- Leak status: working, needs proof, leaking, blocked, learning
+- Leak reason: delivery, CTA handoff, Vobiz/call routing, WhatsApp routing, creative promise, tracking visibility, CRMAI quality
 
 ## Approval Required
 
@@ -179,12 +184,17 @@ Still to decide:
 - Whether `SKIDS` should stay visible here for owner convenience or be managed only under the SKIDS business.
 - Whether to configure AICRM or WhatsApp/business-chat Conversions API feedback into the selected `santaan` dataset.
 - Whether to create clean custom conversions after CAPI or generic Lead/Contact events are available.
+- Whether to extend MOS Meta imports to split form leads, WhatsApp conversations, calls, landing-page views, video views, and engagements instead of one broad platform lead number.
 
 Do not use:
 
 - `SANTAAN ODISHA` dataset for optimisation because it showed no data connected.
 - `Santaan Meta ads` dataset for optimisation because it showed no data connected.
 - `Final Lead - Bud` as a primary conversion because its rule is too broad and can count ordinary website traffic.
+
+Related audit:
+
+- [META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md:1)
 
 ## Operating Principle
 

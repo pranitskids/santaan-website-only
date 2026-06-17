@@ -48,6 +48,12 @@ Tracking status after 2026-06-17 audit:
 - Events Manager still shows browser Pixel only; Conversions API is not yet connected.
 - Current custom conversion `Final Lead - Bud` is too broad because it counts URL traffic where URL contains `www.santaan.in`; do not optimise campaigns against it.
 
+Lead/call leak audit:
+
+- Latest MOS import for week starting `2026-06-15` shows several campaigns spending with high impressions/clicks but weak lead/call action output.
+- This means the current problem is not only tracking; some campaigns likely leak at delivery, CTA handoff, Vobiz routing, WhatsApp routing, or message-match.
+- Use [META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md:1) before scaling or pausing any campaign.
+
 ## Safety Guardrails
 
 - Do not publish, discard, pause, or delete live campaigns without founder approval.
@@ -142,6 +148,8 @@ Avoid:
 
 Based on the visible 30-day Odisha account snapshot.
 
+Also compare against the latest MOS leak snapshot. Any campaign with spend and low click-to-lead/call conversion must prove CRMAI quality before scale.
+
 ### Likely Winners To Preserve Or Scale Slowly
 
 - `Vobiz testing campaign- North Eastern`: about Rs 24.56 per call.
@@ -151,6 +159,8 @@ Based on the visible 30-day Odisha account snapshot.
 - `BERHAMPUR_CALL GEN CAMP`: about Rs 39.77 per call.
 
 Action: preserve, then scale only 15-20% every 48 hours if lead quality is acceptable.
+
+Important: the latest MOS snapshot shows `Western belt odisha` currently has the strongest click-to-lead efficiency among call/WhatsApp-style campaigns, while some previous apparent winners need Vobiz/CRMAI quality verification before scaling.
 
 ### Needs Repair Before Scaling
 
@@ -224,6 +234,8 @@ Known blockers before conversion scaling:
 - Dataset category is unset; review before sending sensitive healthcare-adjacent events.
 - Meta partially blocks some website data for European-region visitors because fertility/health content is sensitive. This is acceptable for Odisha-local campaigns but should be known.
 - `Final Lead - Bud` custom conversion is not a clean lead event and should not be used as a primary optimisation event.
+- MOS currently imports broad Meta platform leads/actions, but does not yet preserve a granular split of instant-form leads, WhatsApp conversations, calls, landing-page views, video views, and engagement actions.
+- Because Santaan is WhatsApp/call-heavy, this action split is needed before the fresher can confidently diagnose lead leakage.
 
 Recommended event names:
 

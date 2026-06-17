@@ -51,6 +51,8 @@ Meta:
 - Events Manager showed mostly `PageView`, not a healthy stream of `Lead`, `Contact`, `Schedule`, or CRM quality events.
 - Existing broad custom conversion pattern should not be used as final lead truth.
 - Meta restrictions/domain/data category review remains important because Santaan is fertility/health related.
+- Latest MOS Meta import also shows a campaign-efficiency leak: several campaigns spend and generate clicks but produce few or zero measurable lead/call actions.
+- Detailed leak note: [META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md:1).
 
 CRMAI:
 
@@ -122,6 +124,8 @@ Minimum website fields to preserve:
 4. MOS is under-used as the intelligence layer.
 
 MOS has the tables and logic, but the live default session has no structured campaign feedback and no listening cards. This means the "why" behind campaign performance is not yet being captured.
+
+MOS also needs more granular Meta action imports. A single broad `platform_leads` number is not enough for Santaan because the business depends on WhatsApp, calls, forms, and Vobiz routing. The importer should preserve form leads, messaging conversations, call actions, landing-page views, video views, and engagement actions separately.
 
 5. Vobiz attribution needs operational discipline.
 

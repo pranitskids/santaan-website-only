@@ -172,5 +172,6 @@ Use:
 - [docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md:1)
 - [docs/MEDIUM_TO_SANTAAN_ARCHIVE_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/MEDIUM_TO_SANTAAN_ARCHIVE_WORKFLOW.md:1)
 - [docs/SANTAAN_META_CRM_MOS_SIGNAL_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/SANTAAN_META_CRM_MOS_SIGNAL_AUDIT_2026-06-17.md:1)
+- [docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md:1)
 
 For Vercel + CRM webhook setup, these handoff files are the source of truth.
