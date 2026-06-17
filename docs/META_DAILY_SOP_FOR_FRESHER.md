@@ -168,13 +168,23 @@ Completed:
 - `Santaan - BNG` ad account moved into closure flow. Meta says closure may take about three working days.
 - `SAI SCAN` removed from the Santaan business portfolio.
 - Santaan website is now compute-light and website-focused.
+- Primary Santaan Meta pixel/dataset selected: `santaan`, ID `9115270055242145`.
+- `santaan` pixel/dataset is connected to the `SANTAAN - ODISHA` ad account.
+- Vercel `META_PIXEL_ID` was corrected and redeployed so the website no longer renders a masked pixel placeholder.
 
 Still to decide:
 
 - Whether to remove or add `Dipti Sahoo` for the primary `Santaan Fertility` Page access review.
 - Whether `Santaan Fertility Academy` should stay in the Santaan portfolio or be ignored in daily workflow.
 - Whether `SKIDS` should stay visible here for owner convenience or be managed only under the SKIDS business.
-- Which Meta dataset/pixel is the single primary tracking source for `santaan.in`.
+- Whether to configure AICRM or WhatsApp/business-chat Conversions API feedback into the selected `santaan` dataset.
+- Whether to create clean custom conversions after CAPI or generic Lead/Contact events are available.
+
+Do not use:
+
+- `SANTAAN ODISHA` dataset for optimisation because it showed no data connected.
+- `Santaan Meta ads` dataset for optimisation because it showed no data connected.
+- `Final Lead - Bud` as a primary conversion because its rule is too broad and can count ordinary website traffic.
 
 ## Operating Principle
 

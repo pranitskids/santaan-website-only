@@ -39,11 +39,14 @@ Legacy/no-longer-needed area:
 - `SAI SCAN`
 - Treat as legacy. Do not delete immediately, but remove it from active planning and review partner/user access later.
 
-Tracking issue noticed:
+Tracking status after 2026-06-17 audit:
 
-- Meta Business Settings shows multiple datasets/pixels.
-- Selected `SANTAAN ODISHA` dataset showed "Dataset is not receiving events".
-- Before scaling conversion campaigns, settle one primary dataset/pixel and connect it properly to `santaan.in`, the Odisha ad account, and allowed events.
+- Primary tracking asset is `santaan` Meta Pixel / dataset ID `9115270055242145`.
+- It is connected to the live `SANTAAN - ODISHA` ad account.
+- The old `SANTAAN ODISHA` and `Santaan Meta ads` datasets show no data connected and should not be used for campaign optimisation.
+- Production Vercel `META_PIXEL_ID` was corrected from a masked placeholder value to the live numeric pixel ID, then redeployed.
+- Events Manager still shows browser Pixel only; Conversions API is not yet connected.
+- Current custom conversion `Final Lead - Bud` is too broad because it counts URL traffic where URL contains `www.santaan.in`; do not optimise campaigns against it.
 
 ## Safety Guardrails
 
@@ -204,6 +207,24 @@ Minimum tracking needed:
 - WhatsApp: prefilled messages by page/campaign.
 - AICRM: capture source, campaign, ad set, ad, page, and WhatsApp/call intent.
 
+Current measurement readiness: usable for basic remarketing and PageView audiences, not yet reliable for conversion bidding.
+
+Confirmed working:
+
+- Canonical pixel/dataset: `santaan` / `9115270055242145`.
+- Connected ad account: `SANTAAN - ODISHA`.
+- Website loads GTM, GA4, Facebook base script, and numeric Meta Pixel ID.
+- First-party cookies and automatic advanced matching are on in Meta settings.
+
+Known blockers before conversion scaling:
+
+- No active Conversions API implementation from the website or AICRM.
+- Meta Actions recommends setting up Conversions API for CRM/business chat events.
+- Domain allowlist review is pending for `santaan.in` and related recently detected domains.
+- Dataset category is unset; review before sending sensitive healthcare-adjacent events.
+- Meta partially blocks some website data for European-region visitors because fertility/health content is sensitive. This is acceptable for Odisha-local campaigns but should be known.
+- `Final Lead - Bud` custom conversion is not a clean lead event and should not be used as a primary optimisation event.
+
 Recommended event names:
 
 - `ViewContent`
@@ -229,9 +250,11 @@ Optimise campaigns against qualified leads and appointment bookings, not only ra
 - Keep Odisha as the only active growth account.
 - Keep Bangalore inactive.
 - Mark SAI SCAN as legacy.
-- Confirm one primary Santaan pixel/dataset.
-- Connect that dataset to `santaan.in` and `SANTAAN - ODISHA`.
+- Use `santaan` pixel/dataset ID `9115270055242145` as the primary Santaan tracking source.
+- Keep that dataset connected to `santaan.in` and `SANTAAN - ODISHA`.
 - Confirm domain verification remains active.
+- Do not use the old no-data datasets for campaigns.
+- Do not use the broad `Final Lead - Bud` custom conversion for bidding.
 
 ### Phase 2: Clean
 
@@ -261,6 +284,8 @@ Optimise campaigns against qualified leads and appointment bookings, not only ra
 - Remove/downgrade people with access.
 - Disconnect datasets/pixels.
 - Remove SAI SCAN assets or partners.
+- Generate or rotate Conversions API access tokens.
+- Change custom conversion rules used by active campaigns.
 
 ## Practical Success Metric
 
