@@ -67,6 +67,11 @@ export function buildMetadata({ title, description, path, keywords = [], type = 
 
 export const defaultSeoMetadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
+  verification: {
+    other: {
+      'facebook-domain-verification': 'xn0tpc6ck1kdpekg7xg87dv5urlilz',
+    },
+  },
   icons: {
     icon: [
       { url: '/favicon.ico' },
