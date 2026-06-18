@@ -69,6 +69,8 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
     redirect(`/clinical-insights/${slug}`);
   }
 
+  const hasExternalSource = !!post.sourceUrl && !/https?:\/\/(www\.)?santaan\.in/i.test(post.sourceUrl);
+
   const baseUrl = getSiteUrl();
   const schema = buildBlogPostingSchema({
     title: post.title,
@@ -184,13 +186,15 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
             </div>
           )}
 
-          <p className="text-xs text-gray-500 mt-8">
-            Originally authored by Santaan team and syndicated from Medium.{' '}
-            <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline inline-flex items-center gap-1">
-              View source
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </p>
+          {hasExternalSource ? (
+            <p className="text-xs text-gray-500 mt-8">
+              Originally syndicated from an external source.{' '}
+              <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline inline-flex items-center gap-1">
+                View source
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </p>
+          ) : null}
         </div>
       </section>
 

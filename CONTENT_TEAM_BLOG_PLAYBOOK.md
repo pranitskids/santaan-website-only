@@ -1,6 +1,6 @@
 # Santaan Content Team Playbook (SEO + Conversion)
 
-This playbook ensures every Medium article can be auto-synced into Santaan website pages and rank better in search.
+This playbook ensures every Santaan-first article can be published directly on the website and rank better in search.
 
 ## 1) Mandatory structure for every blog
 - One primary keyword per article (for example: `blocked fallopian tubes symptoms`).
@@ -18,13 +18,13 @@ This playbook ensures every Medium article can be auto-synced into Santaan websi
   - `Call Santaan centre`
   - `WhatsApp for guidance`
 
-## 2) Medium publishing rules (critical for auto-sync)
-- Publish from `@santaanIVF` only.
-- Add 4-6 tags per article.
-- Use tag `santaan-news` only for announcements/news.
-- Do not use `santaan-news` for educational blogs.
-- Ensure featured image is set (used as card image on santaan.in).
-- Include one-sentence summary in first 2 paragraphs (becomes excerpt).
+## 2) Direct website publishing rules
+- Create the post in `content/write-drop/`.
+- Use `content/write-drop/_TEMPLATE.md` as the starting point.
+- Set `type: blog` for patient education, `type: doctor` for clinical content, and `type: news` for announcements.
+- Keep `status: draft` until review is finished, then switch to `status: approved`.
+- Ensure `thumbnail` is set because it is used for cards and sharing previews.
+- Write a clear `excerpt` because it is used in listing pages and metadata.
 
 ## 3) SEO writing checklist before publish
 - Include city/service context naturally where relevant:
@@ -67,4 +67,4 @@ An article is publish-ready only if all are true:
 - At least 1 Santaan internal service URL included.
 - 3-5 FAQs included.
 - Conversion CTA included.
-- Tagging follows news vs blog rules.
+- Frontmatter follows the correct `type` and `status` rules.

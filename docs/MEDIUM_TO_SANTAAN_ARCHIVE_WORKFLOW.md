@@ -1,5 +1,7 @@
 # Medium To Santaan Archive Workflow
 
+This document is now legacy-only. New Santaan articles should be published through `content/write-drop/` first, with Medium used only for optional syndication or archive backfill.
+
 Santaan should use Medium as the writer-friendly publishing input, but Google should index Santaan URLs as the main content archive.
 
 ## Current Architecture
@@ -10,6 +12,12 @@ Santaan should use Medium as the writer-friendly publishing input, but Google sh
 - Patient articles render under `/fertility-insights/[slug]`.
 - Doctor/clinical articles render under `/clinical-insights/[slug]`.
 - `/api/blogs` is diagnostic/cached only. Normal homepage and insight browsing should not fetch it in the browser.
+
+## Current Policy
+
+1. Publish new Santaan posts in `content/write-drop/`.
+2. Merge approved posts into `compute-light-vercel-test`.
+3. Use this Medium archive workflow only when older Medium posts need to be preserved in the fallback archive.
 
 ## Difference From SKIDS
 
@@ -22,31 +30,31 @@ Santaan's safer model is:
 3. RSS2JSON is used by GitHub Actions to capture new posts into the static archive.
 4. Public pages remain static/cacheable.
 
-## When A New Medium Article Is Published
+## When A Legacy Medium Article Needs To Be Archived
 
 1. Publish the Medium article with the correct audience tag.
 2. Use `audience-patient` for patient-facing articles.
 3. Use `audience-doctor` or `doctor-insights` for clinical articles.
 4. Add topic tags such as `ivf-cost`, `pcos`, `male-infertility`, `iui`, or `egg-freezing`.
-5. The `Sync Medium Archive` GitHub Action runs daily at 4:00 PM IST.
+5. The `Sync Legacy Medium Archive` GitHub Action can be run manually from GitHub Actions.
 6. If it finds a new Medium post, it commits that post into `src/content/mediumArchiveSeeds.ts`.
 7. Vercel auto-deploys `compute-light-vercel-test` after the commit.
 8. Open `/fertility-insights` or `/clinical-insights` and confirm the post appears.
 
-For urgent same-day publishing, ask the website team to run `Sync Medium Archive` manually from GitHub Actions. Do not change public pages back to runtime Medium fetching.
+Use this only for archive preservation. Do not change public pages back to runtime Medium fetching.
 
-## Writer Timing Expectation
+## Timing Expectation
 
-- If the Medium article is published before `4:00 PM IST`, it should usually appear on Santaan later that afternoon after the GitHub Action and Vercel deploy complete.
-- If the Medium article is published after `4:00 PM IST`, it will normally appear the next day unless the website team runs the sync manually.
+- New write-drop posts publish when their approved PR is merged and Vercel finishes deploying.
+- Legacy Medium backfills publish when the manual sync workflow completes successfully.
 
 ## One-Time Automation Setup
 
 1. Add GitHub repository secret `RSS2JSON_API_KEY`.
 2. Ensure GitHub Actions has permission to write to the repository.
 3. Ensure Vercel production branch is `compute-light-vercel-test`.
-4. Ensure `.github/workflows/sync-medium-archive.yml` is available from the GitHub default branch. GitHub scheduled workflows only start from the default branch, but this workflow checks out and pushes `compute-light-vercel-test`.
-5. Confirm a manual workflow run succeeds before relying on the daily schedule.
+4. Ensure `.github/workflows/sync-medium-archive.yml` is available in the repository for manual runs.
+5. Confirm a manual workflow run succeeds before using it for archive backfills.
 
 ## Canonical And Link Rules
 

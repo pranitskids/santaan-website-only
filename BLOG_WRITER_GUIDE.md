@@ -1,51 +1,57 @@
 # Blog Writer Guide — Santaan
 
+## Primary publishing path
+Publish new Santaan articles directly inside this repo using the write-drop workflow in `content/write-drop/`. Medium is now optional syndication, not the source of truth.
+
 ## Purpose
 Help new patients feel warmth, hope, and clarity. Every piece should reduce anxiety and lead readers to one gentle next step.
 
 ---
 
-## 📰 Two Types of Content on Medium
+## 📰 Two Types of Content on Santaan
 
 ### 1. Blog Posts → Appears in "Insights & Stories" Section
 Regular educational content about fertility, IVF, health tips, myths, etc.
-- **How to publish:** Write normally on Medium, use any relevant tags
-- **NO special tag needed**
+- **How to publish:** Add a Markdown file in `content/write-drop/` with `type: blog`
+- **Approval rule:** Set `status: approved` only when the post is ready to go live
 
 ### 2. News & Announcements → Appears in "News & Announcements" Section
 Updates about new centers, awards, campaigns, events, offers.
-- **How to publish:** Add the tag **`santaan-news`** to your Medium post
+- **How to publish:** Add a Markdown file in `content/write-drop/` with `type: news`
 - Appears right after Awards section on homepage
 
 ---
 
-## 🏷️ Tagging Guide for News/Announcements
+## 🏷️ Frontmatter Guide for News/Announcements
 
 | Content Type | Required Tag | Optional Additional Tags |
 |-------------|--------------|-------------------------|
-| General News | `santaan-news` | — |
-| Awards/Recognition | `santaan-news` | `award`, `recognition` |
-| New Center Opening | `santaan-news` | `launch`, `campaign` |
-| Events/Seminars | `santaan-news` | `event`, `seminar`, `workshop` |
-| Special Campaigns | `santaan-news` | `campaign`, `offer` |
+| General News | `type: news` | tags like `launch`, `campaign` |
+| Awards/Recognition | `type: news` | `award`, `recognition` |
+| New Center Opening | `type: news` | `launch`, `campaign` |
+| Events/Seminars | `type: news` | `event`, `seminar`, `workshop` |
+| Special Campaigns | `type: news` | `campaign`, `offer` |
 
 ### News Post Examples:
 
 **Award:**
 ```
-Tags: santaan-news, award
+type: news
+tags: [award, recognition]
 Title: "Santaan Wins Best IVF Clinic Award 2026"
 ```
 
 **New Center:**
 ```
-Tags: santaan-news, launch
+type: news
+tags: [launch]
 Title: "Santaan Opens New Center in Brookefield, Bengaluru"
 ```
 
 **Event:**
 ```
-Tags: santaan-news, event
+type: news
+tags: [event, seminar]
 Title: "Free Fertility Awareness Seminar - March 2026"
 ```
 
@@ -60,7 +66,7 @@ Title: "Free Fertility Awareness Seminar - March 2026"
 │ Hero                                    │
 │ Success Stories                         │
 │ Awards                                  │
-│ ★ NEWS & ANNOUNCEMENTS ← santaan-news  │
+│ ★ NEWS & ANNOUNCEMENTS ← type: news    │
 │ MythBusting                             │
 │ Assessment                              │
 │ ★ INSIGHTS & STORIES ← regular posts   │
@@ -72,10 +78,10 @@ Title: "Free Fertility Awareness Seminar - March 2026"
 
 | Section | Tag Required | Max Posts Shown |
 |---------|-------------|-----------------|
-| News & Announcements | `santaan-news` | 4 |
-| Insights & Stories | None (exclude `santaan-news`) | 6 |
+| News & Announcements | `type: news` | 4 |
+| Insights & Stories | `type: blog` | 6 |
 
-⏱️ Posts appear on website within **15 minutes** of publishing on Medium.
+⏱️ Posts appear on website as soon as the approved PR is merged and Vercel deploy finishes.
 
 ---
 

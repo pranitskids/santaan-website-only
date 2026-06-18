@@ -13,7 +13,7 @@ It is intentionally separated from:
 
 - public marketing website
 - SEO pages
-- Medium-powered content pages
+- Santaan-owned content pages
 - WhatsApp-first lead capture
 - form handoff into AICRM
 
@@ -61,28 +61,31 @@ The shared webhook helper is:
 
 - [src/lib/aicrm.ts](/Users/spr/santaan%20hope/santaan-website-only/src/lib/aicrm.ts:1)
 
-## Medium Publishing
+## Write Drop Publishing
 
-Medium publishing is preserved.
+New blog publishing should happen directly in this repo so SEO stays on Santaan.
 
 Writer workflow:
 
-1. publish on Medium
-2. GitHub Actions runs `npm run sync:medium-archive` daily at 4:00 PM IST
-3. new posts are committed into the static Santaan archive in `src/content/mediumArchiveSeeds.ts`
-4. Vercel auto-deploys the production branch after that commit
-5. content appears on Santaan URLs for SEO
+1. create or copy a Markdown file in `content/write-drop/`
+2. use `content/write-drop/_TEMPLATE.md`
+3. keep `status: draft` until review is complete
+4. switch to `status: approved` in the pull request that should publish it
+5. merge into `compute-light-vercel-test`
+6. Vercel deploys the approved post to Santaan-owned URLs
 
-For urgent posts, run the `Sync Medium Archive` workflow manually from GitHub Actions instead of redeploying by hand.
-Writers can expect posts published before 4:00 PM IST to usually appear on Santaan shortly after the sync and Vercel build complete.
+Full publishing guide:
+
+- [docs/WRITE_DROP_BLOG_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WRITE_DROP_BLOG_WORKFLOW.md:1)
 
 Diagnostic content API:
 
 - `/api/blogs`
 
-Main content helper:
+Main content helpers:
 
 - [src/lib/medium.ts](/Users/spr/santaan%20hope/santaan-website-only/src/lib/medium.ts:1)
+- [src/lib/write-drop-posts.ts](/Users/spr/santaan%20hope/santaan-website-only/src/lib/write-drop-posts.ts:1)
 
 ## Required Env Vars
 
@@ -102,9 +105,9 @@ Minimum production set:
 
 Optional:
 
-- `RSS2JSON_API_KEY` if RSS2JSON rate limits the Medium feed
+- `RSS2JSON_API_KEY` only if legacy Medium archive imports are still needed
 
-GitHub Actions should also have repository secret `RSS2JSON_API_KEY` so daily Medium syncs are stable.
+GitHub Actions should also have repository secret `RSS2JSON_API_KEY` only if the manual legacy Medium sync workflow is still used.
 
 Do not add old website/CRM compute secrets such as `TURSO_*`, `BOLNA_*`, `ZOHO_*`, `GROQ_*`, voice webhooks, or cron secrets to this website-only project.
 
@@ -126,22 +129,15 @@ npm run dev
 5. Deploy.
 6. Confirm public pages build as static/SSG and `/api/blogs` is not called by normal page browsing.
 
-## Automatic Medium Sync
+## Legacy Medium Archive
 
-Daily article publishing does not require daily manual deploys.
+Medium is no longer the primary publishing path.
 
 - Workflow file: `.github/workflows/sync-medium-archive.yml`
-- Production branch updated by workflow: `compute-light-vercel-test`
 - Script: `npm run sync:medium-archive`
 - Dry run: `npm run sync:medium-archive -- --dry-run`
 
-Important GitHub Actions note: scheduled workflows run from the repository default branch. If `compute-light-vercel-test` is not the default branch, keep this workflow file present on the default branch too, or make `compute-light-vercel-test` the default branch. The workflow still checks out and pushes only `compute-light-vercel-test`.
-
-Suggested writer expectation:
-
-- Publish before `4:00 PM IST` for same-day appearance.
-- Website update usually lands shortly after `4:00 PM IST` once GitHub Actions and Vercel finish.
-- If a post is published after `4:00 PM IST`, it will appear the next day unless the team runs `Sync Medium Archive` manually.
+Use that workflow only when Santaan needs to backfill or preserve older Medium articles in `src/content/mediumArchiveSeeds.ts`.
 
 ## Important Files
 
@@ -150,6 +146,8 @@ Suggested writer expectation:
 - [src/app/api/seminar/register/route.ts](/Users/spr/santaan%20hope/santaan-website-only/src/app/api/seminar/register/route.ts:1)
 - [src/app/api/at-home/register/route.ts](/Users/spr/santaan%20hope/santaan-website-only/src/app/api/at-home/register/route.ts:1)
 - [src/app/api/newsletter/subscribe/route.ts](/Users/spr/santaan%20hope/santaan-website-only/src/app/api/newsletter/subscribe/route.ts:1)
+- [content/write-drop/_TEMPLATE.md](/Users/spr/santaan%20hope/santaan-website-only/content/write-drop/_TEMPLATE.md:1)
+- [docs/WRITE_DROP_BLOG_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WRITE_DROP_BLOG_WORKFLOW.md:1)
 - [content/patient-reviews/_TEMPLATE.md](/Users/spr/santaan%20hope/santaan-website-only/content/patient-reviews/_TEMPLATE.md:1)
 - [docs/PATIENT_REVIEWS_GITHUB_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/PATIENT_REVIEWS_GITHUB_WORKFLOW.md:1)
 
@@ -170,6 +168,7 @@ Only files with `status: approved` are published. Set `featured: true` to includ
 Use:
 
 - [docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md:1)
+- [docs/WRITE_DROP_BLOG_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WRITE_DROP_BLOG_WORKFLOW.md:1)
 - [docs/MEDIUM_TO_SANTAAN_ARCHIVE_WORKFLOW.md](/Users/spr/santaan%20hope/santaan-website-only/docs/MEDIUM_TO_SANTAAN_ARCHIVE_WORKFLOW.md:1)
 - [docs/SANTAAN_META_CRM_MOS_SIGNAL_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/SANTAAN_META_CRM_MOS_SIGNAL_AUDIT_2026-06-17.md:1)
 - [docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md](/Users/spr/santaan%20hope/santaan-website-only/docs/META_LEAD_CALL_LEAK_AUDIT_2026-06-17.md:1)

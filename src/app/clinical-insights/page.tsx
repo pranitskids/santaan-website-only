@@ -83,7 +83,7 @@ export default async function ClinicalInsightsPage() {
             <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
               <h2 className="text-2xl font-playfair font-bold text-santaan-teal">No validated clinical briefs are live yet</h2>
               <p className="text-gray-600 mt-3">
-                Publish with <code className="bg-gray-100 px-1.5 py-0.5 rounded">audience-doctor</code>, medical citations, and structured sections.
+                Add approved Markdown files under <code className="bg-gray-100 px-1.5 py-0.5 rounded">content/write-drop</code> with <code className="bg-gray-100 px-1.5 py-0.5 rounded">type: doctor</code>, medical citations, and structured sections.
               </p>
             </div>
           ) : (
