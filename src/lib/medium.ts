@@ -1,5 +1,6 @@
 import { LEGACY_BLOG_SEEDS } from '@/content/legacyBlogSeeds';
 import { MEDIUM_ARCHIVE_SEEDS } from '@/content/mediumArchiveSeeds';
+import { getSantaanHubPostBySlug, getSantaanHubPosts } from '@/lib/skids-content-hub';
 import { getWriteDropPosts } from '@/lib/write-drop-posts';
 
 const EXCLUDED_PUBLIC_POST_SLUGS = new Set([
@@ -183,13 +184,19 @@ function extractFirstImageUrl(html: string): string | undefined {
 }
 
 export async function getSantaanBlogPosts(options?: { limit?: number; type?: BlogType }): Promise<SantaanBlogPost[]> {
+  const hubPosts = await getSantaanHubPosts(options).catch(() => []);
   const writeDropPosts = getWriteDropPosts(options);
-  return mergeWithLegacySeeds(writeDropPosts, options);
+  return mergeWithLegacySeeds([...hubPosts, ...writeDropPosts], options);
 }
 
 export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlogPost | null> {
   if (EXCLUDED_PUBLIC_POST_SLUGS.has(slug)) {
     return null;
+  }
+
+  const hubPost = await getSantaanHubPostBySlug(slug).catch(() => null);
+  if (hubPost) {
+    return hubPost;
   }
 
   const directPost = getWriteDropPosts().find((post) => post.slug === slug);

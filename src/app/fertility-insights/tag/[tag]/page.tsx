@@ -9,7 +9,8 @@ import { slugToLabel, tagToSlug } from '@/lib/tag-utils';
 
 type Params = Promise<{ tag: string }>;
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const posts = await getSantaanBlogPosts({ type: 'blog', limit: 120 }).catch(() => []);

@@ -3,7 +3,8 @@ import { getSantaanBlogPostBySlug, getSantaanBlogPosts } from '@/lib/medium';
 
 type Params = Promise<{ slug: string }>;
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const posts = await getSantaanBlogPosts({ limit: 180 }).catch(() => []);

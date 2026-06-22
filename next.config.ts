@@ -105,6 +105,18 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "public, s-maxage=86400, stale-while-revalidate=604800" },
         ],
       },
+      {
+        source: "/fertility-insights/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, s-maxage=300, stale-while-revalidate=3600" },
+        ],
+      },
+      {
+        source: "/clinical-insights/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, s-maxage=300, stale-while-revalidate=3600" },
+        ],
+      },
     ];
   },
 };

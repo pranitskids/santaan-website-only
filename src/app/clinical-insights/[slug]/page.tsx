@@ -12,7 +12,8 @@ import { getSiteUrl } from '@/lib/site';
 
 type Params = Promise<{ slug: string }>;
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const doctorPosts = await getSantaanBlogPosts({ type: 'doctor', limit: 90 }).catch(() => []);

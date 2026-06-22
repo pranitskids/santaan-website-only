@@ -13,7 +13,8 @@ import { getSiteUrl } from '@/lib/site';
 
 type Params = Promise<{ slug: string }>;
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 300;
 
 function getRelatedLinks(tags: string[]) {
   const normalized = tags.map((tag) => tag.toLowerCase());
