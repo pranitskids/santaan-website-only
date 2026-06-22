@@ -9,6 +9,9 @@ import { slugToLabel, tagToSlug } from '@/lib/tag-utils';
 
 type Params = Promise<{ tag: string }>;
 
+export const dynamicParams = true;
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: { params: Params }) {
   const { tag } = await params;
   const label = slugToLabel(tag);
@@ -104,4 +107,3 @@ export default async function ClinicalInsightsTagPage({ params }: { params: Para
     </main>
   );
 }
-

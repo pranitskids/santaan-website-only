@@ -7,6 +7,8 @@ import { getClinicalCoverImage, isClinicalReadyPost } from '@/lib/clinical';
 import { buildMetadata } from '@/lib/seo';
 import { tagToSlug } from '@/lib/tag-utils';
 
+export const revalidate = 300;
+
 export const metadata = buildMetadata({
   title: 'Clinical Insights for Fertility Specialists',
   description:

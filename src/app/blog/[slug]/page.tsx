@@ -3,6 +3,9 @@ import { getSantaanBlogPostBySlug } from '@/lib/medium';
 
 type Params = Promise<{ slug: string }>;
 
+export const dynamicParams = true;
+export const revalidate = 300;
+
 export default async function LegacyBlogDetailRedirect({ params }: { params: Params }) {
   const { slug } = await params;
   const post = await getSantaanBlogPostBySlug(slug);

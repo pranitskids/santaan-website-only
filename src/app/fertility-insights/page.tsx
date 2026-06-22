@@ -10,6 +10,8 @@ import { tagToSlug } from '@/lib/tag-utils';
 
 const PATIENT_BLOG_LIMIT = 72;
 
+export const revalidate = 300;
+
 export const metadata = buildMetadata({
   title: 'Fertility Insights and Stories',
   description:

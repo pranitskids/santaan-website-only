@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { blogPosts } from '@/db/schema';
 import { LEGACY_BLOG_SEEDS } from '@/content/legacyBlogSeeds';
 import { MEDIUM_ARCHIVE_SEEDS } from '@/content/mediumArchiveSeeds';
+import { getSantaanHubPostBySlug, getSantaanHubPosts } from '@/lib/skids-content-hub';
 
 const MEDIUM_FEED_URL = 'https://medium.com/feed/@santaanIVF';
 
@@ -524,6 +525,11 @@ export async function syncMediumPostsToStore(options?: { limit?: number }) {
 }
 
 export async function getSantaanBlogPosts(options?: { limit?: number; type?: BlogType }): Promise<SantaanBlogPost[]> {
+  const hubPosts = await getSantaanHubPosts(options).catch((error) => {
+    console.error('SKIDS writer hub read failed:', error);
+    return [];
+  });
+
   let storedPosts: SantaanBlogPost[] = [];
   if (hasConfiguredBlogStore()) {
     try {
@@ -533,16 +539,16 @@ export async function getSantaanBlogPosts(options?: { limit?: number; type?: Blo
     }
   }
 
-  if (storedPosts.length > 0) {
-    return storedPosts;
+  if (hubPosts.length > 0 || storedPosts.length > 0) {
+    return mergeWithLegacySeeds([...hubPosts, ...storedPosts], options);
   }
 
   if (hasConfiguredBlogStore()) {
     try {
       await syncMediumPostsToStore({ limit: options?.limit ? Math.max(options.limit, 20) : 60 });
       const refreshedPosts = await readStoredPosts(options);
-      if (refreshedPosts.length > 0) {
-        return refreshedPosts;
+      if (hubPosts.length > 0 || refreshedPosts.length > 0) {
+        return mergeWithLegacySeeds([...hubPosts, ...refreshedPosts], options);
       }
     } catch (error) {
       console.error('Blog sync fallback failed:', error);
@@ -550,14 +556,23 @@ export async function getSantaanBlogPosts(options?: { limit?: number; type?: Blo
   }
 
   try {
-    return await fetchMediumFeedPosts(options);
+    const feedPosts = await fetchMediumFeedPosts(options);
+    return mergeWithLegacySeeds([...hubPosts, ...feedPosts], options);
   } catch (error) {
     console.error('Direct Medium fetch failed:', error);
-    return mergeWithLegacySeeds([], options);
+    return mergeWithLegacySeeds(hubPosts, options);
   }
 }
 
 export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlogPost | null> {
+  const hubPost = await getSantaanHubPostBySlug(slug).catch((error) => {
+    console.error('SKIDS writer hub detail read failed:', error);
+    return null;
+  });
+  if (hubPost) {
+    return hubPost;
+  }
+
   const legacySeed = LEGACY_BLOG_SEEDS.find((post) => post.slug === slug);
   if (legacySeed) {
     return legacySeed;

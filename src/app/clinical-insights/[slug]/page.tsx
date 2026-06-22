@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ArrowLeft, CalendarDays, Clock, ExternalLink, Stethoscope } from 'lucide-react';
+import { ArrowLeft, CalendarDays, Clock, Stethoscope } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { getSantaanBlogPostBySlug, getSantaanBlogPosts } from '@/lib/medium';
@@ -11,6 +11,9 @@ import { tagToSlug } from '@/lib/tag-utils';
 import { getSiteUrl } from '@/lib/site';
 
 type Params = Promise<{ slug: string }>;
+
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
@@ -171,13 +174,6 @@ export default async function ClinicalInsightDetailPage({ params }: { params: Pa
             </div>
           )}
 
-          <p className="text-xs text-gray-500 mt-8">
-            Originally authored by Santaan team and syndicated from Medium.{' '}
-            <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline inline-flex items-center gap-1">
-              View source
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </p>
         </div>
       </section>
 
