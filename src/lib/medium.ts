@@ -52,6 +52,19 @@ function hasConfiguredBlogStore(): boolean {
   return Boolean(process.env.TURSO_AUTH_TOKEN?.trim());
 }
 
+function hasLegacyMediumFallback(): boolean {
+  return process.env.SANTAAN_ENABLE_LEGACY_MEDIUM_FALLBACK === 'true';
+}
+
+function newestFirst(posts: SantaanBlogPost[]): SantaanBlogPost[] {
+  return [...posts].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+}
+
+function applyPostLimit(posts: SantaanBlogPost[], limit?: number): SantaanBlogPost[] {
+  if (typeof limit !== 'number') return posts;
+  return posts.slice(0, Math.max(0, limit));
+}
+
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
   const existingSlugs = new Set(posts.map((post) => post.slug));
   const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS];
@@ -530,6 +543,14 @@ export async function getSantaanBlogPosts(options?: { limit?: number; type?: Blo
     return [];
   });
 
+  if (hubPosts.length > 0) {
+    return applyPostLimit(newestFirst(hubPosts), options?.limit);
+  }
+
+  if (!hasLegacyMediumFallback()) {
+    return [];
+  }
+
   let storedPosts: SantaanBlogPost[] = [];
   if (hasConfiguredBlogStore()) {
     try {
@@ -571,6 +592,10 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
   });
   if (hubPost) {
     return hubPost;
+  }
+
+  if (!hasLegacyMediumFallback()) {
+    return null;
   }
 
   const legacySeed = LEGACY_BLOG_SEEDS.find((post) => post.slug === slug);
