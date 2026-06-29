@@ -45,6 +45,10 @@ export default async function ClinicalInsightDetailPage({ params }: { params: Pa
     redirect('/clinical-insights');
   }
 
+  if (post.type === 'news') {
+    redirect(`/news/${slug}`);
+  }
+
   if (post.type !== 'doctor') {
     redirect(`/fertility-insights/${slug}`);
   }

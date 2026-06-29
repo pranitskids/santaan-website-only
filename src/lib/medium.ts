@@ -7,6 +7,11 @@ import { getSantaanHubPostBySlug, getSantaanHubPosts } from '@/lib/skids-content
 
 const MEDIUM_FEED_URL = 'https://medium.com/feed/@santaanIVF';
 
+const EXCLUDED_PUBLIC_POST_SLUGS = new Set([
+  'santaan-ivf-now-serving-bengalurus-it-corridor-aecs-layout',
+  'ivf-treatment-cost-in-bangalore-understanding-the-price-procedure-and-success',
+]);
+
 export type BlogType = 'blog' | 'news' | 'doctor';
 
 export interface SantaanBlogPost {
@@ -66,14 +71,16 @@ function applyPostLimit(posts: SantaanBlogPost[], limit?: number): SantaanBlogPo
 }
 
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
-  const existingSlugs = new Set(posts.map((post) => post.slug));
-  const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS];
+  const visiblePosts = posts.filter((post) => !EXCLUDED_PUBLIC_POST_SLUGS.has(post.slug));
+  const existingSlugs = new Set(visiblePosts.map((post) => post.slug));
+  const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].map(normalizeArchivedPost);
   const eligibleFallback = fallbackSeeds.filter((seed) => {
+    if (EXCLUDED_PUBLIC_POST_SLUGS.has(seed.slug)) return false;
     if (existingSlugs.has(seed.slug)) return false;
     existingSlugs.add(seed.slug);
     return true;
   });
-  const merged = [...posts, ...eligibleFallback];
+  const merged = [...visiblePosts, ...eligibleFallback];
   const typeFiltered = options?.type ? merged.filter((post) => post.type === options.type) : merged;
   typeFiltered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
@@ -82,6 +89,15 @@ function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: numb
   }
 
   return typeFiltered;
+}
+
+function normalizeArchivedPost(post: SantaanBlogPost): SantaanBlogPost {
+  const html = sanitizeMediumHtml(post.html);
+  return {
+    ...post,
+    html,
+    thumbnail: post.thumbnail || extractFirstImageUrl(html),
+  };
 }
 
 function stripHtml(input: string): string {
@@ -110,6 +126,33 @@ function unwrapGoogleSearchRedirect(url: string): string {
     return url;
   }
   return url;
+}
+
+function escapeRegExp(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function rewriteLegacySantaanLinks(html: string): string {
+  const replacements = [
+    ['https://ivf.santaan.in/male-infertility-clinic', 'https://www.santaan.in/male-infertility-clinic'],
+    ['https://ivf.santaan.in/', 'https://www.santaan.in/ivf-cost-in-india-2026'],
+    ['https://santaan.in/ivf-treatment', 'https://www.santaan.in/treatments/ivf'],
+    ['https://santaan.in/technology', 'https://www.santaan.in/treatments/ivf'],
+    ['https://santaan.in/contact-us', 'https://www.santaan.in/contact-centres'],
+    ['https://santaan.in/contact', 'https://www.santaan.in/contact-centres'],
+  ].sort((a, b) => b[0].length - a[0].length);
+
+  return replacements.reduce(
+    (updatedHtml, [from, to]) => updatedHtml.replace(new RegExp(escapeRegExp(from), 'g'), to),
+    html
+  );
+}
+
+function normalizeLegacyPhoneCtas(html: string): string {
+  return html.replace(
+    /(\+91[\s\u00a0\u2013\u2014-]*)?(?:81051[\s\u00a0]*08416|97772[\s\u00a0]*68755|9777268755|969[\s\u00a0]*208[\s\u00a0]*1966|933[\s\u00a0]*732[\s\u00a0]*6896)/g,
+    '+91 96689 04011'
+  );
 }
 
 function stripInternalPublishingTail(html: string): string {
@@ -173,6 +216,8 @@ function sanitizeMediumHtml(input: string): string {
     /href=["'](https?:\/\/www\.google\.com\/search\?q=[^"']+)["']/gi,
     (_full, href: string) => `href="${unwrapGoogleSearchRedirect(href)}"`
   );
+  html = rewriteLegacySantaanLinks(html);
+  html = normalizeLegacyPhoneCtas(html);
 
   // Remove dangling separators often used before internal notes.
   html = html.replace(/<p>\s*[—-]\s*[—-]?\s*<\/p>\s*$/gi, '');
@@ -543,49 +588,41 @@ export async function getSantaanBlogPosts(options?: { limit?: number; type?: Blo
     return [];
   });
 
-  if (hubPosts.length > 0) {
-    return applyPostLimit(newestFirst(hubPosts), options?.limit);
-  }
+  const primaryPosts = [...hubPosts];
 
-  if (!hasLegacyMediumFallback()) {
-    return [];
-  }
-
-  let storedPosts: SantaanBlogPost[] = [];
-  if (hasConfiguredBlogStore()) {
+  if (hasLegacyMediumFallback() && hasConfiguredBlogStore()) {
     try {
-      storedPosts = await readStoredPosts(options);
+      primaryPosts.push(...(await readStoredPosts(options)));
     } catch (error) {
       console.error('Stored blog read failed:', error);
     }
   }
 
-  if (hubPosts.length > 0 || storedPosts.length > 0) {
-    return mergeWithLegacySeeds([...hubPosts, ...storedPosts], options);
-  }
-
-  if (hasConfiguredBlogStore()) {
+  if (hasLegacyMediumFallback() && hasConfiguredBlogStore()) {
     try {
       await syncMediumPostsToStore({ limit: options?.limit ? Math.max(options.limit, 20) : 60 });
-      const refreshedPosts = await readStoredPosts(options);
-      if (hubPosts.length > 0 || refreshedPosts.length > 0) {
-        return mergeWithLegacySeeds([...hubPosts, ...refreshedPosts], options);
-      }
+      primaryPosts.push(...(await readStoredPosts(options)));
     } catch (error) {
       console.error('Blog sync fallback failed:', error);
     }
   }
 
-  try {
-    const feedPosts = await fetchMediumFeedPosts(options);
-    return mergeWithLegacySeeds([...hubPosts, ...feedPosts], options);
-  } catch (error) {
-    console.error('Direct Medium fetch failed:', error);
-    return mergeWithLegacySeeds(hubPosts, options);
+  if (hasLegacyMediumFallback()) {
+    try {
+      primaryPosts.push(...(await fetchMediumFeedPosts(options)));
+    } catch (error) {
+      console.error('Direct Medium fetch failed:', error);
+    }
   }
+
+  return applyPostLimit(newestFirst(mergeWithLegacySeeds(primaryPosts, options)), options?.limit);
 }
 
 export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlogPost | null> {
+  if (EXCLUDED_PUBLIC_POST_SLUGS.has(slug)) {
+    return null;
+  }
+
   const hubPost = await getSantaanHubPostBySlug(slug).catch((error) => {
     console.error('SKIDS writer hub detail read failed:', error);
     return null;
@@ -594,17 +631,13 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
     return hubPost;
   }
 
-  if (!hasLegacyMediumFallback()) {
-    return null;
-  }
-
-  const legacySeed = LEGACY_BLOG_SEEDS.find((post) => post.slug === slug);
-  if (legacySeed) {
-    return legacySeed;
+  const archivedPost = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].find((post) => post.slug === slug);
+  if (archivedPost) {
+    return normalizeArchivedPost(archivedPost);
   }
 
   let existing: BlogRow | undefined;
-  if (hasConfiguredBlogStore()) {
+  if (hasLegacyMediumFallback() && hasConfiguredBlogStore()) {
     try {
       await ensureBlogPostsTable();
       existing = await db
@@ -621,7 +654,7 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
     return mapRowToPost(existing);
   }
 
-  if (hasConfiguredBlogStore()) {
+  if (hasLegacyMediumFallback() && hasConfiguredBlogStore()) {
     try {
       await syncMediumPostsToStore({ limit: 80 });
       existing = await db
@@ -638,12 +671,14 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
     }
   }
 
-  try {
-    const posts = await fetchMediumFeedPosts({ limit: 80 });
-    const foundInFeed = posts.find((post) => post.slug === slug);
-    if (foundInFeed) return foundInFeed;
-  } catch (error) {
-    console.error('Direct Medium slug fetch failed:', error);
+  if (hasLegacyMediumFallback()) {
+    try {
+      const posts = await fetchMediumFeedPosts({ limit: 80 });
+      const foundInFeed = posts.find((post) => post.slug === slug);
+      if (foundInFeed) return foundInFeed;
+    } catch (error) {
+      console.error('Direct Medium slug fetch failed:', error);
+    }
   }
 
   return null;

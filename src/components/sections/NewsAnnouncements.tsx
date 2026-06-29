@@ -122,7 +122,7 @@ export function NewsAnnouncements() {
                     </p>
                     </div>
                     <Link
-                        href="/fertility-insights"
+                        href="/news"
                         className="inline-flex items-center gap-2 text-sm font-semibold text-santaan-teal hover:text-santaan-amber transition-colors"
                     >
                         View all updates
@@ -170,7 +170,7 @@ export function NewsAnnouncements() {
                                         {post.excerpt}
                                     </p>
                                     
-                                    <Link href={`/fertility-insights/${post.slug}`} className="inline-flex items-center gap-1 text-santaan-teal text-sm font-medium group-hover:gap-2 transition-all">
+                                    <Link href={`/news/${post.slug}`} className="inline-flex items-center gap-1 text-santaan-teal text-sm font-medium group-hover:gap-2 transition-all">
                                         Read update
                                         <ExternalLink className="w-3.5 h-3.5" />
                                     </Link>

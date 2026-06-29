@@ -18,5 +18,9 @@ export default async function LegacyBlogDetailRedirect({ params }: { params: Par
     redirect(`/clinical-insights/${slug}`);
   }
 
+  if (post.type === 'news') {
+    redirect(`/news/${slug}`);
+  }
+
   redirect(`/fertility-insights/${slug}`);
 }
