@@ -89,9 +89,17 @@ export function getClinicalQuality(post: SantaanBlogPost): ClinicalQuality {
   };
 }
 
+function isHubSourcedPost(post: SantaanBlogPost): boolean {
+  return Boolean(post.sourceUrl && (post.sourceUrl.includes('skids.clinic') || post.sourceUrl.includes('santaan.in')));
+}
+
 export function isClinicalReadyPost(post: SantaanBlogPost): boolean {
   if (post.type !== 'doctor') return false;
-  return getClinicalQuality(post).isReady;
+  const quality = getClinicalQuality(post);
+  if (!quality.isSubstantive) return false;
+  // Hub-sourced articles are already curated by the content team; skip the citation gate
+  if (isHubSourcedPost(post)) return quality.hasStructuredSections;
+  return quality.isReady;
 }
 
 export function getClinicalCoverImage(post: SantaanBlogPost): string {
