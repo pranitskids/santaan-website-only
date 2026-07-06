@@ -107,17 +107,6 @@ export function buildMedicalClinicSchema(center: CenterProfile) {
     },
     medicalSpecialty: 'ReproductiveHealth',
     openingHoursSpecification: openingHoursSpecification.length > 0 ? openingHoursSpecification : undefined,
-    review:
-      center.reviews && center.reviews.length > 0
-        ? center.reviews.slice(0, 2).map((review) => ({
-            '@type': 'Review',
-            author: {
-              '@type': 'Person',
-              name: review.author,
-            },
-            reviewBody: review.quote,
-          }))
-        : undefined,
   };
 }
 
