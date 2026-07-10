@@ -68,6 +68,6 @@ test.describe("Public website smoke checks", () => {
   test("robots endpoint responds", async ({ request }) => {
     const response = await request.get("/robots.txt");
     expect(response.ok()).toBeTruthy();
-    await expect.poll(async () => response.text()).toContain("User-agent");
+    await expect.poll(async () => response.text()).toMatch(/User-Agent/i);
   });
 });

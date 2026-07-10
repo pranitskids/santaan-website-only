@@ -18,7 +18,7 @@ type AnalyticsWindow = Window & {
 
 const WEBSITE_INTENT_URL =
     process.env.NEXT_PUBLIC_WEBSITE_INTENT_URL ||
-    "https://edge-crm-worker.devadmin-27f.workers.dev/api/website/intent";
+    "https://api.crmai.greybrain.ai/api/website/intent";
 
 const buildVisitorId = () => {
     if (typeof crypto !== "undefined" && "randomUUID" in crypto) {

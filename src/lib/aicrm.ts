@@ -1,7 +1,7 @@
 import { resolveCenter } from "@/lib/lead-attribution";
 import { type UtmParams, ensureMandatoryUtm } from "@/lib/utm";
 
-const DEFAULT_AICRM_WEBHOOK_URL = "https://edge-crm-worker.devadmin-27f.workers.dev/api/webhook/lead";
+const DEFAULT_AICRM_WEBHOOK_URL = "https://api.crmai.greybrain.ai/api/webhook/lead";
 const CLEAN_PHONE = /[^0-9]/g;
 
 export type AiCrmLeadInput = {
