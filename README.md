@@ -145,5 +145,6 @@ Only files with `status: approved` are published. Set `featured: true` to includ
 Use:
 
 - [docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md](/Users/spr/santaan%20hope/santaan-website-only/docs/WEBSITE_TEAM_HANDOFF_2026-05-23.md:1)
+- [docs/SANTAAN_TRACKING_RECOVERY_HANDOFF.md](/Users/spr/santaan%20hope/santaan-website-only/docs/SANTAAN_TRACKING_RECOVERY_HANDOFF.md:1)
 
 For Netlify + CRM webhook setup, that handoff file is the source of truth.
