@@ -7,6 +7,12 @@ export type UtmParams = {
     center?: string;
     asset?: string;
     landing_path?: string;
+    gclid?: string;
+    gbraid?: string;
+    wbraid?: string;
+    fbclid?: string;
+    fbp?: string;
+    fbc?: string;
 };
 
 const STORAGE_KEY = "santaan_utm";
@@ -26,6 +32,18 @@ const normalizeToken = (value: string | null | undefined, fallback: string) => {
     return normalized || fallback;
 };
 
+const preserveOpaqueId = (value: string | null | undefined) => {
+    const normalized = value?.trim();
+    return normalized ? normalized.slice(0, 250) : undefined;
+};
+
+const readCookie = (name: string) => {
+    if (typeof document === "undefined") return undefined;
+    const prefix = `${name}=`;
+    const value = document.cookie.split(";").map((part) => part.trim()).find((part) => part.startsWith(prefix));
+    return value ? decodeURIComponent(value.slice(prefix.length)) : undefined;
+};
+
 export const ensureMandatoryUtm = (params: UtmParams = {}): UtmParams => ({
     utm_source: normalizeToken(params.utm_source, UTM_DEFAULTS.utm_source),
     utm_medium: normalizeToken(params.utm_medium, UTM_DEFAULTS.utm_medium),
@@ -35,6 +53,12 @@ export const ensureMandatoryUtm = (params: UtmParams = {}): UtmParams => ({
     center: params.center ? normalizeToken(params.center, "") : undefined,
     asset: params.asset ? normalizeToken(params.asset, "") : undefined,
     landing_path: params.landing_path,
+    gclid: preserveOpaqueId(params.gclid),
+    gbraid: preserveOpaqueId(params.gbraid),
+    wbraid: preserveOpaqueId(params.wbraid),
+    fbclid: preserveOpaqueId(params.fbclid),
+    fbp: preserveOpaqueId(params.fbp),
+    fbc: preserveOpaqueId(params.fbc),
 });
 
 export const readUtmParams = (): UtmParams => {
@@ -42,7 +66,11 @@ export const readUtmParams = (): UtmParams => {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         const parsed = raw ? (JSON.parse(raw) as UtmParams) : {};
-        return ensureMandatoryUtm(parsed);
+        return ensureMandatoryUtm({
+            ...parsed,
+            fbp: parsed.fbp || readCookie("_fbp"),
+            fbc: parsed.fbc || readCookie("_fbc"),
+        });
     } catch {
         return { ...UTM_DEFAULTS };
     }
@@ -80,6 +108,12 @@ export const captureUtmParams = (url: string) => {
         center: params.get("center") || existing.center || undefined,
         asset: params.get("asset") || existing.asset || undefined,
         landing_path: existing.landing_path || parsed.pathname || undefined,
+        gclid: params.get("gclid") || existing.gclid || undefined,
+        gbraid: params.get("gbraid") || existing.gbraid || undefined,
+        wbraid: params.get("wbraid") || existing.wbraid || undefined,
+        fbclid: params.get("fbclid") || existing.fbclid || undefined,
+        fbp: existing.fbp || readCookie("_fbp"),
+        fbc: existing.fbc || readCookie("_fbc"),
     };
 
     writeUtmParams(next);

@@ -19,6 +19,14 @@ export type AiCrmLeadInput = {
   extras?: Record<string, unknown>;
 };
 
+export type AiCrmLeadResult = {
+  ok: boolean;
+  status: number;
+  leadId?: string;
+  body?: string;
+  error?: string;
+};
+
 const resolveWebhookUrl = () =>
   process.env.AICRM_LEAD_WEBHOOK_URL?.trim() ||
   process.env.EDGE_CRM_LEAD_WEBHOOK_URL?.trim() ||
@@ -32,7 +40,7 @@ export const normalizeLeadPhone = (value: string) => {
   return `+${digits}`;
 };
 
-export async function pushLeadToAiCrm(input: AiCrmLeadInput) {
+export async function pushLeadToAiCrm(input: AiCrmLeadInput): Promise<AiCrmLeadResult> {
   const normalizedPhone = normalizeLeadPhone(input.phone);
   if (!normalizedPhone) {
     return { ok: false, status: 400, error: "A valid WhatsApp number is required." };
@@ -59,6 +67,12 @@ export async function pushLeadToAiCrm(input: AiCrmLeadInput) {
     utm_term: utm.utm_term,
     utm_content: utm.utm_content,
     asset: utm.asset,
+    gclid: utm.gclid,
+    gbraid: utm.gbraid,
+    wbraid: utm.wbraid,
+    fbclid: utm.fbclid,
+    fbp: utm.fbp,
+    fbc: utm.fbc,
     ...(input.location ? { location: input.location } : {}),
     ...(input.email ? { email: input.email.trim().toLowerCase() } : {}),
     ...(input.notes ? { notes: input.notes } : {}),
@@ -86,10 +100,20 @@ export async function pushLeadToAiCrm(input: AiCrmLeadInput) {
     });
 
     const text = await response.text();
+    let payload: { lead_id?: unknown; leadId?: unknown } = {};
+    try {
+      payload = JSON.parse(text) as typeof payload;
+    } catch {
+      // A successful CRM write must return a machine-verifiable lead id.
+    }
+    const leadId = String(payload.lead_id || payload.leadId || "").trim();
+    const committed = response.ok && Boolean(leadId);
     return {
-      ok: response.ok,
-      status: response.status,
+      ok: committed,
+      status: committed ? response.status : response.ok ? 502 : response.status,
+      leadId: leadId || undefined,
       body: text,
+      ...(!committed && response.ok ? { error: "CRM did not confirm that the lead was saved." } : {}),
     };
   } catch (error) {
     console.error("AICRM lead forward error:", error);

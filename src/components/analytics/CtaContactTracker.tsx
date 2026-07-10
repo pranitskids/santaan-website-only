@@ -12,8 +12,13 @@ const WHATSAPP_REGEX = /(wa\.me|whatsapp\.com|api\.whatsapp\.com)/i;
 
 type AnalyticsWindow = Window & {
     gtag?: (command: string, eventName: string, params?: Record<string, unknown>) => void;
-    dataLayer?: Array<Record<string, unknown>>;
+    dataLayer?: unknown[];
+    fbq?: (...args: unknown[]) => void;
 };
+
+const WEBSITE_INTENT_URL =
+    process.env.NEXT_PUBLIC_WEBSITE_INTENT_URL ||
+    "https://edge-crm-worker.devadmin-27f.workers.dev/api/website/intent";
 
 const buildVisitorId = () => {
     if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -82,17 +87,19 @@ const getGoogleEventName = (action: CtaAction) => {
     return "phone_call_click";
 };
 
-const emitGoogleLeadSignals = (input: {
+const emitIntentSignals = (input: {
     action: CtaAction;
     center: string;
     target: string;
     landingPath: string;
     utm: Record<string, unknown>;
+    visitorId: string;
 }) => {
     if (typeof window === "undefined") return;
 
     const analyticsWindow = window as AnalyticsWindow;
     const eventName = getGoogleEventName(input.action);
+    const eventId = `web:${Date.now()}:${buildVisitorId()}`;
     const params = {
         event_category: "lead_intent",
         event_label: `${input.action}_${input.center.toLowerCase()}`,
@@ -104,20 +111,53 @@ const emitGoogleLeadSignals = (input: {
         utm_medium: input.utm.utm_medium,
         utm_campaign: input.utm.utm_campaign,
         utm_content: input.utm.utm_content,
+        event_id: eventId,
         value: input.action === "book" ? 3 : input.action === "whatsapp" ? 2 : 1,
     };
 
     if (analyticsWindow.gtag) {
         analyticsWindow.gtag("event", eventName, params);
-        analyticsWindow.gtag("event", "generate_lead", params);
-        analyticsWindow.gtag("event", "ads_conversion_other", params);
-        return;
+    } else {
+        analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+        analyticsWindow.dataLayer.push({ event: eventName, ...params });
     }
 
-    analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
-    analyticsWindow.dataLayer.push({ event: eventName, ...params });
-    analyticsWindow.dataLayer.push({ event: "generate_lead", ...params });
-    analyticsWindow.dataLayer.push({ event: "ads_conversion_other", ...params });
+    analyticsWindow.fbq?.(
+        "track",
+        "Contact",
+        {
+            content_category: "website_intent",
+            content_name: input.action,
+            lead_channel: input.action,
+            center: input.center,
+        },
+        { eventID: eventId }
+    );
+
+    void fetch(WEBSITE_INTENT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify({
+            event_name: "Contact",
+            event_id: eventId,
+            kind: input.action,
+            center: input.center,
+            target: input.target,
+            landing_path: input.landingPath,
+            page_url: window.location.href,
+            referrer: document.referrer,
+            visitor_id: input.visitorId,
+            gclid: input.utm.gclid,
+            gbraid: input.utm.gbraid,
+            wbraid: input.utm.wbraid,
+            fbp: input.utm.fbp,
+            fbc: input.utm.fbc,
+            utm: input.utm,
+        }),
+    }).catch(() => {
+        // Tracking must never block the visitor's call, booking, or WhatsApp action.
+    });
 };
 
 export default function CtaContactTracker() {
@@ -142,15 +182,14 @@ export default function CtaContactTracker() {
                 target: cta.target,
             });
 
-            emitGoogleLeadSignals({
+            emitIntentSignals({
                 action: cta.action,
                 center,
                 target: cta.target,
                 landingPath,
                 utm,
+                visitorId: getVisitorId(),
             });
-
-            getVisitorId();
         };
 
         document.addEventListener("click", handleClick, { capture: true });

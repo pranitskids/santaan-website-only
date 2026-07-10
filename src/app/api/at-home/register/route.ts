@@ -40,6 +40,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
+      leadId: result.leadId,
       message: "Request received. Our team will follow up on WhatsApp shortly.",
     });
   } catch (error) {

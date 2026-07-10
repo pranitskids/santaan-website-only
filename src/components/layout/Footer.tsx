@@ -7,8 +7,7 @@ import { Facebook, Instagram, Linkedin, Twitter, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { readUtmParams } from "@/lib/utm";
 import { CENTER_PROFILES } from "@/data/centers";
-
-type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
+import { trackConfirmedLead } from "@/lib/analytics";
 
 export function Footer() {
     const [name, setName] = useState("");
@@ -34,19 +33,21 @@ export function Footer() {
             if (!response.ok) {
                 throw new Error(data?.error || "Failed to subscribe");
             }
+            if (!data?.leadId) {
+                throw new Error("Subscription was not confirmed");
+            }
+
+            trackConfirmedLead({
+                leadId: data.leadId,
+                formKind: "whatsapp_tips",
+                leadChannel: "whatsapp",
+            });
 
             setStatus("success");
             setMessage(data?.message || "You’re in. We will follow up on WhatsApp.");
             setName("");
             setPhone("");
 
-            const analyticsWindow = window as GtagWindow;
-            if (analyticsWindow.gtag) {
-                analyticsWindow.gtag('event', 'sign_up', {
-                    event_category: 'engagement',
-                    event_label: 'whatsapp_tips_signup'
-                });
-            }
         } catch (error: unknown) {
             setStatus("error");
             const errorMessage = error instanceof Error ? error.message : "Failed to subscribe";

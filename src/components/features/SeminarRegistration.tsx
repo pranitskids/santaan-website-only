@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CheckCircle2 } from 'lucide-react';
 import { readUtmParams } from '@/lib/utm';
+import { trackConfirmedLead } from '@/lib/analytics';
 
 interface SeminarRegistrationProps {
     isOpen: boolean;
@@ -63,6 +64,17 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
             if (!response.ok) {
                 throw new Error('Registration failed');
             }
+
+            const data = await response.json() as { leadId?: string };
+            if (!data.leadId) {
+                throw new Error('Registration was not confirmed');
+            }
+
+            trackConfirmedLead({
+                leadId: data.leadId,
+                formKind: 'seminar_registration',
+                leadChannel: 'whatsapp',
+            });
 
             setStep('success');
         } catch {

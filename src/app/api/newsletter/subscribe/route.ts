@@ -36,6 +36,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
+      leadId: result.leadId,
       message: "You’re in. We will share fertility tips on WhatsApp.",
     });
   } catch (error) {

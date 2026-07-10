@@ -5,6 +5,7 @@ import { MessageCircle, Send, CheckCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 import { ensureMandatoryUtm, readUtmParams } from '@/lib/utm';
+import { trackConfirmedLead } from '@/lib/analytics';
 
 export default function NewsletterSubscribe() {
     const [name, setName] = useState('');
@@ -40,6 +41,15 @@ export default function NewsletterSubscribe() {
             });
 
             if (response.ok) {
+                const data = await response.json() as { leadId?: string };
+                if (!data.leadId) {
+                    throw new Error('Subscription was not confirmed');
+                }
+                trackConfirmedLead({
+                    leadId: data.leadId,
+                    formKind: 'whatsapp_tips',
+                    leadChannel: 'whatsapp',
+                });
                 setSubscribed(true);
                 setName('');
                 setPhone('');

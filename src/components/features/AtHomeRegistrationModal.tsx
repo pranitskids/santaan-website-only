@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { ensureMandatoryUtm, readUtmParams } from "@/lib/utm";
+import { trackConfirmedLead } from "@/lib/analytics";
 
 interface AtHomeRegistrationModalProps {
     isOpen: boolean;
@@ -44,6 +45,14 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
             const data = await res.json();
 
             if (!res.ok) throw new Error(data.error || "Something went wrong");
+            if (!data.leadId) throw new Error("Your request was not confirmed");
+
+            trackConfirmedLead({
+                leadId: data.leadId,
+                formKind: "at_home_testing",
+                leadChannel: "whatsapp",
+                center: formData.location || undefined,
+            });
 
             setIsSuccess(true);
             setTimeout(() => {
