@@ -16,9 +16,7 @@ type AnalyticsWindow = Window & {
     fbq?: (...args: unknown[]) => void;
 };
 
-const WEBSITE_INTENT_URL =
-    process.env.NEXT_PUBLIC_WEBSITE_INTENT_URL ||
-    "https://api.crmai.greybrain.ai/api/website/intent";
+const WEBSITE_INTENT_URL = "/api/website/intent";
 
 const buildVisitorId = () => {
     if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
