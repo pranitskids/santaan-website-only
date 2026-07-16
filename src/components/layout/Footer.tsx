@@ -116,6 +116,11 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/ivf-clinic-jeypore" className="text-gray-300 hover:text-santaan-amber transition-colors">
+                                    IVF Jeypore — coming soon
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/our-doctors" className="text-gray-300 hover:text-santaan-amber transition-colors">
                                     Doctors
                                 </Link>
@@ -145,7 +150,7 @@ export function Footer() {
 
                     {/* Locations */}
                     <div>
-                        <h4 className="font-bold text-lg mb-6 text-santaan-sage">Our Centers</h4>
+                        <h4 className="font-bold text-lg mb-6 text-santaan-sage">Our Centres</h4>
                         <ul className="space-y-4">
                             {CENTER_PROFILES.map((center) => (
                                 <li key={center.name} className="flex gap-3 text-gray-300">

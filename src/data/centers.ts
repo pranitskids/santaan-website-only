@@ -16,8 +16,13 @@ export interface CenterProfile extends CenterContact {
   landmark?: string;
   mapUrl?: string;
   mapQuery: string;
+  geo?: {
+    latitude: number;
+    longitude: number;
+  };
   hours: string[];
   areaServed: string[];
+  comingSoon?: boolean;
   reviews?: Array<{
     author: string;
     meta: string;
@@ -46,6 +51,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     landmark: 'Near Nidaan',
     mapUrl: 'https://maps.app.goo.gl/EFrxERJccp1TAkvZ6',
     mapQuery: 'Santaan IVF Berhampur Odisha',
+    geo: { latitude: 19.3083683, longitude: 84.8161707 },
     hours: [
       'Monday: 9:30 am - 6:30 pm',
       'Tuesday: 9:30 am - 6:30 pm',
@@ -93,6 +99,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     landmark: 'Above Max Nayapalli',
     mapUrl: 'https://maps.app.goo.gl/g9vKkCU4Xgoikjz86',
     mapQuery: 'Santaan IVF Bhubaneswar Odisha',
+    geo: { latitude: 20.2950167, longitude: 85.8147658 },
     hours: [
       'Monday: 9:30 am - 6:30 pm',
       'Tuesday: 9:30 am - 6:30 pm',
@@ -146,26 +153,28 @@ export const CENTER_PROFILES: CenterProfile[] = [
     landmark: 'In front of Reliance Digital',
     mapUrl: 'https://maps.app.goo.gl/W8jZwYZWX3yEtAeq7',
     mapQuery: 'Santaan IVF Angul Odisha',
+    geo: { latitude: 20.8379537, longitude: 85.0885573 },
     hours: [],
     areaServed: ['Angul', 'Talcher', 'Central Odisha'],
     reviews: [],
   },
   {
-    name: 'Bangalore (AECS Layout)',
-    city: 'Bangalore',
-    slug: 'ivf-clinic-bangalore-aecs-layout',
-    href: '/ivf-clinic-bangalore-aecs-layout',
-    centerName: 'Santaan IVF Bangalore AECS Layout',
-    fullAddress: 'AECS Layout, Brookefield, Bengaluru, Karnataka',
-    addressLine: 'AECS Layout, Brookefield, Bengaluru, Karnataka',
-    region: 'Karnataka',
+    name: 'Jeypore',
+    city: 'Jeypore',
+    slug: 'ivf-clinic-jeypore',
+    href: '/ivf-clinic-jeypore',
+    centerName: 'Santaan IVF Jeypore — Coming Soon',
+    fullAddress: 'Jeypore, Koraput, Odisha 764001',
+    addressLine: 'Jeypore, Koraput, Odisha — opening details coming soon',
+    region: 'Odisha',
     email: 'info@santaan.in',
-    phones: ['+91 8105108416'],
+    phones: ['+91 70089 90586'],
     summary:
-      'Built for the Bengaluru IT corridor, with privacy-conscious fertility planning, structured diagnostics, and continuity-friendly support for busy professionals.',
-    mapQuery: 'Santaan IVF AECS Layout Brookefield Bengaluru',
+      'Santaan is preparing a Jeypore access point for fertility consultations and coordinated treatment planning. Register your interest and our Odisha team will share verified opening details when they are confirmed.',
+    mapQuery: 'Jeypore Koraput Odisha',
     hours: [],
-    areaServed: ['AECS Layout', 'Brookefield', 'Whitefield', 'Bengaluru IT Corridor'],
+    areaServed: ['Jeypore', 'Koraput', 'Southern Odisha'],
+    comingSoon: true,
   },
 ];
 
@@ -176,7 +185,7 @@ export const CENTER_CONTACTS: CenterContact[] = CENTER_PROFILES.map(({ name, pho
 }));
 
 export const PRIMARY_CENTER = CENTER_PROFILES.find((center) => center.city === 'Bhubaneswar') ?? CENTER_PROFILES[0];
-export const PRIMARY_CALL_NUMBER = '+91 80 6548 1541';
+export const PRIMARY_CALL_NUMBER = '+91 70089 90586';
 export const PRIMARY_CALL_HREF = `tel:${PRIMARY_CALL_NUMBER.replace(/[^0-9+]/g, "")}`;
 export const PRIMARY_WHATSAPP_NUMBER = '919668904011';
 export const PRIMARY_WHATSAPP_MESSAGE = "Hi, I'd like more info on IVF";

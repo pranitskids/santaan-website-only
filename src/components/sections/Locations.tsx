@@ -45,7 +45,7 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
 
                 <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
                     {CENTER_PROFILES.map((loc, i) => {
-                        const mapHref = getCenterMapsUrl(loc);
+                        const mapHref = loc.comingSoon ? null : getCenterMapsUrl(loc);
 
                         return (
                             <motion.article
@@ -60,6 +60,9 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                     <div>
                                         <h3 className="font-playfair font-bold text-2xl mb-1">{loc.city}</h3>
                                         <p className="text-santaan-amber text-sm">{loc.centerName}</p>
+                                        {loc.comingSoon ? (
+                                            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">Coming soon</p>
+                                        ) : null}
                                     </div>
                                     <MapPin className="w-6 h-6 text-santaan-amber shrink-0" />
                                 </div>
@@ -122,6 +125,7 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         </div>
                                     </div>
 
+                                    {mapHref ? (
                                     <div className="flex items-start gap-2">
                                         <MapPin className="w-4 h-4 text-santaan-amber mt-0.5 flex-shrink-0" />
                                         <a
@@ -135,9 +139,19 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                             <ExternalLink className="w-3.5 h-3.5" />
                                         </a>
                                     </div>
+                                    ) : null}
                                 </div>
 
-                                {loc.reviews && loc.reviews.length > 0 ? (
+                                {loc.comingSoon ? (
+                                    <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-4">
+                                        <p className="text-[11px] uppercase tracking-[0.2em] text-santaan-amber font-semibold">
+                                            Opening status
+                                        </p>
+                                        <p className="mt-2 text-sm text-white/80 leading-relaxed">
+                                            Exact address, hours, map and clinician schedules will be published after verification.
+                                        </p>
+                                    </div>
+                                ) : loc.reviews && loc.reviews.length > 0 ? (
                                     <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-4">
                                         <p className="text-[11px] uppercase tracking-[0.2em] text-santaan-amber font-semibold">
                                             Patient voice
@@ -166,14 +180,25 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         className="inline-flex items-center justify-between rounded-xl bg-white text-santaan-teal px-4 py-3 text-sm font-semibold hover:bg-santaan-cream transition-colors"
                                         onClick={() => trackLocationEvent(`location_page_${loc.city}`)}
                                     >
-                                        Explore {loc.city} page
+                                        {loc.comingSoon ? `View ${loc.city} opening page` : `Explore ${loc.city} page`}
                                         <ArrowRight className="w-4 h-4" />
                                     </Link>
+                                    {loc.comingSoon ? (
+                                    <Link
+                                        href={`${loc.href}#book-consultation`}
+                                        data-cta-kind="book"
+                                        data-center={loc.city}
+                                        data-cta-target={`${loc.href}#book-consultation`}
+                                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
+                                    >
+                                        Register for opening updates
+                                    </Link>
+                                    ) : (
                                     <a
                                         href={buildPrimaryWhatsappUrl(`Hi, I'd like to book a consultation for ${loc.city}`)}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        data-cta-kind="book"
+                                        data-cta-kind="whatsapp"
                                         data-center={loc.city}
                                         data-cta-target="whatsapp_booking"
                                         className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
@@ -182,6 +207,7 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         <MessageCircle className="w-4 h-4" />
                                         Book on WhatsApp
                                     </a>
+                                    )}
                                 </div>
                             </motion.article>
                         );

@@ -7,20 +7,20 @@ import { buildMetadata } from '@/lib/seo';
 import { buildFaqSchema } from '@/lib/schema';
 
 export const metadata = buildMetadata({
-  title: 'IVF Success Rates by Age (Overview)',
+  title: 'Understanding IVF Success Rates',
   description:
-    'Explore a transparent overview of IVF success rates by age band and key factors that influence outcomes. See typical ranges and why numbers vary across clinics and patients.',
+    'Learn how IVF success metrics are defined, what changes the denominator, and which methodology questions to ask before comparing clinic claims.',
   path: '/success-rates',
   keywords: ['ivf success rates by age', 'ivf outcomes', 'ivf success rate india', 'icsi success rate', 'santaan success rates'],
 });
 
 const ageBands = [
-  { band: '<30', note: 'Typically highest prognosis with good ovarian reserve and embryo quality.', range: '45–60%*' },
-  { band: '30–34', note: 'Strong outcomes for many couples; protocol, lab strategy and uterine factors matter.', range: '40–55%*' },
-  { band: '35–37', note: 'Embryo aneuploidy increases; cumulative chance across transfers may be more useful.', range: '30–45%*' },
-  { band: '38–40', note: 'Outcome ranges widen; consider cumulative planning and realistic timelines.', range: '20–35%*' },
-  { band: '41–42', note: 'Own-egg success declines; individualized counseling and options review is important.', range: '10–20%*' },
-  { band: '43+', note: 'Own-egg outcomes are often low; individualized evaluation is essential.', range: '5–12%*' },
+  { band: '<30', focus: 'Baseline assessment', note: 'Review diagnosis, ovarian reserve, semen factors and uterine findings before choosing a pathway.' },
+  { band: '30–34', focus: 'Diagnosis-led planning', note: 'Protocol, lab strategy, uterine factors and treatment history should be considered together.' },
+  { band: '35–37', focus: 'Time-aware planning', note: 'Discuss ovarian reserve, embryo factors and the value of cumulative planning across a full treatment plan.' },
+  { band: '38–40', focus: 'Individual counselling', note: 'Review time sensitivity, prior response and the trade-offs among available treatment options.' },
+  { band: '41–42', focus: 'Options review', note: 'Own-egg treatment, embryo factors and alternative pathways require individual clinical counselling.' },
+  { band: '43+', focus: 'Specialist evaluation', note: 'A clinician should review diagnosis, treatment history and available pathways without relying on a headline percentage.' },
 ];
 
 const methodNotes = [
@@ -67,13 +67,13 @@ export default function SuccessRatesPage() {
       <section className="pt-40 pb-20 bg-gradient-to-br from-santaan-teal via-santaan-teal/90 to-santaan-dark-teal text-white">
         <div className="container mx-auto px-4 md:px-6">
           <p className="uppercase tracking-[0.2em] text-santaan-amber text-xs font-semibold mb-4">Transparency</p>
-          <h1 className="text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-tight">IVF Success Rates by Age</h1>
+          <h1 className="text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-tight">Understanding IVF Success Rates</h1>
           <p className="mt-6 max-w-3xl text-white/85 text-lg">
-            Typical outcome ranges by age band and the factors that influence results. Use this as a planning guide and discuss your personal odds with a specialist.
+            Learn what clinic percentages measure, how age and diagnosis affect interpretation, and which methodology questions to ask before comparing outcomes.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/contact-centres" className="px-5 py-2.5 bg-santaan-amber text-white rounded-full font-semibold hover:bg-[#E08E45] transition-colors">
-              Discuss your odds
+              Discuss your clinical profile
             </Link>
             <Link href="/pricing" className="px-5 py-2.5 border border-white/35 rounded-full font-semibold hover:bg-white/10 transition-colors">
               See pricing & EMI
@@ -85,9 +85,9 @@ export default function SuccessRatesPage() {
       <section className="py-16">
         <div className="container mx-auto px-4 md:px-6">
           <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-playfair font-bold text-santaan-teal">Age-band overview</h2>
+            <h2 className="text-2xl md:text-3xl font-playfair font-bold text-santaan-teal">Age-band planning context</h2>
             <p className="text-gray-600 mt-3 max-w-3xl">
-              These ranges are a high-level guide. When publishing audited clinic outcomes, specify the exact metric, timeframe and cohort definition.
+              No clinic success percentage is published here. Any future Santaan outcome figure must include a defined metric, timeframe, cohort size and denominator after medical and legal review.
             </p>
 
             <div className="mt-8">
@@ -95,7 +95,7 @@ export default function SuccessRatesPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[18%] text-gray-700">Age band</TableHead>
-                    <TableHead className="w-[22%] text-gray-700">Typical range*</TableHead>
+                    <TableHead className="w-[26%] text-gray-700">Planning context</TableHead>
                     <TableHead className="text-gray-700">Notes</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -103,7 +103,7 @@ export default function SuccessRatesPage() {
                   {ageBands.map((row) => (
                     <TableRow key={row.band}>
                       <TableCell className="font-semibold text-gray-900">{row.band}</TableCell>
-                      <TableCell className="font-semibold text-santaan-teal">{row.range}</TableCell>
+                      <TableCell className="font-semibold text-santaan-teal">{row.focus}</TableCell>
                       <TableCell className="text-gray-600">{row.note}</TableCell>
                     </TableRow>
                   ))}
@@ -118,9 +118,7 @@ export default function SuccessRatesPage() {
                 <li>Any published number should specify timeframe, cohort size, and the exact metric definition.</li>
                 <li>Individual outcomes vary; consult a fertility specialist for a personalized plan.</li>
               </ul>
-              <p className="mt-3 text-xs text-gray-600">
-                *Ranges shown are indicative planning ranges. They are not a guarantee and should not be treated as medical advice.
-              </p>
+              <p className="mt-3 text-xs text-gray-600">This page provides comparison questions, not an individual prognosis or treatment promise.</p>
             </div>
           </div>
 

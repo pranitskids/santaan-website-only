@@ -13,13 +13,6 @@ const stories = [
         location: "Bhubaneswar"
     },
     {
-        image: "/assets/hero-family.png",
-        name: "Rahul & Anjali*",
-        type: "IT Couple - Male Factor",
-        quote: "We thought it was my fault. Turns out, it was male factor. The team helped us understand this affects 50% of cases. Now expecting twins!",
-        location: "Bangalore"
-    },
-    {
         image: "/assets/hero-meera-final.jpg",
         name: "Meera*",
         type: "PCOS Success",
@@ -46,13 +39,6 @@ const stories = [
         type: "Second Chance - After Miscarriage",
         quote: "After three miscarriages, we had lost hope. The genetic testing and personalized protocols at Santaan gave us our rainbow baby.",
         location: "Puri"
-    },
-    {
-        image: "/assets/hero-older-couple.png",
-        name: "Dr. Ramesh & Lakshmi*",
-        type: "Donor Egg Journey",
-        quote: "We were told it was impossible. With donor eggs and Santaan's expertise, we're now proud parents. When science meets compassion, hope returns.",
-        location: "Bangalore"
     },
     {
         image: "/assets/hero-neha-vikram-final.jpg",

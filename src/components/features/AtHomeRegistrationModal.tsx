@@ -11,6 +11,7 @@ import {
     createWebsiteSubmissionId,
     readMarketingAttribution,
 } from "@/lib/marketing-attribution";
+import { trackConfirmedLead } from "@/lib/analytics";
 
 interface AtHomeRegistrationModalProps {
     isOpen: boolean;
@@ -39,6 +40,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
         try {
             // Get UTM params
             const utm = ensureMandatoryUtm(readUtmParams());
+            const attribution = readMarketingAttribution();
             const submissionId = submissionIdRef.current || createWebsiteSubmissionId();
             submissionIdRef.current = submissionId;
 
@@ -49,7 +51,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
                     ...formData,
                     submissionId,
                     utm,
-                    attribution: readMarketingAttribution(),
+                    attribution,
                     landingPath: `${window.location.pathname}${window.location.search}`,
                     referrer: document.referrer,
                     occurredAt: new Date().toISOString(),
@@ -59,6 +61,16 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
             const data = await res.json();
 
             if (!res.ok) throw new Error(data.error || "Something went wrong");
+            if (!data?.leadId) throw new Error("Lead confirmation was not returned. Please try again.");
+
+            trackConfirmedLead({
+                leadId: data.leadId,
+                centre: formData.location.trim() || "Network",
+                formName: "at_home_testing_form",
+                appointmentType: "at_home_testing",
+                utm,
+                attribution,
+            });
 
             setIsSuccess(true);
             submissionIdRef.current = null;
@@ -167,7 +179,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
                         </Button>
                         
                         <p className="text-xs text-center text-gray-500 mt-2">
-                            100% Private & Confidential. We never share your data.
+                            Your request is handled privately and confidentially.
                         </p>
                     </form>
                 )}

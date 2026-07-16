@@ -31,12 +31,6 @@ const doctors = [
         role: "Center Head Bhubaneswar",
         specialty: "Head Santaan Academy & Quality",
         image: "https://static.wixstatic.com/media/fd2a61_55ca1c808b8a44a58099994d3cf32e00~mv2.jpg/v1/crop/x_412,y_0,w_456,h_850/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG-20210726-WA0028.jpg"
-    },
-    {
-        name: "Dr. Sakshi",
-        role: "Center Head Bangalore",
-        specialty: "She & Her Specialist",
-        image: "https://static.wixstatic.com/media/8b6a24_e67b9b008cac4e038128fc4f0884b7ec~mv2.jpg/v1/crop/x_45,y_0,w_504,h_940/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dr%20Sakshi%20Lalwani_edited.jpg"
     }
 ];
 
@@ -53,10 +47,10 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                 <div className="text-center mb-16">
                     <span className="text-santaan-teal font-medium tracking-wide uppercase text-sm">Our Expertise</span>
                     <HeadingTag className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mt-2 mb-4">
-                        Meet the Minds Behind the <span className="text-santaan-amber">Miracles</span>
+                        Meet Santaan&apos;s <span className="text-santaan-amber">Odisha Clinical Team</span>
                     </HeadingTag>
                     <p className="text-black max-w-2xl mx-auto">
-                        A team of award-winning scientists, clinicians, and embryologists dedicated to turning your hope into reality.
+                        Clinicians and reproductive-science leaders supporting evidence-driven fertility planning across our Odisha network.
                     </p>
                 </div>
 

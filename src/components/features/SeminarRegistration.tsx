@@ -19,6 +19,7 @@ import {
     createWebsiteSubmissionId,
     readMarketingAttribution,
 } from '@/lib/marketing-attribution';
+import { trackConfirmedLead } from '@/lib/analytics';
 
 interface SeminarRegistrationProps {
     isOpen: boolean;
@@ -51,6 +52,8 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
         try {
             const submissionId = submissionIdRef.current || createWebsiteSubmissionId();
             submissionIdRef.current = submissionId;
+            const utm = ensureMandatoryUtm(readUtmParams());
+            const attribution = readMarketingAttribution();
             const response = await fetch('/api/seminar/register', {
                 method: 'POST',
                 headers: {
@@ -64,8 +67,8 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
                     score,
                     signal,
                     submissionId,
-                    utm: ensureMandatoryUtm(readUtmParams()),
-                    attribution: readMarketingAttribution(),
+                    utm,
+                    attribution,
                     landingPath: `${window.location.pathname}${window.location.search}`,
                     referrer: document.referrer,
                     occurredAt: new Date().toISOString(),
@@ -75,6 +78,20 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
             if (!response.ok) {
                 throw new Error('Registration failed');
             }
+
+            const data = await response.json();
+            if (!data?.leadId) {
+                throw new Error('Lead confirmation was not returned.');
+            }
+
+            trackConfirmedLead({
+                leadId: data.leadId,
+                centre: 'Network',
+                formName: 'seminar_registration_form',
+                appointmentType: 'seminar_registration',
+                utm,
+                attribution,
+            });
 
             setStep('success');
             submissionIdRef.current = null;

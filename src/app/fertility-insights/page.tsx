@@ -15,7 +15,7 @@ export const revalidate = 300;
 export const metadata = buildMetadata({
   title: 'Fertility Insights and Stories',
   description:
-    'Read Santaan IVF fertility insights on PCOS, male infertility, thyroid, tubal factor and IVF planning across Bhubaneswar, Berhampur and Bangalore.',
+    'Read Santaan IVF fertility insights on PCOS, male fertility, thyroid, tubal factor and IVF planning for people across Odisha.',
   path: '/fertility-insights',
   keywords: [
     'fertility blog india',

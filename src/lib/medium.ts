@@ -11,6 +11,8 @@ const EXCLUDED_PUBLIC_POST_SLUGS = new Set([
   'santaan-ivf-now-serving-bengalurus-it-corridor-aecs-layout',
   'ivf-treatment-cost-in-bangalore-understanding-the-price-procedure-and-success',
 ]);
+const NON_ODISHA_PUBLIC_LOCATION_PATTERN = /\b(?:bangalore|bengaluru|jayanagar|halasuru|karnataka|aecs\s+layout)\b/i;
+const UNSUPPORTED_PUBLIC_CLAIM_PATTERN = /(?:\bbest\s+ivf\b|\btop[-\s]?rated\b|\bno\.?\s*1\b|#1\b|\bhighest\s+success\s+rate\b|\bguaranteed\s+outcomes?\b)/i;
 
 export type BlogType = 'blog' | 'news' | 'doctor';
 
@@ -71,11 +73,11 @@ function applyPostLimit(posts: SantaanBlogPost[], limit?: number): SantaanBlogPo
 }
 
 function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: number; type?: BlogType }): SantaanBlogPost[] {
-  const visiblePosts = posts.filter((post) => !EXCLUDED_PUBLIC_POST_SLUGS.has(post.slug));
+  const visiblePosts = posts.filter(isOdishaOnlyPublicPost);
   const existingSlugs = new Set(visiblePosts.map((post) => post.slug));
   const fallbackSeeds = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].map(normalizeArchivedPost);
   const eligibleFallback = fallbackSeeds.filter((seed) => {
-    if (EXCLUDED_PUBLIC_POST_SLUGS.has(seed.slug)) return false;
+    if (!isOdishaOnlyPublicPost(seed)) return false;
     if (existingSlugs.has(seed.slug)) return false;
     existingSlugs.add(seed.slug);
     return true;
@@ -89,6 +91,13 @@ function mergeWithLegacySeeds(posts: SantaanBlogPost[], options?: { limit?: numb
   }
 
   return typeFiltered;
+}
+
+function isOdishaOnlyPublicPost(post: SantaanBlogPost): boolean {
+  if (EXCLUDED_PUBLIC_POST_SLUGS.has(post.slug)) return false;
+  const publicText = `${post.title} ${post.excerpt} ${stripHtml(post.html)} ${post.tags.join(' ')}`;
+  const titleAndSlug = `${post.slug} ${post.title}`;
+  return !NON_ODISHA_PUBLIC_LOCATION_PATTERN.test(publicText) && !UNSUPPORTED_PUBLIC_CLAIM_PATTERN.test(titleAndSlug);
 }
 
 function normalizeArchivedPost(post: SantaanBlogPost): SantaanBlogPost {
@@ -628,12 +637,13 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
     return null;
   });
   if (hubPost) {
-    return hubPost;
+    return isOdishaOnlyPublicPost(hubPost) ? hubPost : null;
   }
 
   const archivedPost = [...MEDIUM_ARCHIVE_SEEDS, ...LEGACY_BLOG_SEEDS].find((post) => post.slug === slug);
   if (archivedPost) {
-    return normalizeArchivedPost(archivedPost);
+    const normalized = normalizeArchivedPost(archivedPost);
+    return isOdishaOnlyPublicPost(normalized) ? normalized : null;
   }
 
   let existing: BlogRow | undefined;
@@ -651,7 +661,8 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
   }
 
   if (existing) {
-    return mapRowToPost(existing);
+    const post = mapRowToPost(existing);
+    return isOdishaOnlyPublicPost(post) ? post : null;
   }
 
   if (hasLegacyMediumFallback() && hasConfiguredBlogStore()) {
@@ -664,7 +675,8 @@ export async function getSantaanBlogPostBySlug(slug: string): Promise<SantaanBlo
         .get();
 
       if (existing) {
-        return mapRowToPost(existing);
+        const post = mapRowToPost(existing);
+        return isOdishaOnlyPublicPost(post) ? post : null;
       }
     } catch (error) {
       console.error('Blog detail sync fallback failed:', error);

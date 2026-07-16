@@ -46,6 +46,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       duplicate: result.result?.duplicate === true,
+      leadId: result.result?.lead_id,
       message: "Spot reserved. We will confirm the seminar details on WhatsApp.",
     });
   } catch (error) {

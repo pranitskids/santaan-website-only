@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { buildMetadata } from '@/lib/seo';
 import { treatmentSlugs, getTreatmentPageBySlug } from '@/content/treatments';
+import { OdishaCentresLinks } from '@/components/sections/OdishaCentresLinks';
 
 export const metadata = buildMetadata({
   title: 'Treatments',
@@ -59,6 +60,8 @@ export default function TreatmentsIndexPage() {
           </div>
         </div>
       </section>
+
+      <OdishaCentresLinks />
 
       <Footer />
     </main>

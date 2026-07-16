@@ -34,7 +34,13 @@
 
 [[redirects]]
   from = "/bengaluru-aecs-layout"
-  to = "/ivf-clinic-bangalore-aecs-layout"
+  to = "/contact-centres"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ivf-clinic-bangalore-aecs-layout"
+  to = "/contact-centres"
   status = 301
   force = true
 

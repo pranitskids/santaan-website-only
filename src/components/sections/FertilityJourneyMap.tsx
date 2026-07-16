@@ -12,7 +12,7 @@ interface FertilityPathway {
         name: string;
         icon: LucideIcon;
         description: string;
-        successRate: string;
+        planningNote: string;
     }[];
 }
 
@@ -25,19 +25,19 @@ const fertilityPaths: FertilityPathway[] = [
                 name: "Lifestyle & Tracking",
                 icon: Heart,
                 description: "Optimizing health, cycle tracking, timed intercourse",
-                successRate: "65-75%"
+                planningNote: "Clinical assessment required"
             },
             {
                 name: "Ovulation Induction",
                 icon: Pill,
                 description: "Medications to regulate ovulation (Clomid, Letrozole)",
-                successRate: "60-70%"
+                planningNote: "Varies by diagnosis"
             },
             {
                 name: "IUI",
                 icon: Stethoscope,
                 description: "Intrauterine insemination with partner or donor sperm",
-                successRate: "15-20% per cycle"
+                planningNote: "Varies by clinical profile"
             }
         ]
     },
@@ -49,19 +49,19 @@ const fertilityPaths: FertilityPathway[] = [
                 name: "IUI",
                 icon: Stethoscope,
                 description: "Intrauterine insemination, often combined with ovulation drugs",
-                successRate: "12-18% per cycle"
+                planningNote: "Varies by clinical profile"
             },
             {
                 name: "IVF",
                 icon: TestTube,
                 description: "In vitro fertilization with fresh or frozen embryos",
-                successRate: "40-50% per cycle"
+                planningNote: "Clinical assessment required"
             },
             {
                 name: "Egg Freezing",
                 icon: Microscope,
                 description: "Preserve fertility for future family planning",
-                successRate: "N/A (Preservation)"
+                planningNote: "Preservation pathway"
             }
         ]
     },
@@ -73,19 +73,19 @@ const fertilityPaths: FertilityPathway[] = [
                 name: "IVF with PGT",
                 icon: TestTube,
                 description: "IVF with genetic testing to select healthy embryos",
-                successRate: "30-40% per cycle"
+                planningNote: "Varies by clinical profile"
             },
             {
                 name: "ICSI",
                 icon: Microscope,
                 description: "Intracytoplasmic sperm injection for fertilization",
-                successRate: "35-45% per cycle"
+                planningNote: "Varies by clinical profile"
             },
             {
                 name: "Donor Eggs",
                 icon: Heart,
                 description: "Using donor eggs when own egg quality is compromised",
-                successRate: "50-60% per cycle"
+                planningNote: "Individual counselling required"
             }
         ]
     },
@@ -97,19 +97,19 @@ const fertilityPaths: FertilityPathway[] = [
                 name: "IVF with PGT-A",
                 icon: TestTube,
                 description: "Advanced embryo screening for chromosomal health",
-                successRate: "15-25% per cycle"
+                planningNote: "Varies by clinical profile"
             },
             {
                 name: "Donor Eggs/Embryos",
                 icon: Heart,
-                description: "Using donor eggs offers highest success for this age group",
-                successRate: "50-60% per cycle"
+                description: "Donor eggs may be discussed when clinically appropriate",
+                planningNote: "Individual counselling required"
             },
             {
                 name: "Comprehensive Care",
                 icon: Stethoscope,
                 description: "Personalized protocols, supplements, genetic counseling",
-                successRate: "Varies"
+                planningNote: "Varies by clinical profile"
             }
         ]
     }
@@ -262,9 +262,9 @@ export function FertilityJourneyMap() {
                                                         {treatment.description}
                                                     </p>
                                                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                                                        <span className="text-xs text-gray-500 font-medium">Success Rate</span>
+                                                        <span className="text-xs text-gray-500 font-medium">Planning note</span>
                                                         <span className="text-lg font-bold text-santaan-teal">
-                                                            {treatment.successRate}
+                                                            {treatment.planningNote}
                                                         </span>
                                                     </div>
                                                 </motion.div>
@@ -320,8 +320,8 @@ export function FertilityJourneyMap() {
                 {/* Disclaimer */}
                 <div className="mt-12 text-center max-w-4xl mx-auto">
                     <p className="text-sm text-gray-500 italic">
-                        <strong>Note:</strong> Success rates are approximate and vary based on individual health factors, diagnosis, and treatment protocols. 
-                        Consult with our fertility specialists for personalized guidance based on your unique situation.
+                        <strong>Note:</strong> This pathway guide does not provide outcome percentages or an individual prognosis.
+                        Consult a fertility specialist for guidance based on your clinical profile.
                     </p>
                 </div>
             </div>

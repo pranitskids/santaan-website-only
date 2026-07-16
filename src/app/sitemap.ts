@@ -7,6 +7,7 @@ import { getSiteUrl } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const odishaReleaseDate = new Date('2026-07-16T00:00:00+05:30');
   const baseUrl = getSiteUrl();
 
   const staticRoutes = [
@@ -38,14 +39,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries = staticRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: now,
+    lastModified: new Set([
+      '/',
+      '/contact-centres',
+      '/our-doctors',
+      '/patient-stories',
+      '/fertility-insights',
+      '/news',
+      '/treatments',
+    ]).has(route) ? odishaReleaseDate : undefined,
     changeFrequency: 'monthly' as const,
     priority: route === '/' ? 1 : route.startsWith('/ivf-clinic-') ? 0.9 : 0.7,
   }));
 
   const serviceEntries = serviceRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: now,
+    lastModified: odishaReleaseDate,
     changeFrequency: 'monthly' as const,
     priority: route.startsWith('/ivf-clinic-') ? 0.9 : 0.7,
   }));
