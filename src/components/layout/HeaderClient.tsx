@@ -8,12 +8,23 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
+import { CENTER_PROFILES, PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
 
 type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
 
-const primaryNavigation = [
-    { name: 'Centres', href: '/contact-centres' },
+interface NavigationItem {
+    name: string;
+    href: string;
+    children?: Array<{ name: string; href: string }>;
+}
+
+const centreNavigation = CENTER_PROFILES.map((centre) => ({
+    name: `${centre.city}${centre.comingSoon ? ' — coming soon' : ''}`,
+    href: centre.href,
+}));
+
+const primaryNavigation: NavigationItem[] = [
+    { name: 'Centres', href: '/contact-centres', children: centreNavigation },
     { name: 'Treatments', href: '/treatments' },
     { name: 'Pricing', href: '/pricing' },
     { name: 'Success rates', href: '/success-rates' },
@@ -33,7 +44,12 @@ const secondaryNavigation = [
     { name: 'Doctor insights', href: '/clinical-insights' },
 ];
 
-const navigation = [...primaryNavigation, ...secondaryNavigation];
+const navigation = [
+    { name: 'All centres', href: '/contact-centres' },
+    ...centreNavigation,
+    ...primaryNavigation.filter((item) => item.name !== 'Centres'),
+    ...secondaryNavigation,
+];
 
 function trackHeaderEvent(label: string) {
     if (typeof window === 'undefined') return;
@@ -102,12 +118,25 @@ export function HeaderClient() {
 
                     {/* Desktop Nav */}
                     <div className="hidden lg:flex flex-1 items-center justify-center gap-3 xl:gap-5 px-6">
-                        {primaryNavigation.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                className={navLinkClass}
-                            >
+                        {primaryNavigation.map((item) => item.children ? (
+                            <div key={item.name} className="group relative">
+                                <Link href={item.href} className={cn(navLinkClass, 'inline-flex items-center gap-1')}>
+                                    {item.name}
+                                    <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
+                                </Link>
+                                <div className="invisible absolute left-0 top-full z-50 mt-3 w-64 translate-y-2 rounded-2xl border border-gray-100 bg-white p-3 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                                    <Link href="/contact-centres" className="block rounded-xl px-3 py-2 text-sm font-semibold text-santaan-teal hover:bg-santaan-cream">
+                                        All Odisha centres
+                                    </Link>
+                                    {item.children.map((child) => (
+                                        <Link key={child.href} href={child.href} className="block rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-santaan-cream hover:text-santaan-teal">
+                                            {child.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <Link key={item.name} href={item.href} className={navLinkClass}>
                                 {item.name}
                             </Link>
                         ))}

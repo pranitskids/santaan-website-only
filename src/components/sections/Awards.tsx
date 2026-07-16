@@ -11,21 +11,21 @@ const awards = [
         icon: Award
     },
     {
-        title: "No. 1 IVF & Fertility Clinic",
+        title: "Times Health Icons Recognition",
         org: "Times Health Icons 2024",
-        desc: "Ranked #1 in Odisha for patient outcomes and service excellence.",
+        desc: "Recognition recorded by the Santaan team for its 2024 healthcare work.",
         icon: Trophy
     },
     {
-        title: "Top 10 Fertility Centres",
+        title: "East Zone Recognition",
         org: "All India Rankings (East Zone)",
-        desc: "Consistently ranked among the best since 2017.",
+        desc: "Regional recognition recorded by the Santaan team.",
         icon: ShieldCheck
     },
     {
-        title: "Most Awarded Centre",
+        title: "Service Recognition",
         org: "Odisha & Eastern India",
-        desc: "Honored for passionate service and dedication to families.",
+        desc: "Recognition for service and patient support recorded by the Santaan team.",
         icon: Medal
     }
 ];
@@ -43,7 +43,7 @@ export function Awards() {
                         Celebrated for <span className="text-santaan-amber">Excellence</span>
                     </h2>
                     <p className="text-black max-w-2xl mx-auto">
-                        Our commitment to your journey has been recognized by the nation&apos;s most prestigious healthcare institutions.
+                        Selected recognitions recorded by the Santaan team. Supporting documentation should be reviewed before use in paid advertising.
                     </p>
                 </div>
 

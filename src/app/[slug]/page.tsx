@@ -3,12 +3,14 @@ import { notFound } from 'next/navigation';
 import { MapPin, PhoneCall, MessageCircle, CalendarCheck } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { ConsultationForm } from '@/components/features/ConsultationForm';
 import { getServicePageBySlug, servicePageSlugs } from '@/content/servicePages';
 import { buildBreadcrumbSchema, buildFaqSchema, buildMedicalClinicSchema } from '@/lib/schema';
 import { buildMetadata } from '@/lib/seo';
 import { getSiteUrl } from '@/lib/site';
 import {
   PRIMARY_CALL_NUMBER,
+  CENTER_PROFILES,
   buildPrimaryWhatsappUrl,
   getCenterMapsUrl,
   getCenterProfileByCity,
@@ -54,55 +56,49 @@ export default async function ServicePage({ params }: { params: Params }) {
   const centerProfile = getCenterProfileBySlug(slug) ?? getCenterProfileByCity(page.city);
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', url: `${baseUrl}/` },
+    { name: 'Centres', url: `${baseUrl}/contact-centres` },
     { name: page.title, url: `${baseUrl}/${slug}` },
   ]);
-  const clinicSchema = centerProfile ? buildMedicalClinicSchema(centerProfile) : null;
-  const callNumber = PRIMARY_CALL_NUMBER;
+  const clinicSchema = centerProfile && !centerProfile.comingSoon ? buildMedicalClinicSchema(centerProfile) : null;
+  const callNumber = centerProfile?.phones[0] || PRIMARY_CALL_NUMBER;
   const callHref = `tel:${callNumber.replace(/[^0-9+]/g, '')}`;
   const whatsappHref = buildPrimaryWhatsappUrl(`Hi, I'd like to book a consultation about ${page.h1}`);
-  const mapsHref = centerProfile ? getCenterMapsUrl(centerProfile) : null;
+  const mapsHref = centerProfile && !centerProfile.comingSoon ? getCenterMapsUrl(centerProfile) : null;
+  const otherCenters = centerProfile
+    ? CENTER_PROFILES.filter((center) => center.slug !== centerProfile.slug)
+    : [];
 
   return (
-    <main className="min-h-screen bg-santaan-cream">
+    <main id="main-content" className="min-h-screen bg-santaan-cream">
       <Header />
       <section className="pt-36 pb-20 bg-gradient-to-br from-santaan-teal via-santaan-teal/90 to-santaan-dark-teal text-white">
         <div className="container mx-auto px-4 md:px-6">
+          <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-white/70">
+            <Link href="/" className="hover:text-white">Home</Link>
+            <span aria-hidden="true">/</span>
+            <Link href="/contact-centres" className="hover:text-white">Centres</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page" className="text-white">{page.city || page.title}</span>
+          </nav>
           <p className="uppercase tracking-[0.2em] text-santaan-amber text-xs font-semibold mb-3">{page.kicker}</p>
           <h1 className="text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-tight">{page.h1}</h1>
+          {page.comingSoon ? (
+            <p className="mt-4 inline-flex rounded-full border border-santaan-amber/40 bg-santaan-amber/15 px-4 py-2 text-sm font-semibold text-santaan-amber">
+              Coming soon — opening details are not yet published
+            </p>
+          ) : null}
           <p className="mt-6 max-w-3xl text-white/90 text-lg leading-relaxed">{page.intro}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8">
             <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cta-kind="whatsapp"
-              data-center="Network"
-              data-cta-target={whatsappHref}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Book on WhatsApp
-            </a>
-            <a
-              href={callHref}
-              data-cta-kind="call"
-              data-center="Network"
-              data-cta-target={callHref}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/40 font-semibold hover:bg-white/10 transition-colors"
-            >
-              <PhoneCall className="w-4 h-4" />
-              Call Santaan
-            </a>
-            <Link
-              href="/at-home-fertility-testing"
+              href="#book-consultation"
               data-cta-kind="book"
               data-center={centerProfile?.city ?? 'Network'}
-              data-cta-target="/at-home-fertility-testing"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/40 font-semibold hover:bg-white/10 transition-colors"
+              data-cta-target="#book-consultation"
+              className="inline-flex items-center gap-2 rounded-full bg-santaan-amber px-6 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-[#E08E45]"
             >
               <CalendarCheck className="w-4 h-4" />
-              Explore at-home testing
-            </Link>
+              {page.comingSoon ? 'Register your interest' : 'Book a Private Consultation'}
+            </a>
           </div>
         </div>
       </section>
@@ -112,14 +108,16 @@ export default async function ServicePage({ params }: { params: Params }) {
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="grid lg:grid-cols-[1.3fr_0.7fr] gap-6 rounded-2xl border border-gray-100 bg-white p-6 md:p-8 shadow-sm">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-santaan-amber font-semibold">Center Details</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-santaan-amber font-semibold">
+                  {centerProfile.comingSoon ? 'Planned centre' : 'Centre details'}
+                </p>
                 <h2 className="mt-3 text-2xl md:text-3xl font-playfair font-bold text-santaan-teal">
                   Visit {centerProfile.centerName}
                 </h2>
                 <p className="mt-3 text-gray-700 leading-relaxed">{centerProfile.summary}</p>
                 <div className="mt-5 grid gap-4 md:grid-cols-2 text-sm">
                   <div className="rounded-xl bg-santaan-cream/60 border border-santaan-sage/20 p-4">
-                    <p className="font-semibold text-gray-900">Location</p>
+                    <p className="font-semibold text-gray-900">{centerProfile.comingSoon ? 'Planned service area' : 'Location'}</p>
                     <p className="mt-2 text-gray-700">{centerProfile.fullAddress}</p>
                   </div>
                   <div className="rounded-xl bg-santaan-cream/60 border border-santaan-sage/20 p-4">
@@ -128,7 +126,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                   </div>
                   {centerProfile.phones.length > 0 ? (
                     <div className="rounded-xl bg-santaan-cream/60 border border-santaan-sage/20 p-4">
-                      <p className="font-semibold text-gray-900">Clinic phone</p>
+                      <p className="font-semibold text-gray-900">{centerProfile.comingSoon ? 'Odisha contact' : 'Clinic phone'}</p>
                       <div className="mt-2 space-y-1">
                         {centerProfile.phones.map((phone) => (
                           <p key={phone} className="text-gray-700">
@@ -169,24 +167,37 @@ export default async function ServicePage({ params }: { params: Params }) {
               </div>
 
               <div className="rounded-2xl bg-santaan-teal text-white p-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-santaan-amber font-semibold">Quick Actions</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-santaan-amber font-semibold">Quick actions</p>
                 <div className="mt-5 space-y-3">
+                  {centerProfile.comingSoon ? (
+                    <a
+                      href="#book-consultation"
+                      data-cta-kind="book"
+                      data-center={centerProfile.city}
+                      data-cta-target="#book-consultation"
+                      className="flex items-center justify-center gap-2 rounded-xl bg-santaan-amber px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#E08E45]"
+                    >
+                      <CalendarCheck className="w-4 h-4" />
+                      Register your interest
+                    </a>
+                  ) : (
                   <a
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cta-kind="whatsapp"
-                    data-center="Network"
+                    data-center={centerProfile.city}
                     data-cta-target={whatsappHref}
                     className="flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-400 transition-colors"
                   >
                     <MessageCircle className="w-4 h-4" />
                     Book on WhatsApp
                   </a>
+                  )}
                   <a
                     href={callHref}
                     data-cta-kind="call"
-                    data-center="Network"
+                    data-center={centerProfile.city}
                     data-cta-target={callHref}
                     className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
                   >
@@ -209,6 +220,10 @@ export default async function ServicePage({ params }: { params: Params }) {
             </div>
           </div>
         </section>
+      ) : null}
+
+      {centerProfile ? (
+        <ConsultationForm centre={centerProfile.city} comingSoon={centerProfile.comingSoon} />
       ) : null}
 
       <section className="py-16">
@@ -238,6 +253,33 @@ export default async function ServicePage({ params }: { params: Params }) {
                   >
                     <h3 className="font-semibold text-gray-900">{related.label}</h3>
                     <p className="mt-2 text-sm text-gray-700 leading-relaxed">{related.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {centerProfile ? (
+        <section className="pb-16">
+          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+            <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+              <h2 className="font-playfair text-2xl font-bold text-santaan-teal md:text-3xl">Plan your next step</h2>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {[
+                  { href: '/treatments', label: 'Treatments' },
+                  { href: '/pricing', label: 'Pricing guidance' },
+                  { href: '/our-doctors', label: 'Doctors' },
+                  { href: '/contact-centres', label: 'Contact centres' },
+                  ...otherCenters.map((center) => ({ href: center.href, label: `${center.city}${center.comingSoon ? ' — coming soon' : ''}` })),
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-xl border border-santaan-sage/30 bg-santaan-cream/40 px-4 py-3 font-semibold text-santaan-teal transition-colors hover:bg-white"
+                  >
+                    {item.label}
                   </Link>
                 ))}
               </div>

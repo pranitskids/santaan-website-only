@@ -44,6 +44,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       duplicate: result.result?.duplicate === true,
+      leadId: result.result?.lead_id,
       message: "Request received. Our team will follow up on WhatsApp shortly.",
     });
   } catch (error) {

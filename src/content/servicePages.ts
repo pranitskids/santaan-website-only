@@ -17,6 +17,7 @@ export interface ServicePageData {
   intro: string;
   primaryKeyword: string;
   city?: string;
+  comingSoon?: boolean;
   sections: ServiceSection[];
   faqs: ServiceFaq[];
   relatedPages?: Array<{
@@ -35,14 +36,14 @@ export const servicePageData: Record<string, ServicePageData> = {
     h1: 'IVF Centre in Bhubaneswar',
     kicker: 'Bhubaneswar Fertility Care',
     intro:
-      'Santaan IVF Bhubaneswar combines advanced reproductive science with personalized planning for couples and individuals who want timely, transparent fertility care.',
+      'Santaan IVF Bhubaneswar provides private fertility consultations for individuals and couples who need a clear plan before deciding on treatment. At our Nayapalli centre, the clinical team reviews both partners together, coordinates fertility testing and diagnostics, and explains when monitored cycles, IUI, IVF or ICSI may be appropriate. The centre supports ovarian-reserve review, semen analysis, male fertility work-up, cycle monitoring and treatment planning under specialist guidance. Your first visit is focused on understanding previous reports, current concerns, likely next tests and a realistic sequence of care. Patients from Bhubaneswar, Khordha and nearby areas can use the centre phone, directions and consultation form below to plan a confidential appointment.',
     primaryKeyword: 'IVF centre in Bhubaneswar',
     city: 'Bhubaneswar',
     sections: [
       {
-        heading: 'Why families choose Santaan in Bhubaneswar',
+        heading: 'Fertility evaluation before treatment decisions',
         body:
-          'Patients need clarity, not confusion. Our Bhubaneswar team uses structured fertility diagnostics for both partners, individualized treatment plans, and continuous follow-up so each cycle is data-backed and emotionally supported.',
+          'The Bhubaneswar team reviews reproductive history, hormone and ovarian-reserve findings, ultrasound results and semen parameters together. This creates a clinical starting point before IUI, IVF or ICSI is discussed.',
       },
       {
         heading: 'Services available at this center',
@@ -50,14 +51,14 @@ export const servicePageData: Record<string, ServicePageData> = {
           'We provide fertility evaluation, ovulation support, IUI, IVF, ICSI, male-factor workup, embryo culture planning, and guidance for egg-freezing decisions. Every plan is built around clinical findings, timeline needs, and budget comfort.',
       },
       {
-        heading: 'How we improve treatment decision quality',
+        heading: 'Clinical team in Bhubaneswar',
         body:
-          'Our doctors map hormone trends, ovarian reserve, semen parameters, thyroid-metabolic markers, and cycle response history before selecting protocol pathways. This reduces trial-and-error and helps couples move with confidence.',
+          'Dr. Kaninika Panda leads the Bhubaneswar centre. Consultation availability can vary, so the booking team confirms the doctor and time assigned to each appointment before the visit.',
       },
       {
-        heading: 'Book your first step',
+        heading: 'Plan a private consultation',
         body:
-          'Start with a fertility readiness consultation or at-home testing workflow if privacy and convenience matter to you. Our team guides you from first report to treatment roadmap with realistic milestones.',
+          'Use the centre-specific form below to request an appointment. Bring prior prescriptions, scan reports and test results if available so the consultation can focus on decisions rather than repeated history-taking.',
       },
     ],
     faqs: [
@@ -72,9 +73,19 @@ export const servicePageData: Record<string, ServicePageData> = {
           'Yes. Male-factor evaluation is integrated into our standard pathway and includes semen quality profiling and additional tests where clinically needed.',
       },
       {
-        question: 'Can I begin with at-home fertility testing?',
+        question: 'Where is Santaan IVF Bhubaneswar located?',
         answer:
-          'Yes. You can begin with at-home testing and then proceed to specialist consultation with your reports for faster treatment planning.',
+          'The centre is on the 3rd Floor of Utkal Pristine, IRC Village, Nayapalli, Bhubaneswar 751012, above Max Nayapalli. Use the directions link on this page before travelling.',
+      },
+      {
+        question: 'Which reports should I bring to a Bhubaneswar consultation?',
+        answer:
+          'Bring previous prescriptions, hormone and AMH reports, ultrasound or HSG findings, semen-analysis reports and records from earlier IUI or IVF cycles. The team will confirm if anything else is needed.',
+      },
+      {
+        question: 'How can I request a private appointment in Bhubaneswar?',
+        answer:
+          'Submit the consultation form on this page or call the Bhubaneswar number. The team will confirm the appointment and any pre-visit instructions directly with you.',
       },
     ],
   },
@@ -86,12 +97,12 @@ export const servicePageData: Record<string, ServicePageData> = {
     h1: 'IVF Centre in Berhampur',
     kicker: 'Berhampur Fertility Care',
     intro:
-      'Santaan Berhampur serves couples across Ganjam and nearby districts with evidence-driven fertility care that is transparent, compassionate, and locally accessible.',
+      'Santaan IVF Berhampur serves Ganjam and South Odisha with private fertility consultations, structured diagnostics and treatment planning close to home. The centre supports couple-based fertility evaluation, ovarian and hormone testing, semen analysis, cycle monitoring, IUI guidance, IVF and ICSI planning, and follow-up after previous treatment attempts. During the first consultation, the team reviews both partners’ history and reports before explaining which tests or treatment steps are clinically relevant. Dr. Deepika K. N. Padhi leads the Berhampur centre, with appointment schedules confirmed by the booking team. The clinic is in Gajapati Nagar, Brahmapur, and the address, phones, opening hours, directions and centre-specific enquiry form are provided below.',
     primaryKeyword: 'IVF centre in Berhampur',
     city: 'Berhampur',
     sections: [
       {
-        heading: 'Local access, specialist quality',
+        heading: 'Local evaluation for Berhampur and Ganjam',
         body:
           'We reduce delays in diagnosis by providing structured evaluations close to home. Couples get faster decisions, less travel burden, and continuity with a focused fertility care team.',
       },
@@ -101,12 +112,12 @@ export const servicePageData: Record<string, ServicePageData> = {
           'From cycle monitoring and IUI to advanced IVF planning, we tailor treatment based on age, ovarian reserve, semen factors, thyroid-metabolic profile, and prior attempt history.',
       },
       {
-        heading: 'Transparent counseling at every stage',
+        heading: 'Clinical team in Berhampur',
         body:
-          'Our team explains expected timelines, likely milestones, and step-wise options so you can make informed decisions with clarity instead of pressure.',
+          'Dr. Deepika K. N. Padhi leads the Berhampur centre. The booking team confirms current consultation schedules and any preparation needed before your appointment.',
       },
       {
-        heading: 'Support beyond procedure days',
+        heading: 'Follow-up and visit coordination',
         body:
           'Patients receive follow-up guidance for medication schedules, report interpretation, and next-step planning, helping couples stay on track through each cycle.',
       },
@@ -123,9 +134,19 @@ export const servicePageData: Record<string, ServicePageData> = {
           'Yes. The Berhampur center supports first-time consultation, diagnosis, and treatment planning with specialist oversight.',
       },
       {
-        question: 'How do I book consultation at Santaan Berhampur?',
+        question: 'Where is the Berhampur clinic located?',
         answer:
-          'Use call, WhatsApp, or online booking. Our team will schedule appointment slots and share pre-visit preparation details.',
+          'The clinic is at Gajapati Nagar 1st Lane, off Sales Tax Square, Extension, Brahmapur, Odisha 760004, near Nidaan. Use the directions link on this page before travelling.',
+      },
+      {
+        question: 'Can the Berhampur team review an earlier failed IUI or IVF cycle?',
+        answer:
+          'Yes. Bring the prior stimulation chart, embryology summary, transfer notes and recent reports if available. The clinician will review what can be learned before suggesting another step.',
+      },
+      {
+        question: 'How do I request a consultation in Berhampur?',
+        answer:
+          'Submit the private consultation form on this page or call either listed clinic number. The team will confirm the doctor, time and any records to bring.',
       },
     ],
   },
@@ -137,7 +158,7 @@ export const servicePageData: Record<string, ServicePageData> = {
     h1: 'IVF Centre in Angul',
     kicker: 'Angul Fertility Care',
     intro:
-      'Santaan Angul helps families begin fertility evaluation earlier, understand the right next step faster, and move into specialist-led treatment planning without unnecessary confusion or travel burden.',
+      'Santaan IVF Angul offers a local starting point for private fertility consultations, initial testing and coordinated treatment planning for people in Angul, Talcher and nearby districts. The care pathway begins with both partners’ history and available reports, followed by guidance on fertility testing, semen analysis, cycle assessment and the next appropriate clinical step. Where indicated, the team coordinates monitored treatment, IUI guidance, IVF or ICSI planning and specialist review through the Santaan Odisha network. Doctor and visiting-clinician schedules are confirmed individually when an appointment is requested; no unverified roster is published. The centre is on Shankar Cinema Road in Bazarapada, and its verified address, phone, landmark, directions and centre-specific consultation form are listed below.',
     primaryKeyword: 'IVF centre in Angul',
     city: 'Angul',
     sections: [
@@ -147,14 +168,14 @@ export const servicePageData: Record<string, ServicePageData> = {
           'Many couples spend months repeating fragmented tests before they get a clear plan. The Angul pathway is designed to shorten that delay with structured evaluation for both partners and focused next-step guidance.',
       },
       {
-        heading: 'Services and guidance available through this center',
+        heading: 'Services and guidance available through this centre',
         body:
           'We help patients move from baseline fertility testing and report review into IUI, IVF, ICSI, male-factor evaluation, and condition-specific treatment planning depending on diagnosis, age, and timeline.',
       },
       {
-        heading: 'Built for practical, real-world fertility planning',
+        heading: 'Doctor and visiting-clinician schedules',
         body:
-          'Treatment decisions are based on ovarian reserve, semen quality, endocrine markers, menstrual history, and prior attempts. This reduces guesswork and helps couples understand what is worth trying next.',
+          'The Angul booking team confirms the clinician and schedule for each appointment. This avoids publishing a doctor relationship that may not match the current visiting roster.',
       },
       {
         heading: 'Support for Angul and nearby districts',
@@ -174,60 +195,81 @@ export const servicePageData: Record<string, ServicePageData> = {
           'Yes. Santaan’s fertility pathway is built around a couple-first assessment model so male and female factors are reviewed together from the beginning.',
       },
       {
-        question: 'Who should consider booking at the Angul center?',
+        question: 'Where is the Angul centre located?',
         answer:
-          'Couples who have been trying for a while, have irregular cycles, low AMH, semen-factor concerns, or want a specialist-led second opinion can start with the Angul center.',
+          'The centre is on Shankar Cinema Road, Bazarapada, Angul 759122, in front of Reliance Digital. Use the directions link on this page to confirm the route.',
+      },
+      {
+        question: 'Are IVF and ICSI planning supported from Angul?',
+        answer:
+          'Yes. The Angul team can begin evaluation and coordinate advanced-treatment planning through the Santaan Odisha network when the clinical review indicates IVF or ICSI.',
+      },
+      {
+        question: 'How is the consulting doctor confirmed for Angul?',
+        answer:
+          'Submit the form or call the centre. The booking team will confirm the current clinician, visit date and any reports that should be brought to the appointment.',
       },
     ],
   },
-  'ivf-clinic-bangalore-aecs-layout': {
-    slug: 'ivf-clinic-bangalore-aecs-layout',
-    title: 'IVF Centre in AECS Layout, Bangalore',
+  'ivf-clinic-jeypore': {
+    slug: 'ivf-clinic-jeypore',
+    title: 'IVF Centre in Jeypore',
     description:
-      'Santaan IVF Bangalore AECS Layout delivers tech-enabled fertility evaluation, IVF planning, and discreet support for couples in the Bengaluru IT corridor.',
-    h1: 'IVF Centre in AECS Layout, Bangalore',
-    kicker: 'Bangalore IT Corridor Fertility Care',
+      'Santaan IVF Jeypore is coming soon. Register for verified opening, consultation and location updates from the Santaan Odisha team.',
+    h1: 'IVF Centre in Jeypore',
+    kicker: 'Jeypore Fertility Care',
     intro:
-      'Designed for busy professionals, Santaan Bangalore combines evidence-driven clinical pathways with convenient follow-up and discreet communication support.',
-    primaryKeyword: 'IVF centre in AECS Layout',
-    city: 'Bangalore',
+      'Santaan IVF is preparing a Jeypore access point to support people in Jeypore, Koraput and Southern Odisha with private fertility consultations and coordinated care. The centre is coming soon, so an exact clinic address, opening hours, map pin, consulting-doctor roster and procedure availability are not yet being published. You can still register your interest through the form below. The Santaan Odisha team will record Jeypore as your preferred centre, preserve your campaign and referral details, and contact you when verified launch information is available. Until the centre opens, the team can explain which existing Odisha location may be appropriate for time-sensitive fertility evaluation, IVF or IUI planning, diagnostics and report review.',
+    primaryKeyword: 'IVF centre in Jeypore',
+    city: 'Jeypore',
+    comingSoon: true,
     sections: [
       {
-        heading: 'Built for fast-paced professional lives',
+        heading: 'Jeypore centre status',
         body:
-          'Our workflows are structured for time-constrained couples. We keep diagnostics, specialist consultations, and follow-up communication efficient without compromising medical depth.',
+          'The Jeypore centre is coming soon. Santaan will publish the exact address, map, opening hours, phone routing and clinician schedule only after those details are operationally verified.',
       },
       {
-        heading: 'Integrated male and female fertility assessment',
+        heading: 'Register for verified launch information',
         body:
-          'We evaluate both partners together so treatment planning is complete from the beginning. This avoids delays caused by one-sided assessment and improves decision quality.',
+          'Use the centre-specific form to register your interest. The lead is tagged to Jeypore so the Odisha team can share opening and consultation information without losing your source or campaign context.',
       },
       {
-        heading: 'Data-backed planning for IVF and beyond',
+        heading: 'Support before the centre opens',
         body:
-          'Protocol recommendations are based on ovarian reserve, endocrine markers, semen health, and cycle history. You get realistic timelines and clear decision points.',
+          'If your concern is time-sensitive, the team can discuss whether report review or a consultation at another active Odisha centre is appropriate. No treatment outcome or launch-date promise is made on this page.',
       },
       {
-        heading: 'Confidential and continuity-focused support',
+        heading: 'What will be added after verification',
         body:
-          'We offer privacy-conscious communication, structured updates, and practical coordination for professionals balancing treatment with demanding schedules.',
+          'Before the centre is presented as open, this page will be updated with full NAP details, opening hours, directions, available services, access information and only the clinicians who actually consult in Jeypore.',
       },
     ],
     faqs: [
       {
-        question: 'Do you serve couples in the Bangalore IT corridor?',
+        question: 'Is Santaan IVF Jeypore open now?',
         answer:
-          'Yes. The AECS Layout center is designed to serve professionals across the IT corridor with flexible fertility pathways and follow-up.',
+          'Not yet. The Jeypore centre is coming soon, and this page will be updated when the opening details are verified.',
       },
       {
-        question: 'Can I combine in-person visits with virtual follow-up?',
+        question: 'Can I register for a Jeypore consultation update?',
         answer:
-          'Yes. Initial diagnostics are planned in-person, and selected follow-up steps can be coordinated efficiently through remote support.',
+          'Yes. Submit the form on this page and select Jeypore as your preferred centre. The Odisha team will contact you when verified consultation information is available.',
       },
       {
-        question: 'Is male-factor workup included in your pathway?',
+        question: 'Where exactly will the Jeypore centre be located?',
         answer:
-          'Yes. Male-factor evaluation is included in our standard fertility workup and treatment planning framework.',
+          'The exact clinic address and map pin have not yet been confirmed for publication. Santaan will add them here after operational verification.',
+      },
+      {
+        question: 'Which doctors will consult in Jeypore?',
+        answer:
+          'The consulting roster has not yet been published. Only doctors with a confirmed Jeypore schedule will be listed once the centre is ready to open.',
+      },
+      {
+        question: 'What if I need fertility advice before Jeypore opens?',
+        answer:
+          'Register your interest or call the Odisha team. They can discuss whether an active Santaan centre is appropriate for a time-sensitive evaluation or report review.',
       },
     ],
   },

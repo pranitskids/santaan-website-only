@@ -59,6 +59,7 @@ export function buildOrganizationSchema() {
 
 export function buildMedicalClinicSchema(center: CenterProfile) {
   const baseUrl = getSiteUrl();
+  const postalCode = center.fullAddress.match(/\b\d{6}\b/)?.[0];
   const openingHoursSpecification = center.hours
     .map((entry) => {
       const [day, time] = entry.split(': ');
@@ -93,6 +94,7 @@ export function buildMedicalClinicSchema(center: CenterProfile) {
     url: `${baseUrl}${center.href}`,
     telephone: center.phones[0],
     email: center.email,
+    image: `${baseUrl}/assets/hero-family.png`,
     hasMap: getCenterMapsUrl(center),
     areaServed: center.areaServed.map((area) => ({
       '@type': 'AdministrativeArea',
@@ -103,15 +105,44 @@ export function buildMedicalClinicSchema(center: CenterProfile) {
       streetAddress: center.fullAddress,
       addressLocality: center.city,
       addressRegion: center.region,
+      postalCode,
       addressCountry: 'IN',
     },
+    parentOrganization: {
+      '@type': 'MedicalOrganization',
+      name: 'Santaan IVF',
+      url: baseUrl,
+    },
+    geo: center.geo
+      ? {
+          '@type': 'GeoCoordinates',
+          latitude: center.geo.latitude,
+          longitude: center.geo.longitude,
+        }
+      : undefined,
     medicalSpecialty: 'ReproductiveHealth',
     openingHoursSpecification: openingHoursSpecification.length > 0 ? openingHoursSpecification : undefined,
   };
 }
 
 export function buildLocalClinicSchemas() {
-  return CENTER_PROFILES.map((center) => buildMedicalClinicSchema(center));
+  return CENTER_PROFILES.filter((center) => !center.comingSoon).map((center) => buildMedicalClinicSchema(center));
+}
+
+export function buildCenterItemListSchema() {
+  const baseUrl = getSiteUrl();
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Santaan Fertility Centres in Odisha',
+    numberOfItems: CENTER_PROFILES.length,
+    itemListElement: CENTER_PROFILES.map((center, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: center.comingSoon ? `${center.centerName}` : center.centerName,
+      url: `${baseUrl}${center.href}`,
+    })),
+  };
 }
 
 export function buildBlogPostingSchema(input: {

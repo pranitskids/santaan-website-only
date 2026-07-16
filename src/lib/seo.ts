@@ -72,18 +72,18 @@ export const defaultSeoMetadata: Metadata = {
     apple: [{ url: '/favicon.ico' }],
   },
   title: {
-    default: 'Santaan IVF | Fertility & IVF Centre in Odisha & Bangalore',
+    default: 'Santaan IVF | IVF & Fertility Centres in Odisha',
     template: '%s | Santaan IVF',
   },
   description:
-    'Evidence-driven fertility and IVF care across Bhubaneswar, Berhampur and Bangalore, backed by compassionate doctors and advanced diagnostics.',
+    'Evidence-driven fertility and IVF care across Bhubaneswar, Angul, Berhampur and Jeypore. Book a private consultation with Santaan.',
   alternates: {
     canonical: getSiteUrl(),
   },
   openGraph: {
-    title: 'Santaan IVF | Fertility & IVF Centre in Odisha & Bangalore',
+    title: 'Santaan IVF | IVF & Fertility Centres in Odisha',
     description:
-      'Evidence-driven fertility and IVF care across Bhubaneswar, Berhampur and Bangalore, backed by compassionate doctors and advanced diagnostics.',
+      'Evidence-driven fertility and IVF care across Bhubaneswar, Angul, Berhampur and Jeypore. Book a private consultation with Santaan.',
     url: getSiteUrl(),
     siteName: SITE_NAME,
     locale: 'en_IN',

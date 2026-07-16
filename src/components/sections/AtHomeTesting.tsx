@@ -69,7 +69,7 @@ export default function AtHomeTesting({ headingAs = 'h2' }: AtHomeTestingProps) 
                                 <div>
                                     <h4 className="font-semibold text-gray-900 mb-1">Comfort & Privacy</h4>
                                     <p className="text-sm text-gray-600">
-                                        Produce samples in the privacy and comfort of your own home. No clinic waiting rooms, no awkward moments. Complete discretion guaranteed.
+                                        Produce samples in the privacy and comfort of your own home. No clinic waiting rooms, with private coordination by the Santaan team.
                                     </p>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ export default function AtHomeTesting({ headingAs = 'h2' }: AtHomeTestingProps) 
                                     <Lock className="w-6 h-6 text-santaan-teal" />
                                 </div>
                                 <div>
-                                    <h4 className="font-semibold text-gray-900 mb-1">100% Confidential</h4>
+                                    <h4 className="font-semibold text-gray-900 mb-1">Confidential coordination</h4>
                                     <p className="text-sm text-gray-600">
                                         Your fertility journey is personal. Our trained professionals maintain strict confidentiality. All samples handled with medical-grade care.
                                     </p>

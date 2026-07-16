@@ -5,9 +5,9 @@ const CENTER_NAME_MAP: Record<string, string> = {
     bbsr: "Bhubaneswar",
     berhampur: "Berhampur",
     brahmapur: "Berhampur",
-    bangalore: "Bangalore",
-    bengaluru: "Bangalore",
-    aecs: "Bangalore",
+    angul: "Angul",
+    jeypore: "Jeypore",
+    koraput: "Jeypore",
 };
 
 const CLEAN_PHONE = /[^0-9]/g;
@@ -76,4 +76,3 @@ export const resolveCenter = (input: {
     const explicit = input.center ? findCenterByHint(input.center) || input.center : undefined;
     return explicit || inferCenterFromLandingPath(input.landingPath) || inferCenterFromTarget(input.target) || "Network";
 };
-

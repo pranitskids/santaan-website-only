@@ -17,7 +17,17 @@ export const getSiteUrl = (): string => {
   const normalized = candidate.replace(/\/$/, '');
 
   try {
-    return new URL(normalized).toString().replace(/\/$/, '');
+    const parsed = new URL(normalized);
+    const isLocalDevelopment =
+      process.env.NODE_ENV !== 'production' &&
+      ['localhost', '127.0.0.1'].includes(parsed.hostname);
+
+    if (isLocalDevelopment) {
+      return parsed.toString().replace(/\/$/, '');
+    }
+
+    // Public and preview deployments must share one canonical host.
+    return FALLBACK_SITE_URL;
   } catch {
     return FALLBACK_SITE_URL;
   }

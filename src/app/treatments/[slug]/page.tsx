@@ -7,6 +7,7 @@ import { buildMetadata } from '@/lib/seo';
 import { buildBreadcrumbSchema, buildFaqSchema } from '@/lib/schema';
 import { getSiteUrl } from '@/lib/site';
 import { getTreatmentPageBySlug, treatmentSlugs } from '@/content/treatments';
+import { OdishaCentresLinks } from '@/components/sections/OdishaCentresLinks';
 
 type Params = Promise<{ slug: string }>;
 
@@ -141,9 +142,9 @@ export default async function TreatmentPage({ params }: { params: Params }) {
 
             <aside className="space-y-6">
               <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <h3 className="text-lg font-playfair font-bold text-gray-900">Next best step</h3>
+                <h3 className="text-lg font-playfair font-bold text-gray-900">Choose a next step</h3>
                 <p className="mt-3 text-gray-600">
-                  Replace this with a writer-approved conversion block: eligibility cues + “book consult” messaging.
+                  Select an Odisha centre to review local contact details and request a private consultation. Treatment suitability is confirmed only after clinical review.
                 </p>
                 <div className="mt-5 grid gap-3">
                   <Link href="/contact-centres" className="w-full text-center px-5 py-3 bg-santaan-amber text-white rounded-full font-semibold hover:bg-[#E08E45] transition-colors">
@@ -172,6 +173,8 @@ export default async function TreatmentPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
+
+      <OdishaCentresLinks />
 
       <Footer />
     </main>

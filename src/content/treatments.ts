@@ -27,7 +27,7 @@ export const treatmentPages: Record<string, TreatmentPage> = {
     slug: 'ivf',
     title: 'IVF Treatment',
     description:
-      'Understand IVF treatment steps, who IVF is for, and how Santaan plans evidence-based IVF pathways across Odisha and Bangalore.',
+      'Understand IVF treatment steps, who IVF is for, and how Santaan plans evidence-based IVF pathways across Odisha.',
     h1: 'IVF Treatment',
     kicker: 'In Vitro Fertilization',
     intro:

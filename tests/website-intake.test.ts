@@ -3,6 +3,7 @@ import { afterEach, beforeEach, test } from "node:test";
 import { pushWebsiteLeadToAiCrm } from "../src/lib/aicrm-website-intake";
 import { POST as atHomePost } from "../src/app/api/at-home/register/route";
 import { POST as seminarPost } from "../src/app/api/seminar/register/route";
+import { POST as consultationPost } from "../src/app/api/consultation/register/route";
 
 const originalFetch = globalThis.fetch;
 const originalEnv = {
@@ -117,7 +118,7 @@ test("at-home route keeps the submission id stable for CRM idempotency", async (
   assert.equal(response.status, 200);
   assert.equal(submissionId, "web-retry-12345678");
   assert.equal(body.duplicate, true);
-  assert.equal("leadId" in body, false);
+  assert.equal(body.leadId, "lead-existing");
 });
 
 test("website intake fails closed when the server secret is missing", async () => {
@@ -184,5 +185,56 @@ test("seminar route forwards the assessment context without requiring email", as
     score: 7,
     signal: "Yellow",
     ready_to_start: "exploring",
+  });
+});
+
+test("Jeypore consultation request is tagged as coming soon and returns the confirmed lead id", async () => {
+  let outboundPayload: Record<string, unknown> = {};
+  globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit) => {
+    outboundPayload = JSON.parse(String(init?.body));
+    return Response.json(
+      {
+        accepted: true,
+        duplicate: false,
+        lead_id: "lead-jeypore-1",
+        submission_id: "web-jeypore-12345678",
+        capi: { queued: true, status: "pending" },
+      },
+      { status: 201 },
+    );
+  }) as typeof fetch;
+
+  const response = await consultationPost(
+    new Request("https://www.santaan.in/api/consultation/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        submissionId: "web-jeypore-12345678",
+        name: "Jeypore QA Lead",
+        phone: "9999999999",
+        centre: "Jeypore",
+        concern: "Opening consultation update",
+        landingPath: "/ivf-clinic-jeypore?utm_source=google&gclid=test-click",
+        utm: {
+          utm_source: "google",
+          utm_medium: "cpc",
+          utm_campaign: "jeypore_launch",
+        },
+        attribution: { gclid: "test-click" },
+      }),
+    }),
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(body.leadId, "lead-jeypore-1");
+  assert.equal(outboundPayload.form_kind, "consultation");
+  assert.equal(outboundPayload.location, "Jeypore");
+  assert.equal(outboundPayload.campaign, "JEYPORE_COMING_SOON");
+  assert.deepEqual(outboundPayload.form_data, {
+    concern: "Opening consultation update",
+    appointment_type: "opening_update",
+    preferred_centre: "Jeypore",
+    centre_status: "coming_soon",
   });
 });

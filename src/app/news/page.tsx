@@ -10,7 +10,7 @@ export const revalidate = 300;
 export const metadata = buildMetadata({
   title: 'Santaan News and Announcements',
   description:
-    'Latest Santaan IVF announcements, awards, campaigns, centre updates and public notices across Odisha and Bangalore.',
+    'Latest Santaan IVF announcements, campaigns, centre updates and public notices across Odisha.',
   path: '/news',
   keywords: ['Santaan news', 'Santaan announcements', 'Santaan IVF awards', 'Santaan IVF updates'],
 });

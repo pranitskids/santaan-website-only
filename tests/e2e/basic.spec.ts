@@ -5,7 +5,9 @@ test.describe("Public website smoke checks", () => {
     await page.goto("/");
 
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Across Odisha");
     await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
+    await expect(page.locator("main")).not.toContainText(/Bangalore|Bengaluru|Jayanagar|Halasuru/i);
   });
 
   test("content routes stay reachable", async ({ page }) => {
@@ -20,6 +22,65 @@ test.describe("Public website smoke checks", () => {
     const response = await request.get("/robots.txt");
     expect(response.ok()).toBeTruthy();
     await expect.poll(async () => response.text()).toMatch(/User-Agent:/i);
+  });
+
+  test("sitemap contains all four Odisha centre pages and excludes the retired landing page", async ({ request }) => {
+    const response = await request.get("/sitemap.xml");
+    expect(response.ok()).toBeTruthy();
+    const xml = await response.text();
+
+    for (const slug of [
+      "ivf-clinic-bhubaneswar",
+      "ivf-clinic-angul",
+      "ivf-clinic-berhampur",
+      "ivf-clinic-jeypore",
+    ]) {
+      expect(xml).toContain(`/${slug}</loc>`);
+    }
+    expect(xml).not.toContain("ivf-clinic-bangalore-aecs-layout");
+  });
+
+  test("Jeypore coming-soon form preserves attribution and emits one confirmed lead event", async ({ page }) => {
+    let submission: Record<string, unknown> = {};
+    await page.route("**/api/consultation/register", async (route) => {
+      submission = route.request().postDataJSON() as Record<string, unknown>;
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ success: true, duplicate: false, leadId: "browser-jeypore-lead-1" }),
+      });
+    });
+
+    await page.goto(
+      "/ivf-clinic-jeypore?utm_source=google&utm_medium=cpc&utm_campaign=jeypore_launch&gclid=browser-gclid-1",
+    );
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("IVF Centre in Jeypore");
+    await expect(page.getByText("Coming soon — opening details are not yet published")).toBeVisible();
+    await page.getByLabel("Name", { exact: true }).fill("Jeypore Browser Lead");
+    await page.getByLabel("Phone number", { exact: true }).fill("9999999999");
+    await page.getByRole("button", { name: "Register my interest", exact: true }).click();
+    await expect(page.getByRole("heading", { name: "Request received", exact: true })).toBeVisible();
+
+    expect(submission.centre).toBe("Jeypore");
+    expect(submission.utm).toMatchObject({
+      utm_source: "google",
+      utm_medium: "cpc",
+      utm_campaign: "jeypore_launch",
+      center: "jeypore",
+    });
+    expect(submission.attribution).toMatchObject({ gclid: "browser-gclid-1" });
+
+    const leadEvents = await page.evaluate(() =>
+      ((window as typeof window & { dataLayer?: Array<Record<string, unknown>> }).dataLayer || [])
+        .filter((event) => event?.event === "generate_lead"),
+    );
+    expect(leadEvents).toHaveLength(1);
+    expect(leadEvents[0]).toMatchObject({
+      lead_id: "browser-jeypore-lead-1",
+      centre: "Jeypore",
+      form_name: "jeypore_interest_form",
+      gclid: "browser-gclid-1",
+    });
   });
 
   test("at-home form remains usable without horizontal overflow on mobile", async ({ page }) => {

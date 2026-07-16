@@ -44,7 +44,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/bengaluru-aecs-layout",
-        destination: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
+        permanent: true,
+      },
+      {
+        source: "/ivf-clinic-bangalore-aecs-layout",
+        destination: "/contact-centres",
         permanent: true,
       },
     ];

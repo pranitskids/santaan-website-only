@@ -37,7 +37,7 @@ export function Hero() {
                 </span>
 
                 <h1 className="text-3xl md:text-5xl font-playfair font-bold text-white mb-5 leading-tight drop-shadow-md">
-                    Evidence-Driven IVF &amp; Fertility Care in Bhubaneswar, Berhampur and Bangalore
+                    Evidence-Driven IVF &amp; Fertility Care Across Odisha
                 </h1>
 
                 <h2 className="mb-6 font-playfair text-2xl md:text-4xl font-bold text-white drop-shadow-md">
@@ -45,21 +45,21 @@ export function Hero() {
                 </h2>
 
                 <p className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto leading-relaxed drop-shadow-sm font-medium">
-                    Advanced diagnostics, compassionate specialists, and personalized treatment pathways for your fertility journey.
+                    Private consultations and evidence-driven fertility planning across Bhubaneswar, Angul, Berhampur and Jeypore.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-8 md:mb-10">
                     <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        Odisha&apos;s only IVF chain*
+                        Four Odisha centre pages
                     </span>
                     <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        15K+ families supported*
+                        Three active Odisha centres
                     </span>
                     <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        15+ national awards
+                        Jeypore coming soon
                     </span>
                     <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        4.8 / 5 rating from 479 Berhampur reviews*
+                        City-specific enquiry routing
                     </span>
                 </div>
 
@@ -135,26 +135,25 @@ export function Hero() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
                     <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">15K+</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Families supported*</p>
+                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">4</p>
+                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Odisha centre pages</p>
                     </div>
                     <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">15+</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">National awards</p>
+                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">3</p>
+                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Active Odisha centres</p>
                     </div>
                     <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">4.8 / 5</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">479 Berhampur reviews*</p>
+                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">Private</p>
+                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Consultation requests</p>
                     </div>
                     <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">Odisha</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Only IVF chain*</p>
+                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">Jeypore</p>
+                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Coming soon</p>
                     </div>
                 </div>
                 <p className="mt-4 text-[11px] md:text-xs text-white/70 max-w-4xl mx-auto">
-                    *Figures are based on internal records and public review snapshots available with the Santaan team as of Apr 2026.
-                    Family count is 15K+ and counting. “Only IVF chain” claim is based on publicly available information for Odisha.
-                    Medical outcomes vary by age, diagnosis, and clinical factors.
+                    Centre status reflects the Santaan Odisha information available in July 2026. Medical outcomes vary by age,
+                    diagnosis and other clinical factors.
                 </p>
             </div>
         </section>
