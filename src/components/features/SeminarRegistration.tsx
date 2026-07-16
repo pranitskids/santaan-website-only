@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -14,7 +14,11 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CheckCircle2 } from 'lucide-react';
-import { readUtmParams } from '@/lib/utm';
+import { ensureMandatoryUtm, readUtmParams } from '@/lib/utm';
+import {
+    createWebsiteSubmissionId,
+    readMarketingAttribution,
+} from '@/lib/marketing-attribution';
 
 interface SeminarRegistrationProps {
     isOpen: boolean;
@@ -37,6 +41,7 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const submissionIdRef = useRef<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,6 +49,8 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
         setError(null);
 
         try {
+            const submissionId = submissionIdRef.current || createWebsiteSubmissionId();
+            submissionIdRef.current = submissionId;
             const response = await fetch('/api/seminar/register', {
                 method: 'POST',
                 headers: {
@@ -56,7 +63,12 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
                     question: formData.question,
                     score,
                     signal,
-                    utm: readUtmParams()
+                    submissionId,
+                    utm: ensureMandatoryUtm(readUtmParams()),
+                    attribution: readMarketingAttribution(),
+                    landingPath: `${window.location.pathname}${window.location.search}`,
+                    referrer: document.referrer,
+                    occurredAt: new Date().toISOString(),
                 }),
             });
 
@@ -65,6 +77,7 @@ export function SeminarRegistration({ isOpen, onClose, score, signal, initialDat
             }
 
             setStep('success');
+            submissionIdRef.current = null;
         } catch {
             setError('Something went wrong. Please try again.');
         } finally {

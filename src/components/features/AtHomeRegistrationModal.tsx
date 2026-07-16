@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { ensureMandatoryUtm, readUtmParams } from "@/lib/utm";
+import {
+    createWebsiteSubmissionId,
+    readMarketingAttribution,
+} from "@/lib/marketing-attribution";
 
 interface AtHomeRegistrationModalProps {
     isOpen: boolean;
@@ -17,6 +21,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState("");
+    const submissionIdRef = useRef<string | null>(null);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -34,11 +39,21 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
         try {
             // Get UTM params
             const utm = ensureMandatoryUtm(readUtmParams());
+            const submissionId = submissionIdRef.current || createWebsiteSubmissionId();
+            submissionIdRef.current = submissionId;
 
             const res = await fetch("/api/at-home/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...formData, utm }),
+                body: JSON.stringify({
+                    ...formData,
+                    submissionId,
+                    utm,
+                    attribution: readMarketingAttribution(),
+                    landingPath: `${window.location.pathname}${window.location.search}`,
+                    referrer: document.referrer,
+                    occurredAt: new Date().toISOString(),
+                }),
             });
 
             const data = await res.json();
@@ -46,6 +61,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
             if (!res.ok) throw new Error(data.error || "Something went wrong");
 
             setIsSuccess(true);
+            submissionIdRef.current = null;
             setTimeout(() => {
                 onClose();
                 setIsSuccess(false);
