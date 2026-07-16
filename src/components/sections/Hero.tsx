@@ -44,24 +44,9 @@ export function Hero() {
                     Where Science Meets <span className="text-santaan-amber">Hope</span>
                 </h2>
 
-                <p className="text-lg md:text-xl text-white/90 mb-4 max-w-3xl mx-auto leading-relaxed drop-shadow-sm font-medium">
+                <p className="text-lg md:text-xl text-white/90 mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-sm font-medium">
                     Private consultations and evidence-driven fertility planning across Bhubaneswar, Angul, Berhampur and Jeypore.
                 </p>
-
-                <div className="flex flex-wrap items-center justify-center gap-2 mb-8 md:mb-10">
-                    <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        Four Odisha centre pages
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        Three active Odisha centres
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        Jeypore coming soon
-                    </span>
-                    <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs md:text-sm font-medium tracking-wide border border-white/20">
-                        City-specific enquiry routing
-                    </span>
-                </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 md:mb-16">
                     <a
@@ -118,14 +103,6 @@ export function Hero() {
                 </div>
 
                 <p className="mb-8 text-sm md:text-base text-white/80 max-w-2xl mx-auto">
-                    Prefer a calendar view?{' '}
-                    <a href="#book-consultation" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">
-                        Open booking options
-                    </a>
-                    .
-                </p>
-
-                <p className="mb-8 text-sm md:text-base text-white/80 max-w-2xl mx-auto">
                     Prefer to explore first?{' '}
                     <a href="#santaan-signal" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">
                         Know your fertility score
@@ -133,28 +110,6 @@ export function Hero() {
                     .
                 </p>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
-                    <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">4</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Odisha centre pages</p>
-                    </div>
-                    <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">3</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Active Odisha centres</p>
-                    </div>
-                    <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">Private</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Consultation requests</p>
-                    </div>
-                    <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 px-4 py-4 md:px-5 md:py-5 text-left">
-                        <p className="text-2xl md:text-3xl font-playfair font-bold text-white leading-none">Jeypore</p>
-                        <p className="mt-2 text-xs md:text-sm text-white/85 font-medium">Coming soon</p>
-                    </div>
-                </div>
-                <p className="mt-4 text-[11px] md:text-xs text-white/70 max-w-4xl mx-auto">
-                    Centre status reflects the Santaan Odisha information available in July 2026. Medical outcomes vary by age,
-                    diagnosis and other clinical factors.
-                </p>
             </div>
         </section>
     );

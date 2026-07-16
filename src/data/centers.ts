@@ -93,7 +93,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     addressLine: '3rd Floor, Utkal Pristine, IRC Village, Nayapalli, Bhubaneswar, Odisha 751012',
     region: 'Odisha',
     email: 'info@santaan.in',
-    phones: ['070089 90586'],
+    phones: ['+91 80854 81541'],
     summary:
       'Our Odisha hub for IVF, ICSI, male-factor review, fertility diagnostics, and step-wise treatment planning built around each couple’s reports and timelines.',
     landmark: 'Above Max Nayapalli',
@@ -147,7 +147,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     addressLine: 'Shankar Cinema Rd, Bazarapada, Angul, Odisha 759122',
     region: 'Odisha',
     email: 'info@santaan.in',
-    phones: ['+91 7008990586'],
+    phones: ['+91 80854 81541'],
     summary:
       'A local fertility access point for Angul families who need early evaluation, practical next steps, and a smoother path into specialist-led treatment planning.',
     landmark: 'In front of Reliance Digital',
@@ -176,7 +176,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     addressLine: 'Jeypore, Koraput, Odisha — opening details coming soon',
     region: 'Odisha',
     email: 'info@santaan.in',
-    phones: ['+91 70089 90586'],
+    phones: ['+91 80854 81541'],
     summary:
       'Santaan is preparing a Jeypore access point for fertility consultations and coordinated treatment planning. Register your interest and our Odisha team will share verified opening details when they are confirmed.',
     mapQuery: 'Jeypore Koraput Odisha',
@@ -193,7 +193,7 @@ export const CENTER_CONTACTS: CenterContact[] = CENTER_PROFILES.map(({ name, pho
 }));
 
 export const PRIMARY_CENTER = CENTER_PROFILES.find((center) => center.city === 'Bhubaneswar') ?? CENTER_PROFILES[0];
-export const PRIMARY_CALL_NUMBER = '+91 70089 90586';
+export const PRIMARY_CALL_NUMBER = '+91 80854 81541';
 export const PRIMARY_CALL_HREF = `tel:${PRIMARY_CALL_NUMBER.replace(/[^0-9+]/g, "")}`;
 export const PRIMARY_WHATSAPP_NUMBER = '919668904011';
 export const PRIMARY_WHATSAPP_MESSAGE = "Hi, I'd like more info on IVF";
