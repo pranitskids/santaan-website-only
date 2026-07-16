@@ -76,13 +76,13 @@ export default function AnalyticsScripts() {
                     <Script id="google-analytics" strategy="afterInteractive">
                         {`
                         window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
+                        window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+                        window.gtag('js', new Date());
                         ${googleTagIds
                             .map((tagId, index) =>
                                 index === 0
-                                    ? `gtag('config', '${tagId}', { page_path: window.location.pathname });`
-                                    : `gtag('config', '${tagId}', { send_page_view: false });`
+                                    ? `window.gtag('config', '${tagId}', { page_path: window.location.pathname });`
+                                    : `window.gtag('config', '${tagId}', { send_page_view: false });`
                             )
                             .join("\n")}
                         `}
