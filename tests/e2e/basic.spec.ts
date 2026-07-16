@@ -7,6 +7,11 @@ test.describe("Public website smoke checks", () => {
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Across Odisha");
     await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
+    await expect(page.locator('a[href="tel:+918085481541"]').first()).toBeVisible();
+    await expect(page.locator('a[href="tel:+917008990586"]')).toHaveCount(0);
+    await expect(page.locator("main")).not.toContainText(
+      /Four Odisha centre pages|Three active Odisha centres|City-specific enquiry routing|Prefer a calendar view/i,
+    );
     await expect(page.locator("main")).not.toContainText(/Bangalore|Bengaluru|Jayanagar|Halasuru/i);
   });
 
