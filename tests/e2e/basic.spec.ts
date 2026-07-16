@@ -71,8 +71,16 @@ test.describe("Public website smoke checks", () => {
     expect(submission.attribution).toMatchObject({ gclid: "browser-gclid-1" });
 
     const leadEvents = await page.evaluate(() =>
-      ((window as typeof window & { dataLayer?: Array<Record<string, unknown>> }).dataLayer || [])
-        .filter((event) => event?.event === "generate_lead"),
+      ((window as typeof window & { dataLayer?: unknown[] }).dataLayer || []).flatMap((entry) => {
+        if (!entry || typeof entry !== "object") return [];
+
+        const event = entry as Record<string | number, unknown>;
+        if (event.event === "generate_lead") return [event];
+        if (event[0] === "event" && event[1] === "generate_lead" && event[2]) {
+          return [event[2] as Record<string, unknown>];
+        }
+        return [];
+      }),
     );
     expect(leadEvents).toHaveLength(1);
     expect(leadEvents[0]).toMatchObject({
@@ -81,6 +89,18 @@ test.describe("Public website smoke checks", () => {
       form_name: "jeypore_interest_form",
       gclid: "browser-gclid-1",
     });
+  });
+
+  test("direct GA4 fallback loads without the scanner-paused GTM container", async ({ page }) => {
+    test.skip(process.env.NEXT_PUBLIC_ANALYTICS_MODE !== "gtag");
+
+    await page.goto("/");
+    await expect(
+      page.locator('script[src*="googletagmanager.com/gtag/js?id=G-T5E4SKLMG3"]'),
+    ).toHaveCount(1);
+    await expect(
+      page.locator('script[src*="googletagmanager.com/gtm.js?id=GTM-P45XTFCS"]'),
+    ).toHaveCount(0);
   });
 
   test("at-home form remains usable without horizontal overflow on mobile", async ({ page }) => {
