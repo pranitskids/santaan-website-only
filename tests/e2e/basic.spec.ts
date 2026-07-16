@@ -95,6 +95,18 @@ test.describe("Public website smoke checks", () => {
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
   });
 
+  test("homepage video section does not cause horizontal overflow on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.locator("#video-testimonials").scrollIntoViewIfNeeded();
+
+    const dimensions = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      content: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
+  });
+
   test("at-home form preserves attribution and submission id across a retry", async ({ page }) => {
     const submissions: Array<Record<string, unknown>> = [];
     await page.route("**/api/at-home/register", async (route) => {
