@@ -16,7 +16,7 @@ export default function OurDoctorsPage() {
   return (
     <main className="min-h-screen bg-santaan-cream">
       <Header />
-      <section className="pt-24">
+      <section className="pt-14 md:pt-16">
         <Doctors headingAs="h1" />
       </section>
       <OdishaCentresLinks />

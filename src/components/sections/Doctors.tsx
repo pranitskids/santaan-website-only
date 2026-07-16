@@ -1,37 +1,36 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { User } from 'lucide-react';
 import type { ElementType } from 'react';
 
-const management = [
+const clinicalTeam = [
     {
-        name: "Dr. Satish",
-        role: "Founder & Head R&D",
-        specialty: "Clinical Scientist & Fertility Tech",
-        image: "https://static.wixstatic.com/media/fd2a61_76a58758207f474c986ee0611950f9ac~mv2.jpg/v1/crop/x_90,y_0,w_224,h_418/fill/w_227,h_427,al_c,lg_1,q_80,enc_avif,quality_auto/SatishRath.jpg"
+        name: 'Dr. Deepika KN Padhi',
+        role: 'Clinical Director',
+        scope: 'Centre Head · Berhampur',
+        image: 'https://static.wixstatic.com/media/fd2a61_589f6721d1af451d907bc74cd23fef5e~mv2.jpeg/v1/crop/x_428,y_135,w_1041,h_1942/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/B22ADF58-293A-42C2-9AA8-534D93464369.jpeg',
     },
     {
-        name: "Raghab",
-        role: "CEO",
-        specialty: "Head Femtech Accelerator & Incubator",
-        image: "https://static.wixstatic.com/media/fd2a61_67db601f16c0438bbe0e4706d718c15f~mv2.jpg/v1/crop/x_438,y_0,w_2195,h_4096/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/raghab.jpg"
-    }
+        name: 'Dr. Kaninika Panda',
+        role: 'Head, Santaan Academy & Quality',
+        scope: 'Centre Head · Bhubaneswar',
+        image: 'https://static.wixstatic.com/media/fd2a61_55ca1c808b8a44a58099994d3cf32e00~mv2.jpg/v1/crop/x_412,y_0,w_456,h_850/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG-20210726-WA0028.jpg',
+    },
 ];
 
-const doctors = [
+const leadershipTeam = [
     {
-        name: "Dr. Deepika KN Padhi",
-        role: "Center Head Berhampur",
-        specialty: "Clinical Director",
-        image: "https://static.wixstatic.com/media/fd2a61_589f6721d1af451d907bc74cd23fef5e~mv2.jpeg/v1/crop/x_428,y_135,w_1041,h_1942/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/B22ADF58-293A-42C2-9AA8-534D93464369.jpeg"
+        name: 'Dr. Satish',
+        role: 'Founder & Head of R&D',
+        scope: 'Clinical Scientist & Fertility Technology',
+        image: 'https://static.wixstatic.com/media/fd2a61_76a58758207f474c986ee0611950f9ac~mv2.jpg/v1/crop/x_90,y_0,w_224,h_418/fill/w_227,h_427,al_c,lg_1,q_80,enc_avif,quality_auto/SatishRath.jpg',
     },
     {
-        name: "Dr. Kaninika Panda",
-        role: "Center Head Bhubaneswar",
-        specialty: "Head Santaan Academy & Quality",
-        image: "https://static.wixstatic.com/media/fd2a61_55ca1c808b8a44a58099994d3cf32e00~mv2.jpg/v1/crop/x_412,y_0,w_456,h_850/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG-20210726-WA0028.jpg"
-    }
+        name: 'Raghab',
+        role: 'Champion of Growth Projects',
+        scope: 'Femtech Accelerator & Incubator',
+        image: 'https://static.wixstatic.com/media/fd2a61_67db601f16c0438bbe0e4706d718c15f~mv2.jpg/v1/crop/x_438,y_0,w_2195,h_4096/fill/w_227,h_427,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/raghab.jpg',
+    },
 ];
 
 interface DoctorsProps {
@@ -40,78 +39,96 @@ interface DoctorsProps {
 
 export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
     const HeadingTag = headingAs;
+    const GroupHeadingTag = headingAs === 'h1' ? 'h2' : 'h3';
+    const ProfileHeadingTag = headingAs === 'h1' ? 'h3' : 'h4';
 
     return (
-        <section id="doctors" className="py-24 bg-[#E6F0E6]/30">
-            <div className="container px-4 md:px-6 mx-auto">
-                <div className="text-center mb-16">
-                    <span className="text-santaan-teal font-medium tracking-wide uppercase text-sm">Our Expertise</span>
-                    <HeadingTag className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mt-2 mb-4">
-                        Meet Santaan&apos;s <span className="text-santaan-amber">Odisha Clinical Team</span>
+        <section id="doctors" className="bg-[#E6F0E6]/30 py-20 md:py-24">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
+                    <span className="text-sm font-medium uppercase tracking-[0.18em] text-santaan-teal">Our clinical team</span>
+                    <HeadingTag className="mt-3 font-playfair text-3xl font-bold text-gray-900 md:text-4xl">
+                        Meet Santaan&apos;s <span className="text-santaan-amber">Odisha doctors</span>
                     </HeadingTag>
-                    <p className="text-black max-w-2xl mx-auto">
-                        Clinicians and reproductive-science leaders supporting evidence-driven fertility planning across our Odisha network.
+                    <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-gray-600">
+                        Fertility specialists leading evidence-driven consultations, clinical quality, and treatment planning
+                        across Santaan&apos;s active Odisha centres.
                     </p>
                 </div>
 
-                {/* Clinical Doctors */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    {doctors.map((doc, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="bg-white p-6 rounded-2xl text-center shadow-sm hover:shadow-md transition-all border border-transparent hover:border-santaan-teal/20"
-                        >
-                            {doc.image ? (
-                                <div className="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden bg-santaan-sage/20">
-                                    <img src={doc.image} alt={doc.name} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                                </div>
-                            ) : (
-                                <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-santaan-sage/20 flex items-center justify-center text-santaan-teal">
-                                    <User className="w-10 h-10" />
-                                </div>
-                            )}
-                            <h3 className="font-playfair font-bold text-lg text-gray-900 mb-1">{doc.name}</h3>
-                            <p className="text-santaan-teal text-sm font-medium mb-2">{doc.role}</p>
-                            <p className="text-xs text-gray-500">{doc.specialty}</p>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Divider */}
-                <div className="max-w-3xl mx-auto mb-12">
-                    <div className="h-px bg-linear-to-r from-transparent via-santaan-teal/30 to-transparent"></div>
-                </div>
-
-                {/* Management Layer */}
-                <div className="max-w-3xl mx-auto">
-                    <div className="grid md:grid-cols-2 gap-6">
-                        {management.map((member, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                <div className="mx-auto max-w-5xl">
+                    <GroupHeadingTag className="sr-only">Fertility doctors</GroupHeadingTag>
+                    <div className="grid gap-6 md:grid-cols-2">
+                        {clinicalTeam.map((doctor, index) => (
+                            <motion.article
+                                key={doctor.name}
+                                initial={{ opacity: 0, y: 18 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="bg-linear-to-br from-santaan-teal/5 to-santaan-amber/5 p-6 rounded-2xl text-center shadow-sm hover:shadow-md transition-all border-2 border-santaan-teal/20"
+                                transition={{ delay: index * 0.08, duration: 0.45 }}
+                                className="group overflow-hidden rounded-3xl border border-santaan-sage/20 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                             >
-                                {member.image ? (
-                                    <div className="w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-md">
-                                        <img src={member.image} alt={member.name} loading="lazy" decoding="async" className="w-full h-full object-cover object-[center_20%]" />
+                                <div className="flex h-full flex-row">
+                                    <div className="h-60 w-32 shrink-0 overflow-hidden bg-santaan-sage/15 sm:h-64 sm:w-40 lg:w-44">
+                                        <img
+                                            src={doctor.image}
+                                            alt={doctor.name}
+                                            loading="lazy"
+                                            decoding="async"
+                                            className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                                        />
                                     </div>
-                                ) : (
-                                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-white flex items-center justify-center text-santaan-teal shadow-md">
-                                        <User className="w-10 h-10" />
+                                    <div className="flex min-w-0 flex-1 flex-col justify-center p-5 text-left sm:p-7">
+                                        <ProfileHeadingTag className="font-playfair text-xl font-bold leading-tight text-gray-900 sm:text-2xl">
+                                            {doctor.name}
+                                        </ProfileHeadingTag>
+                                        <p className="mt-3 font-semibold leading-snug text-santaan-teal">{doctor.role}</p>
+                                        <p className="mt-2 text-sm text-gray-500">{doctor.scope}</p>
                                     </div>
-                                )}
-                                <h3 className="font-playfair font-bold text-lg text-gray-900 mb-1">{member.name}</h3>
-                                <p className="text-santaan-teal text-sm font-medium mb-2">{member.role}</p>
-                                <p className="text-xs text-gray-500">{member.specialty}</p>
-                            </motion.div>
+                                </div>
+                            </motion.article>
                         ))}
+                    </div>
+
+                    <div className="mt-10 overflow-hidden rounded-[2rem] bg-santaan-dark-teal p-6 shadow-xl sm:p-8 lg:p-10">
+                        <div className="max-w-2xl">
+                            <GroupHeadingTag className="font-playfair text-2xl font-bold text-white md:text-3xl">
+                                Leadership, research &amp; growth
+                            </GroupHeadingTag>
+                            <p className="mt-3 leading-relaxed text-white/70">
+                                Building Santaan&apos;s research direction, fertility technology, growth projects, and Femtech ecosystem.
+                            </p>
+                        </div>
+
+                        <div className="mt-7 grid gap-4 md:grid-cols-2">
+                            {leadershipTeam.map((member, index) => (
+                                <motion.article
+                                    key={member.name}
+                                    initial={{ opacity: 0, y: 16 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.08 + index * 0.08, duration: 0.45 }}
+                                    className="flex items-center gap-5 rounded-2xl border border-white/10 bg-white/[0.07] p-4 transition hover:border-santaan-amber/35 hover:bg-white/10 sm:p-5"
+                                >
+                                    <div className="h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-white/10 shadow-lg">
+                                        <img
+                                            src={member.image}
+                                            alt={member.name}
+                                            loading="lazy"
+                                            decoding="async"
+                                            className="h-full w-full object-cover object-[center_18%]"
+                                        />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <ProfileHeadingTag className="font-playfair text-xl font-bold text-white">
+                                            {member.name}
+                                        </ProfileHeadingTag>
+                                        <p className="mt-2 font-semibold leading-snug text-santaan-amber">{member.role}</p>
+                                        <p className="mt-2 text-sm leading-relaxed text-white/65">{member.scope}</p>
+                                    </div>
+                                </motion.article>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -147,6 +147,28 @@ test.describe("Public website smoke checks", () => {
     expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
   });
 
+  test("doctors appear before the research and growth leadership team", async ({ page }) => {
+    await page.goto("/our-doctors");
+
+    const team = page.locator("#doctors");
+    await expect(team.getByRole("heading", { level: 1 })).toContainText("Odisha doctors");
+    await expect(team.getByText("Dr. Deepika KN Padhi", { exact: true })).toBeVisible();
+    await expect(team.getByText("Dr. Kaninika Panda", { exact: true })).toBeVisible();
+    await expect(team.getByText("Founder & Head of R&D", { exact: true })).toBeVisible();
+    await expect(team.getByText("Champion of Growth Projects", { exact: true })).toBeVisible();
+    await expect(team.getByText("Femtech Accelerator & Incubator", { exact: true })).toBeVisible();
+
+    const contentOrder = await team.evaluate((section) => section.textContent || "");
+    expect(contentOrder.indexOf("Dr. Kaninika Panda")).toBeLessThan(contentOrder.indexOf("Dr. Satish"));
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    const dimensions = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      content: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
+  });
+
   test("at-home form preserves attribution and submission id across a retry", async ({ page }) => {
     const submissions: Array<Record<string, unknown>> = [];
     await page.route("**/api/at-home/register", async (route) => {
