@@ -101,6 +101,13 @@ test.describe("Public website smoke checks", () => {
     await expect(
       page.locator('script[src*="googletagmanager.com/gtm.js?id=GTM-P45XTFCS"]'),
     ).toHaveCount(0);
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => typeof (window as typeof window & { gtag?: (...args: unknown[]) => void }).gtag,
+        ),
+      )
+      .toBe("function");
   });
 
   test("at-home form remains usable without horizontal overflow on mobile", async ({ page }) => {
