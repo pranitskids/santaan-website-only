@@ -3,6 +3,7 @@ import type { UtmParams } from '@/lib/utm';
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[];
+  gtag?: (...args: unknown[]) => void;
   fbq?: (...args: unknown[]) => void;
 };
 
@@ -52,7 +53,15 @@ export function trackConfirmedLead(input: {
   };
 
   analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
-  analyticsWindow.dataLayer.push({ event: 'generate_lead', ...params });
+  if (process.env.NEXT_PUBLIC_ANALYTICS_MODE?.trim().toLowerCase() === 'gtag') {
+    if (analyticsWindow.gtag) {
+      analyticsWindow.gtag('event', 'generate_lead', params);
+    } else {
+      analyticsWindow.dataLayer.push(['event', 'generate_lead', params]);
+    }
+  } else {
+    analyticsWindow.dataLayer.push({ event: 'generate_lead', ...params });
+  }
 
   analyticsWindow.fbq?.(
     'track',

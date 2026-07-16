@@ -11,16 +11,28 @@ const parseTagIds = (...inputs: Array<string | undefined>) =>
     );
 
 export default function AnalyticsScripts() {
-    const gtmId =
-        process.env.NEXT_PUBLIC_GTM_ID ||
-        process.env.GTM_ID ||
-        "GTM-P45XTFCS";
-    const googleTagIds = parseTagIds(
+    const analyticsMode = process.env.NEXT_PUBLIC_ANALYTICS_MODE
+        ?.trim()
+        .toLowerCase();
+    const gtmId = analyticsMode === "gtag"
+        ? undefined
+        : process.env.NEXT_PUBLIC_GTM_ID ||
+          process.env.GTM_ID ||
+          "GTM-P45XTFCS";
+    const configuredGoogleTagIds = parseTagIds(
         process.env.GOOGLE_ANALYTICS_ID,
         process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
         process.env.GOOGLE_TAG_IDS,
         process.env.NEXT_PUBLIC_GOOGLE_TAG_IDS
     );
+    const directGoogleTagIds = parseTagIds(
+        process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+        process.env.NEXT_PUBLIC_GOOGLE_TAG_IDS
+    );
+    const googleTagIds =
+        analyticsMode === "gtag" && directGoogleTagIds.length
+            ? directGoogleTagIds
+            : configuredGoogleTagIds;
     const primaryGoogleTagId = googleTagIds[0];
     const fbPixelId =
         process.env.META_PIXEL_ID ||
