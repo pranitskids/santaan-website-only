@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { pushLeadToAiCrm } from "@/lib/aicrm";
+import { pushWebsiteLeadToAiCrm } from "@/lib/aicrm-website-intake";
 import { ensureMandatoryUtm } from "@/lib/utm";
 
 export async function POST(request: Request) {
@@ -10,36 +10,40 @@ export async function POST(request: Request) {
     const email = body?.email ? String(body.email).trim() : "";
     const location = body?.location ? String(body.location).trim() : "";
     const concerns = body?.concerns ? String(body.concerns).trim() : "";
+    const submissionId = String(body?.submissionId || "").trim();
     const utm = ensureMandatoryUtm(body?.utm || {});
 
-    if (!name || !phone) {
+    if (!name || !phone || submissionId.length < 8) {
       return NextResponse.json({ error: "Name and WhatsApp number are required." }, { status: 400 });
     }
 
-    const result = await pushLeadToAiCrm({
+    const result = await pushWebsiteLeadToAiCrm(request, {
+      submissionId,
+      formKind: "at_home_testing",
       name,
       phone,
       email,
       location,
-      topic: "at_home_testing",
-      source: "website_at_home",
       campaign: "AT_HOME_TEST",
       utm,
-      landingPath: utm.landing_path || "/at-home-fertility-testing",
-      notes: concerns || "At-home testing request",
-      extras: {
-        concern: concerns || undefined,
-        form_kind: "at_home_testing",
+      landingPath: String(body?.landingPath || utm.landing_path || "/at-home-fertility-testing"),
+      referrer: body?.referrer ? String(body.referrer) : undefined,
+      occurredAt: body?.occurredAt ? String(body.occurredAt) : undefined,
+      attribution: body?.attribution,
+      contentUrn: body?.attribution?.content_urn,
+      formData: {
+        concern: concerns,
         ready_to_start: "yes",
       },
     });
 
     if (!result.ok) {
-      return NextResponse.json({ error: "Failed to register your request." }, { status: 502 });
+      return NextResponse.json({ error: result.error || "Failed to register your request." }, { status: result.status });
     }
 
     return NextResponse.json({
       success: true,
+      duplicate: result.result?.duplicate === true,
       message: "Request received. Our team will follow up on WhatsApp shortly.",
     });
   } catch (error) {

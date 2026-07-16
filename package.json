@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:intake": "node --import tsx --test tests/website-intake.test.ts",
     "assets:check": "node src/scripts/check-public-assets.mjs",
     "assets:check:strict": "node src/scripts/check-public-assets.mjs --strict",
     "db:generate": "drizzle-kit generate",
