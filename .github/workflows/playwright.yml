@@ -14,8 +14,6 @@ jobs:
     # For a real deployment, these should be added to GitHub Secrets
     env:
       NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
-      TURSO_DATABASE_URL: "file:/tmp/santaan-ci.db"
-      TURSO_AUTH_TOKEN: "ci-dummy-token"
       BETTER_AUTH_SECRET: "ci-dummy-secret-key-do-not-use-in-prod"
       NEXTAUTH_SECRET: "ci-dummy-nextauth-secret"
       NEXTAUTH_URL: "http://localhost:3000"
@@ -41,9 +39,6 @@ jobs:
       
     - name: Run Build
       run: npm run build
-      
-    - name: Initialize Test Database
-      run: npm run db:push -- --force
       
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
