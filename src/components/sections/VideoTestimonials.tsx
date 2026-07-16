@@ -83,7 +83,7 @@ export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) 
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-          <div className="lg:col-span-2 bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
+          <div className="min-w-0 lg:col-span-2 bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden">
             {active && embedUrl ? (
               <div className="relative w-full aspect-video bg-black">
                 <iframe
@@ -115,7 +115,7 @@ export function VideoTestimonials({ items }: { items: VideoTestimonialItem[] }) 
             )}
           </div>
 
-          <div className="space-y-4">
+          <div className="min-w-0 space-y-4">
             {items.map((item, index) => {
               const thumb = item.thumbnail || defaultThumbnail(item.videoUrl);
               const selected = index === activeIndex;
