@@ -9,6 +9,14 @@ test.describe("Public website smoke checks", () => {
     await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
     await expect(page.locator('a[href="tel:+918085481541"]').first()).toBeVisible();
     await expect(page.locator('a[href="tel:+917008990586"]')).toHaveCount(0);
+    await expect(page.getByText("15,000+", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Different journeys deserve different fertility care" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Recognised for fertility care and innovation" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Understand PCOS care" })).toHaveAttribute(
+      "href",
+      "/pcos-fertility-treatment",
+    );
+    await expect(page.locator("main")).not.toContainText(/Priya\*|software engineer at Google|From \"Impossible\" to \"Parent\"/i);
     await expect(page.locator("main")).not.toContainText(
       /Four Odisha centre pages|Three active Odisha centres|City-specific enquiry routing|Prefer a calendar view/i,
     );
@@ -132,6 +140,28 @@ test.describe("Public website smoke checks", () => {
     await page.goto("/");
     await page.locator("#video-testimonials").scrollIntoViewIfNeeded();
 
+    const dimensions = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      content: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
+  });
+
+  test("doctors appear before the research and growth leadership team", async ({ page }) => {
+    await page.goto("/our-doctors");
+
+    const team = page.locator("#doctors");
+    await expect(team.getByRole("heading", { level: 1 })).toContainText("Odisha doctors");
+    await expect(team.getByText("Dr. Deepika KN Padhi", { exact: true })).toBeVisible();
+    await expect(team.getByText("Dr. Kaninika Panda", { exact: true })).toBeVisible();
+    await expect(team.getByText("Founder & Head of R&D", { exact: true })).toBeVisible();
+    await expect(team.getByText("Champion of Growth Projects", { exact: true })).toBeVisible();
+    await expect(team.getByText("Femtech Accelerator & Incubator", { exact: true })).toBeVisible();
+
+    const contentOrder = await team.evaluate((section) => section.textContent || "");
+    expect(contentOrder.indexOf("Dr. Kaninika Panda")).toBeLessThan(contentOrder.indexOf("Dr. Satish"));
+
+    await page.setViewportSize({ width: 390, height: 844 });
     const dimensions = await page.evaluate(() => ({
       viewport: document.documentElement.clientWidth,
       content: document.documentElement.scrollWidth,

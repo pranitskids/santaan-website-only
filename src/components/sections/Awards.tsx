@@ -1,72 +1,68 @@
-"use client";
-
-import { motion } from 'framer-motion';
-import { Award, Trophy, ShieldCheck, Medal } from 'lucide-react';
+import { Award, ExternalLink, Trophy } from 'lucide-react';
 
 const awards = [
     {
-        title: "Fertility Tech Solution of the Year",
-        org: "National Awards 2024",
-        desc: "Recognized for pioneering AI in fertility care.",
-        icon: Award
+        title: 'No. 1 IVF Centre in Odisha',
+        org: 'Times Health Icons Odisha 2026',
+        desc: 'Recognised for the 10th consecutive year, according to Santaan’s official 2026 announcement.',
+        sourceHref: 'https://www.linkedin.com/school/santaan-fertility-center-and-research-institute/',
+        sourceLabel: 'View Santaan announcement',
+        icon: Trophy,
     },
     {
-        title: "Times Health Icons Recognition",
-        org: "Times Health Icons 2024",
-        desc: "Recognition recorded by the Santaan team for its 2024 healthcare work.",
-        icon: Trophy
+        title: 'Fertility Tech Solution of the Year — National',
+        org: 'ETHealthworld National Fertility Awards 2024',
+        desc: 'Awarded to Santaan Fertility Centre and Research Institute for its Fertilife fertility-care solution.',
+        sourceHref: 'https://health.economictimes.indiatimes.com/national-fertility-awards2024/winners-list',
+        sourceLabel: 'View official winners list',
+        icon: Award,
     },
-    {
-        title: "East Zone Recognition",
-        org: "All India Rankings (East Zone)",
-        desc: "Regional recognition recorded by the Santaan team.",
-        icon: ShieldCheck
-    },
-    {
-        title: "Service Recognition",
-        org: "Odisha & Eastern India",
-        desc: "Recognition for service and patient support recorded by the Santaan team.",
-        icon: Medal
-    }
 ];
 
 export function Awards() {
     return (
-        <section id="awards" className="py-24 bg-santaan-cream/50 relative overflow-hidden">
-            {/* Background Decorative Elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-santaan-sage/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <section id="awards" className="relative overflow-hidden bg-santaan-dark-teal py-20 text-white md:py-24">
+            <div className="absolute -right-40 -top-40 h-[480px] w-[480px] rounded-full bg-santaan-sage/10 blur-3xl" />
+            <div className="absolute -bottom-40 -left-40 h-[480px] w-[480px] rounded-full bg-santaan-amber/10 blur-3xl" />
 
-            <div className="container px-4 md:px-6 mx-auto relative z-10">
-                <div className="text-center mb-16">
-                    <span className="text-santaan-teal font-medium tracking-wide uppercase text-sm">Passionate Service</span>
-                    <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mt-2 mb-4">
-                        Celebrated for <span className="text-santaan-amber">Excellence</span>
+            <div className="container relative z-10 mx-auto px-4 md:px-6">
+                <div className="mx-auto mb-12 max-w-3xl text-center">
+                    <span className="text-sm font-semibold uppercase tracking-[0.2em] text-santaan-amber">Verified recognition</span>
+                    <h2 className="mt-3 font-playfair text-3xl font-bold md:text-4xl">
+                        Recognised for fertility care and innovation
                     </h2>
-                    <p className="text-black max-w-2xl mx-auto">
-                        Selected recognitions recorded by the Santaan team. Supporting documentation should be reviewed before use in paid advertising.
+                    <p className="mt-4 leading-relaxed text-white/75">
+                        Santaan&apos;s verified recognitions include the Times Health Icons Odisha 2026 honour and the national
+                        Fertility Tech Solution of the Year award at the ETHealthworld National Fertility Awards 2024.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {awards.map((award, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-santaan-amber/20 group text-center"
-                        >
-                            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-santaan-amber/10 flex items-center justify-center text-santaan-amber group-hover:scale-110 transition-transform duration-300">
-                                <award.icon className="w-8 h-8" />
-                            </div>
-                            <h3 className="font-playfair font-bold text-lg text-gray-900 mb-2 leading-tight">{award.title}</h3>
-                            <p className="text-santaan-teal text-sm font-medium mb-3">{award.org}</p>
-                            <p className="text-gray-500 text-xs leading-relaxed">
-                                {award.desc}
-                            </p>
-                        </motion.div>
-                    ))}
+                <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
+                    {awards.map((award) => {
+                        const Icon = award.icon;
+                        return (
+                            <article
+                                key={award.title}
+                                className="group rounded-3xl border border-white/10 bg-white/5 p-7 shadow-2xl backdrop-blur-sm transition hover:-translate-y-1 hover:border-santaan-amber/35 hover:bg-white/10 md:p-9"
+                            >
+                                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-santaan-amber/15 text-santaan-amber transition-transform duration-300 group-hover:scale-105">
+                                    <Icon aria-hidden="true" className="h-7 w-7" />
+                                </div>
+                                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-santaan-amber">{award.org}</p>
+                                <h3 className="mt-3 font-playfair text-2xl font-bold leading-tight">{award.title}</h3>
+                                <p className="mt-4 leading-relaxed text-white/70">{award.desc}</p>
+                                <a
+                                    href={award.sourceHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white transition-colors hover:text-santaan-amber"
+                                >
+                                    {award.sourceLabel}
+                                    <ExternalLink aria-hidden="true" className="h-4 w-4" />
+                                </a>
+                            </article>
+                        );
+                    })}
                 </div>
             </div>
         </section>

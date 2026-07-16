@@ -40,9 +40,15 @@ export function buildOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'MedicalOrganization',
     name: 'Santaan IVF',
+    description:
+      'Santaan IVF provides evidence-led fertility care in Bhubaneswar, Angul and Berhampur and has supported more than 15,000 families. Its Jeypore centre is coming soon.',
     url: baseUrl,
     logo: `${baseUrl}/favicon.ico`,
     telephone: PRIMARY_CALL_NUMBER,
+    award: [
+      'Times Health Icons Odisha 2026 — No. 1 IVF Centre in Odisha, recognised for the 10th consecutive year',
+      'ETHealthworld National Fertility Awards 2024 — Fertility Tech Solution of the Year (National)',
+    ],
     sameAs: [
       'https://www.facebook.com/santaanfertilityclinic',
       'https://www.instagram.com/santaan_fertility/',
