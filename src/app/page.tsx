@@ -1,6 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
+import { TrustBar } from "@/components/sections/TrustBar";
+import { FertilityJourneys } from "@/components/sections/FertilityJourneys";
 import { MythBusting } from "@/components/sections/MythBusting";
 import { WonderOfLife } from "@/components/sections/WonderOfLife";
 import { Insights } from "@/components/sections/Insights";
@@ -17,6 +19,7 @@ import { Locations } from "@/components/sections/Locations";
 import { PractoBookingSection } from "@/components/sections/PractoBookingSection";
 import { FAQ } from "@/components/sections/FAQ";
 import { NewsAnnouncements } from "@/components/sections/NewsAnnouncements";
+import { Awards } from "@/components/sections/Awards";
 import Script from "next/script";
 import { faqs } from "@/data/faqs";
 import { SANTAAN_YOUTUBE_VIDEOS } from "@/data/youtubeVideos";
@@ -29,7 +32,7 @@ import { getApprovedPatientReviews } from "@/lib/patient-reviews";
 export const metadata = buildMetadata({
   title: "Santaan IVF | IVF & Fertility Centres in Odisha",
   description:
-    "Evidence-driven fertility and IVF care across Bhubaneswar, Angul, Berhampur and Jeypore. Book a private consultation with Santaan.",
+    "Santaan IVF has supported 15,000+ families with evidence-led fertility care in Bhubaneswar, Angul and Berhampur. Jeypore centre coming soon.",
   path: "/",
   keywords: [
     "ivf centre in bhubaneswar",
@@ -89,9 +92,12 @@ export default function Home() {
 
       <Header />
       <Hero />
+      <TrustBar />
       
-      {/* 1. Build Trust First - Social Proof */}
+      {/* 1. Build relevance and trust */}
+      <FertilityJourneys />
       <PatientReviewsSection reviews={featuredPatientReviews} />
+      <Awards />
       <VideoTestimonials items={SANTAAN_YOUTUBE_VIDEOS} />
       <SocialCarousel
         items={SOCIAL_CAMPAIGNS}

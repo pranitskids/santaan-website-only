@@ -45,7 +45,8 @@ export function Hero() {
                 </h2>
 
                 <p className="text-lg md:text-xl text-white/90 mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-sm font-medium">
-                    Private consultations and evidence-driven fertility planning across Bhubaneswar, Angul, Berhampur and Jeypore.
+                    Private consultations and evidence-driven fertility planning in Bhubaneswar, Angul and Berhampur.
+                    Jeypore is coming soon.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 md:mb-16">
