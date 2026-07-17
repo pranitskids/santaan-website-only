@@ -6,7 +6,7 @@ const DEFAULT_INTAKE_URL = "https://api.crmai.greybrain.ai/api/intake/lead";
 const DEFAULT_SITE_URL = "https://www.santaan.in";
 const CLEAN_PHONE = /[^0-9]/g;
 
-export type WebsiteFormKind = "at_home_testing" | "seminar_registration" | "consultation";
+export type WebsiteFormKind = "at_home_testing" | "seminar_registration" | "book_consultation";
 
 export type WebsiteIntakeInput = {
   submissionId: string;

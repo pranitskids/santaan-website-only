@@ -4,6 +4,7 @@ import { pushWebsiteLeadToAiCrm } from "../src/lib/aicrm-website-intake";
 import { POST as atHomePost } from "../src/app/api/at-home/register/route";
 import { POST as seminarPost } from "../src/app/api/seminar/register/route";
 import { POST as consultationPost } from "../src/app/api/consultation/register/route";
+import { POST as intentPost } from "../src/app/api/intent/route";
 
 const originalFetch = globalThis.fetch;
 const originalEnv = {
@@ -228,7 +229,7 @@ test("Jeypore consultation request is tagged as coming soon and returns the conf
 
   assert.equal(response.status, 200);
   assert.equal(body.leadId, "lead-jeypore-1");
-  assert.equal(outboundPayload.form_kind, "consultation");
+  assert.equal(outboundPayload.form_kind, "book_consultation");
   assert.equal(outboundPayload.location, "Jeypore");
   assert.equal(outboundPayload.campaign, "JEYPORE_COMING_SOON");
   assert.deepEqual(outboundPayload.form_data, {
@@ -237,4 +238,33 @@ test("Jeypore consultation request is tagged as coming soon and returns the conf
     preferred_centre: "Jeypore",
     centre_status: "coming_soon",
   });
+});
+
+test("contact intent proxy forwards a non-lead Contact event to CRM", async () => {
+  let outboundPayload: Record<string, unknown> = {};
+  let outboundUrl = "";
+  globalThis.fetch = (async (url: string | URL | Request, init?: RequestInit) => {
+    outboundUrl = String(url);
+    outboundPayload = JSON.parse(String(init?.body));
+    return Response.json({ ok: true, sent: true, event_id: outboundPayload.event_id });
+  }) as typeof fetch;
+
+  const response = await intentPost(new Request("https://www.santaan.in/api/intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "user-agent": "QA browser" },
+    body: JSON.stringify({
+      event_id: "intent:qa:12345678",
+      event_name: "Lead",
+      kind: "call",
+      center: "Bhubaneswar",
+      target: "tel:+918065481541",
+      page_url: "https://www.santaan.in/",
+      test_event_code: "must-not-forward",
+    }),
+  }));
+
+  assert.equal(response.status, 200);
+  assert.equal(outboundUrl, "https://api.crmai.greybrain.ai/api/website/intent");
+  assert.equal(outboundPayload.event_name, "Contact");
+  assert.equal(outboundPayload.test_event_code, undefined);
 });

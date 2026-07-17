@@ -7,7 +7,7 @@ test.describe("Public website smoke checks", () => {
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Across Odisha");
     await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
-    await expect(page.locator('a[href="tel:+918085481541"]').first()).toBeVisible();
+    await expect(page.locator('a[href="tel:+918065481541"]').first()).toBeVisible();
     await expect(page.locator('a[href="tel:+917008990586"]')).toHaveCount(0);
     await expect(page.getByText("15,000+", { exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Different journeys deserve different fertility care" })).toBeVisible();
