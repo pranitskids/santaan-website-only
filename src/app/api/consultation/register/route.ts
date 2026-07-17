@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     const result = await pushWebsiteLeadToAiCrm(request, {
       submissionId,
-      formKind: 'consultation',
+      formKind: 'book_consultation',
       name,
       phone,
       email,

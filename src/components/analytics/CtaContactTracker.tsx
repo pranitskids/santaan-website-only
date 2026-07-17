@@ -13,6 +13,7 @@ const WHATSAPP_REGEX = /(wa\.me|whatsapp\.com|api\.whatsapp\.com)/i;
 
 type AnalyticsWindow = Window & {
     dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
 };
 
 const buildVisitorId = () => {
@@ -76,10 +77,10 @@ const resolveActionFromElement = (element: HTMLElement): { action: CtaAction; ta
     return null;
 };
 
-const getGoogleEventName = (action: CtaAction) => {
+export const getGoogleEventName = (action: CtaAction) => {
     if (action === "whatsapp") return "whatsapp_click";
     if (action === "book") return "appointment_start";
-    return "click_to_call";
+    return "call_click";
 };
 
 const emitIntentSignal = (input: {
@@ -89,6 +90,7 @@ const emitIntentSignal = (input: {
     landingPath: string;
     utm: Record<string, unknown>;
     attribution: Record<string, unknown>;
+    visitorId: string;
 }) => {
     if (typeof window === "undefined") return;
 
@@ -116,7 +118,37 @@ const emitIntentSignal = (input: {
     };
 
     analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
-    analyticsWindow.dataLayer.push({ event: eventName, ...params });
+    if (process.env.NEXT_PUBLIC_ANALYTICS_MODE?.trim().toLowerCase() === "gtm") {
+        analyticsWindow.dataLayer.push({ event: eventName, ...params });
+    } else if (analyticsWindow.gtag) {
+        analyticsWindow.gtag("event", eventName, params);
+    } else {
+        analyticsWindow.dataLayer.push(["event", eventName, params]);
+    }
+
+    void fetch("/api/intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            event_id: `intent:${input.visitorId}:${Date.now()}`,
+            event_name: "Contact",
+            kind: input.action,
+            center: input.center,
+            target: input.target,
+            page_url: window.location.href,
+            landing_path: input.landingPath,
+            referrer: document.referrer,
+            visitor_id: input.visitorId,
+            fbp: input.attribution.fbp,
+            fbc: input.attribution.fbc,
+            gclid: input.attribution.gclid,
+            gbraid: input.attribution.gbraid,
+            wbraid: input.attribution.wbraid,
+            content_urn: input.attribution.content_urn,
+            utm: input.utm,
+        }),
+        keepalive: true,
+    }).catch(() => undefined);
 };
 
 export default function CtaContactTracker() {
@@ -141,6 +173,7 @@ export default function CtaContactTracker() {
                 landingPath,
                 target: cta.target,
             });
+            const visitorId = getVisitorId();
 
             emitIntentSignal({
                 action: cta.action,
@@ -149,9 +182,8 @@ export default function CtaContactTracker() {
                 landingPath,
                 utm,
                 attribution,
+                visitorId,
             });
-
-            getVisitorId();
         };
 
         document.addEventListener("click", handleClick, { capture: true });

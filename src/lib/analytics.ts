@@ -1,5 +1,6 @@
 import type { MarketingAttribution } from '@/lib/marketing-attribution';
 import type { UtmParams } from '@/lib/utm';
+import { CANONICAL_GA4_ID } from '@/lib/analytics-config';
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[];
@@ -55,7 +56,7 @@ export function trackConfirmedLead(input: {
   analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
   if (process.env.NEXT_PUBLIC_ANALYTICS_MODE?.trim().toLowerCase() === 'gtag') {
     if (analyticsWindow.gtag) {
-      analyticsWindow.gtag('event', 'generate_lead', params);
+      analyticsWindow.gtag('event', 'generate_lead', { ...params, send_to: CANONICAL_GA4_ID });
     } else {
       analyticsWindow.dataLayer.push(['event', 'generate_lead', params]);
     }

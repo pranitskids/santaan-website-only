@@ -1,39 +1,8 @@
 import Script from "next/script";
-
-const parseTagIds = (...inputs: Array<string | undefined>) =>
-    Array.from(
-        new Set(
-            inputs
-                .flatMap((value) => String(value || "").split(","))
-                .map((value) => value.trim())
-                .filter(Boolean)
-        )
-    );
+import { getAnalyticsConfig } from "@/lib/analytics-config";
 
 export default function AnalyticsScripts() {
-    const analyticsMode = process.env.NEXT_PUBLIC_ANALYTICS_MODE
-        ?.trim()
-        .toLowerCase();
-    const gtmId = analyticsMode === "gtag"
-        ? undefined
-        : process.env.NEXT_PUBLIC_GTM_ID ||
-          process.env.GTM_ID ||
-          "GTM-P45XTFCS";
-    const configuredGoogleTagIds = parseTagIds(
-        process.env.GOOGLE_ANALYTICS_ID,
-        process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
-        process.env.GOOGLE_TAG_IDS,
-        process.env.NEXT_PUBLIC_GOOGLE_TAG_IDS
-    );
-    const directGoogleTagIds = parseTagIds(
-        process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
-        process.env.NEXT_PUBLIC_GOOGLE_TAG_IDS
-    );
-    const googleTagIds =
-        analyticsMode === "gtag" && directGoogleTagIds.length
-            ? directGoogleTagIds
-            : configuredGoogleTagIds;
-    const primaryGoogleTagId = googleTagIds[0];
+    const { mode, gtmId, googleTagId } = getAnalyticsConfig();
     const fbPixelId =
         process.env.META_PIXEL_ID ||
         process.env.META_CAPI_PIXEL_ID ||
@@ -67,10 +36,10 @@ export default function AnalyticsScripts() {
                 </>
             )}
 
-            {!gtmId && primaryGoogleTagId && (
+            {mode === "gtag" && googleTagId && (
                 <>
                     <Script
-                        src={`https://www.googletagmanager.com/gtag/js?id=${primaryGoogleTagId}`}
+                        src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}
                         strategy="afterInteractive"
                     />
                     <Script id="google-analytics" strategy="afterInteractive">
@@ -78,13 +47,7 @@ export default function AnalyticsScripts() {
                         window.dataLayer = window.dataLayer || [];
                         window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
                         window.gtag('js', new Date());
-                        ${googleTagIds
-                            .map((tagId, index) =>
-                                index === 0
-                                    ? `window.gtag('config', '${tagId}', { page_path: window.location.pathname });`
-                                    : `window.gtag('config', '${tagId}', { send_page_view: false });`
-                            )
-                            .join("\n")}
+                        window.gtag('config', '${googleTagId}', { page_path: window.location.pathname });
                         `}
                     </Script>
                 </>
