@@ -133,13 +133,25 @@ export async function pushWebsiteLeadToAiCrm(request: Request, input: WebsiteInt
         signal: AbortSignal.timeout(8000),
       },
     );
-    const result = (await response.json().catch(() => ({}))) as IntakeResponse;
+    const responseText = await response.text();
+    const result = (() => {
+      if (!responseText) return {};
+      try {
+        return JSON.parse(responseText) as IntakeResponse;
+      } catch {
+        return {};
+      }
+    })();
     const accepted = response.ok && result.accepted === true && Boolean(result.lead_id);
     return {
       ok: accepted,
       status: response.status,
       result,
-      error: accepted ? undefined : result.error || result.message || "CRM did not accept the lead.",
+      error: accepted
+        ? undefined
+        : result.error ||
+          result.message ||
+          (response.ok ? "CRM did not accept the lead." : `CRM returned ${response.status}.`),
     };
   } catch (error) {
     console.error("AICRM website intake error:", error);

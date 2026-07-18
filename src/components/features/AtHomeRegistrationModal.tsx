@@ -60,7 +60,12 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
 
             const data = await res.json();
 
-            if (!res.ok) throw new Error(data.error || "Something went wrong");
+            if (!res.ok) {
+                if (res.status === 409) {
+                    submissionIdRef.current = null;
+                }
+                throw new Error(data.error || "Something went wrong");
+            }
             if (!data?.leadId) throw new Error("Lead confirmation was not returned. Please try again.");
 
             trackConfirmedLead({
