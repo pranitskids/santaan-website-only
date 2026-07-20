@@ -38,13 +38,33 @@ export async function POST(request: Request) {
     });
 
     if (!result.ok) {
-      return NextResponse.json({ error: result.error || "Failed to register your request." }, { status: result.status });
+      const status = result.status >= 200 && result.status < 300 ? 202 : result.status;
+      return NextResponse.json(
+        {
+          success: false,
+          pending: status === 202,
+          error: result.error || "Failed to register your request.",
+        },
+        { status },
+      );
+    }
+
+    const leadId = result.result?.lead_id;
+    if (!leadId) {
+      return NextResponse.json(
+        {
+          success: false,
+          pending: true,
+          error: "CRM confirmation is still pending. Please try again in a moment.",
+        },
+        { status: 202 },
+      );
     }
 
     return NextResponse.json({
       success: true,
       duplicate: result.result?.duplicate === true,
-      leadId: result.result?.lead_id,
+      leadId,
       message: "Request received. Our team will follow up on WhatsApp shortly.",
     });
   } catch (error) {

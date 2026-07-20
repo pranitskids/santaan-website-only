@@ -1,5 +1,19 @@
 import { expect, test } from "@playwright/test";
 
+const readGenerateLeadEvents = (page: import("@playwright/test").Page) =>
+  page.evaluate(() =>
+    ((window as typeof window & { dataLayer?: unknown[] }).dataLayer || []).flatMap((entry) => {
+      if (!entry || typeof entry !== "object") return [];
+
+      const event = entry as Record<string | number, unknown>;
+      if (event.event === "generate_lead") return [event];
+      if (event[0] === "event" && event[1] === "generate_lead" && event[2]) {
+        return [event[2] as Record<string, unknown>];
+      }
+      return [];
+    }),
+  );
+
 test.describe("Public website smoke checks", () => {
   test("homepage loads with primary CTA", async ({ page }) => {
     await page.goto("/");
@@ -83,18 +97,7 @@ test.describe("Public website smoke checks", () => {
     });
     expect(submission.attribution).toMatchObject({ gclid: "browser-gclid-1" });
 
-    const leadEvents = await page.evaluate(() =>
-      ((window as typeof window & { dataLayer?: unknown[] }).dataLayer || []).flatMap((entry) => {
-        if (!entry || typeof entry !== "object") return [];
-
-        const event = entry as Record<string | number, unknown>;
-        if (event.event === "generate_lead") return [event];
-        if (event[0] === "event" && event[1] === "generate_lead" && event[2]) {
-          return [event[2] as Record<string, unknown>];
-        }
-        return [];
-      }),
-    );
+    const leadEvents = await readGenerateLeadEvents(page);
     expect(leadEvents).toHaveLength(1);
     expect(leadEvents[0]).toMatchObject({
       lead_id: "browser-jeypore-lead-1",
@@ -201,8 +204,16 @@ test.describe("Public website smoke checks", () => {
     await page.getByRole("button", { name: /request whatsapp follow-up/i }).click();
     await expect(page.getByRole("heading", { name: /request received/i })).toBeVisible();
 
+    const leadEvents = await readGenerateLeadEvents(page);
+    expect(leadEvents).toHaveLength(1);
+    expect(leadEvents[0]).toMatchObject({
+      lead_id: "browser-lead-1",
+      form_name: "at_home_testing_form",
+    });
+
     expect(submissions).toHaveLength(2);
     expect(submissions[1].submissionId).toBe(submissions[0].submissionId);
+    expect(submissions[1].occurredAt).toBe(submissions[0].occurredAt);
     expect(submissions[0].utm).toMatchObject({
       utm_source: "meta",
       utm_medium: "paid_social",
@@ -212,5 +223,52 @@ test.describe("Public website smoke checks", () => {
       fbclid: "browser-click-1",
       ad_id: "browser-ad-1",
     });
+  });
+
+  test("at-home form does not confirm or track a pending response without lead id", async ({ page }) => {
+    const submissions: Array<Record<string, unknown>> = [];
+    await page.route("**/api/at-home/register", async (route) => {
+      submissions.push(route.request().postDataJSON() as Record<string, unknown>);
+      if (submissions.length === 1) {
+        await route.fulfill({
+          status: 202,
+          contentType: "application/json",
+          body: JSON.stringify({
+            success: false,
+            pending: true,
+            error: "CRM confirmation is still pending. Please try again in a moment.",
+          }),
+        });
+        return;
+      }
+
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ success: true, duplicate: false, leadId: "browser-lead-after-pending" }),
+      });
+    });
+
+    await page.goto("/at-home-fertility-testing");
+    await page.getByRole("button", { name: /register your interest/i }).click();
+    await page.getByLabel(/^Name/).fill("Pending Browser Lead");
+    await page.getByLabel(/^Phone Number/).fill("9999999999");
+    await page.getByRole("button", { name: /request whatsapp follow-up/i }).click();
+
+    await expect(page.getByText(/crm confirmation is still pending/i)).toBeVisible();
+    await expect(page.getByRole("heading", { name: /request received/i })).toHaveCount(0);
+    await expect.poll(() => readGenerateLeadEvents(page)).toHaveLength(0);
+
+    await page.getByRole("button", { name: /request whatsapp follow-up/i }).click();
+    await expect(page.getByRole("heading", { name: /request received/i })).toBeVisible();
+
+    const leadEvents = await readGenerateLeadEvents(page);
+    expect(leadEvents).toHaveLength(1);
+    expect(leadEvents[0]).toMatchObject({
+      lead_id: "browser-lead-after-pending",
+      form_name: "at_home_testing_form",
+    });
+    expect(submissions).toHaveLength(2);
+    expect(submissions[1].submissionId).toBe(submissions[0].submissionId);
   });
 });

@@ -147,6 +147,137 @@ test("website intake fails closed when the server secret is missing", async () =
   assert.equal(called, false);
 });
 
+test("website intake preserves the CRM status when the worker returns non-JSON error text", async () => {
+  globalThis.fetch = (async () =>
+    new Response("gateway timeout", {
+      status: 502,
+      headers: { "Content-Type": "text/plain" },
+    })) as typeof fetch;
+
+  const result = await pushWebsiteLeadToAiCrm(
+    new Request("https://www.santaan.in/api/at-home/register"),
+    {
+      submissionId: "web-test-24681357",
+      formKind: "at_home_testing",
+      name: "QA Website Lead",
+      phone: "9999999999",
+      campaign: "AT_HOME_TEST",
+      landingPath: "/at-home-fertility-testing",
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 502);
+  assert.equal(result.error, "CRM returned 502.");
+});
+
+test("website intake treats an in-progress CRM submission as pending, not confirmed", async () => {
+  globalThis.fetch = (async () =>
+    Response.json(
+      {
+        error: "submission_in_progress",
+        submission_id: "web-test-in-progress",
+      },
+      { status: 409 },
+    )) as typeof fetch;
+
+  const result = await pushWebsiteLeadToAiCrm(
+    new Request("https://www.santaan.in/api/at-home/register"),
+    {
+      submissionId: "web-test-in-progress",
+      formKind: "at_home_testing",
+      name: "QA Website Lead",
+      phone: "9999999999",
+      campaign: "AT_HOME_TEST",
+      landingPath: "/at-home-fertility-testing",
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 202);
+  assert.equal(result.result?.duplicate, true);
+  assert.match(String(result.error), /still processing/i);
+});
+
+test("website intake treats its own CRM timeout as pending, not confirmed", async () => {
+  globalThis.fetch = (async () => {
+    throw new DOMException("The operation timed out.", "TimeoutError");
+  }) as typeof fetch;
+
+  const result = await pushWebsiteLeadToAiCrm(
+    new Request("https://www.santaan.in/api/at-home/register"),
+    {
+      submissionId: "web-test-timeout",
+      formKind: "at_home_testing",
+      name: "QA Website Lead",
+      phone: "9999999999",
+      campaign: "AT_HOME_TEST",
+      landingPath: "/at-home-fertility-testing",
+    },
+  );
+
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 202);
+  assert.equal(result.result?.submission_id, "web-test-timeout");
+  assert.match(String(result.error), /still processing/i);
+});
+
+test("at-home route does not confirm a CRM response without a lead id", async () => {
+  globalThis.fetch = (async () =>
+    Response.json(
+      {
+        accepted: true,
+        duplicate: false,
+        submission_id: "web-test-no-lead",
+      },
+      { status: 201 },
+    )) as typeof fetch;
+
+  const response = await atHomePost(
+    new Request("https://www.santaan.in/api/at-home/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        submissionId: "web-test-no-lead",
+        name: "QA Pending Lead",
+        phone: "9999999999",
+        landingPath: "/at-home-fertility-testing",
+      }),
+    }),
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 202);
+  assert.equal(body.success, false);
+  assert.equal(body.pending, true);
+  assert.equal(body.leadId, undefined);
+});
+
+test("at-home route reports CRM timeout as pending without a lead id", async () => {
+  globalThis.fetch = (async () => {
+    throw new DOMException("The operation timed out.", "TimeoutError");
+  }) as typeof fetch;
+
+  const response = await atHomePost(
+    new Request("https://www.santaan.in/api/at-home/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        submissionId: "web-test-timeout-route",
+        name: "QA Timeout Lead",
+        phone: "9999999999",
+        landingPath: "/at-home-fertility-testing",
+      }),
+    }),
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 202);
+  assert.equal(body.success, false);
+  assert.equal(body.pending, true);
+  assert.equal(body.leadId, undefined);
+});
+
 test("seminar route forwards the assessment context without requiring email", async () => {
   let outboundPayload: Record<string, unknown> = {};
   globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit) => {

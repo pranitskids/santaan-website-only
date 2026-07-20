@@ -23,6 +23,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState("");
     const submissionIdRef = useRef<string | null>(null);
+    const occurredAtRef = useRef<string | null>(null);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -42,7 +43,9 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
             const utm = ensureMandatoryUtm(readUtmParams());
             const attribution = readMarketingAttribution();
             const submissionId = submissionIdRef.current || createWebsiteSubmissionId();
+            const occurredAt = occurredAtRef.current || new Date().toISOString();
             submissionIdRef.current = submissionId;
+            occurredAtRef.current = occurredAt;
 
             const res = await fetch("/api/at-home/register", {
                 method: "POST",
@@ -54,7 +57,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
                     attribution,
                     landingPath: `${window.location.pathname}${window.location.search}`,
                     referrer: document.referrer,
-                    occurredAt: new Date().toISOString(),
+                    occurredAt,
                 }),
             });
 
@@ -63,10 +66,14 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
             if (!res.ok) {
                 if (res.status === 409) {
                     submissionIdRef.current = null;
+                    occurredAtRef.current = null;
                 }
                 throw new Error(data.error || "Something went wrong");
             }
-            if (!data?.leadId) throw new Error("Lead confirmation was not returned. Please try again.");
+
+            if (!data?.leadId) {
+                throw new Error(data?.error || "Lead confirmation was not returned. Please try again.");
+            }
 
             trackConfirmedLead({
                 leadId: data.leadId,
@@ -79,6 +86,7 @@ export function AtHomeRegistrationModal({ isOpen, onClose }: AtHomeRegistrationM
 
             setIsSuccess(true);
             submissionIdRef.current = null;
+            occurredAtRef.current = null;
             setTimeout(() => {
                 onClose();
                 setIsSuccess(false);

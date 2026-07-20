@@ -36,6 +36,9 @@ type IntakeResponse = {
   message?: string;
 };
 
+const isTimedOutFetch = (error: unknown) =>
+  error instanceof DOMException && ["AbortError", "TimeoutError"].includes(error.name);
+
 export const normalizeWebsiteLeadPhone = (value: string) => {
   const digits = value.replace(CLEAN_PHONE, "");
   if (!digits) return "";
@@ -142,18 +145,35 @@ export async function pushWebsiteLeadToAiCrm(request: Request, input: WebsiteInt
         return {};
       }
     })();
+    const submissionInProgress = response.status === 409 && result.error === "submission_in_progress";
     const accepted = response.ok && result.accepted === true && Boolean(result.lead_id);
     return {
       ok: accepted,
-      status: response.status,
-      result,
+      status: submissionInProgress ? 202 : response.status,
+      result: submissionInProgress ? { ...result, duplicate: true } : result,
       error: accepted
         ? undefined
+        : submissionInProgress
+        ? "CRM intake is still processing. Please try again in a moment."
         : result.error ||
           result.message ||
           (response.ok ? "CRM did not accept the lead." : `CRM returned ${response.status}.`),
     };
   } catch (error) {
+    if (isTimedOutFetch(error)) {
+      return {
+        ok: false,
+        status: 202,
+        result: {
+          accepted: false,
+          submission_id: input.submissionId,
+          message: "CRM intake is still processing.",
+          duplicate: false,
+          lead_id: undefined,
+        },
+        error: "CRM intake is still processing. Please try again in a moment.",
+      };
+    }
     console.error("AICRM website intake error:", error);
     return { ok: false, status: 502, error: "CRM intake could not be reached." };
   }
