@@ -7,7 +7,12 @@ export type MarketingAttribution = {
   wbraid?: string;
   ad_id?: string;
   ad_name?: string;
+  adset_id?: string;
+  adset_name?: string;
   campaign_id?: string;
+  campaign_name?: string;
+  placement?: string;
+  ctwa_clid?: string;
   content_urn?: string;
 };
 
@@ -68,7 +73,12 @@ export const captureMarketingAttribution = (url: string) => {
     wbraid: clean(params.get("wbraid")) || existing.wbraid,
     ad_id: clean(params.get("ad_id")) || existing.ad_id,
     ad_name: clean(params.get("ad_name")) || existing.ad_name,
+    adset_id: clean(params.get("adset_id")) || existing.adset_id,
+    adset_name: clean(params.get("adset_name")) || existing.adset_name,
     campaign_id: clean(params.get("campaign_id")) || existing.campaign_id,
+    campaign_name: clean(params.get("campaign_name")) || existing.campaign_name,
+    placement: clean(params.get("placement")) || existing.placement,
+    ctwa_clid: clean(params.get("ctwa_clid")) || existing.ctwa_clid,
     content_urn:
       clean(params.get("content_urn")) || clean(params.get("urn")) || existing.content_urn,
   };

@@ -6,7 +6,14 @@ const DEFAULT_INTAKE_URL = "https://api.crmai.greybrain.ai/api/intake/lead";
 const DEFAULT_SITE_URL = "https://www.santaan.in";
 const CLEAN_PHONE = /[^0-9]/g;
 
-export type WebsiteFormKind = "at_home_testing" | "seminar_registration" | "book_consultation";
+export type WebsiteFormKind =
+  | "at_home_testing"
+  | "seminar_registration"
+  | "book_consultation"
+  | "map_whatsapp"
+  | "map_callback"
+  | "map_consultation"
+  | "map_existing_patient";
 
 export type WebsiteIntakeInput = {
   submissionId: string;
@@ -50,9 +57,10 @@ const canonicalLandingPage = (landingPath: string) => {
   const base = ["santaan.in", "www.santaan.in"].includes(configuredUrl.hostname)
     ? configuredUrl
     : new URL(DEFAULT_SITE_URL);
-  const landing = new URL(landingPath || "/", base);
+  const requested = new URL(landingPath || "/", base);
+  const allowedHosts = new Set(["santaan.in", "www.santaan.in", "map.santaan.in"]);
+  const landing = allowedHosts.has(requested.hostname) ? requested : new URL(requested.pathname, base);
   landing.protocol = "https:";
-  landing.hostname = base.hostname;
   landing.port = "";
   return landing.toString();
 };
@@ -110,7 +118,12 @@ export async function pushWebsiteLeadToAiCrm(request: Request, input: WebsiteInt
       wbraid: attribution.wbraid,
       ad_id: attribution.ad_id,
       ad_name: attribution.ad_name,
+      adset_id: attribution.adset_id,
+      adset_name: attribution.adset_name,
       campaign_id: attribution.campaign_id,
+      campaign_name: attribution.campaign_name,
+      placement: attribution.placement,
+      ctwa_clid: attribution.ctwa_clid,
     },
     client: {
       ip_address: clientIp(request),
