@@ -5,6 +5,10 @@ import { POST as atHomePost } from "../src/app/api/at-home/register/route";
 import { POST as seminarPost } from "../src/app/api/seminar/register/route";
 import { POST as consultationPost } from "../src/app/api/consultation/register/route";
 import { POST as intentPost } from "../src/app/api/intent/route";
+import {
+  OPTIONS as mapOptions,
+  POST as mapIntakePost,
+} from "../src/app/api/map/intake/route";
 
 const originalFetch = globalThis.fetch;
 const originalEnv = {
@@ -398,4 +402,132 @@ test("contact intent proxy forwards a non-lead Contact event to CRM", async () =
   assert.equal(outboundUrl, "https://api.crmai.greybrain.ai/api/website/intent");
   assert.equal(outboundPayload.event_name, "Contact");
   assert.equal(outboundPayload.test_event_code, undefined);
+});
+
+test("map intake preserves the consented contact mode and full paid attribution", async () => {
+  let outboundPayload: {
+    form_kind?: string;
+    landing_page?: string;
+    attribution?: Record<string, unknown>;
+    form_data?: Record<string, unknown>;
+  } = {};
+  globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit) => {
+    outboundPayload = JSON.parse(String(init?.body)) as typeof outboundPayload;
+    return Response.json(
+      {
+        accepted: true,
+        duplicate: false,
+        lead_id: "lead-map-1",
+        submission_id: "map-submit-12345678",
+        capi: { queued: true, status: "pending" },
+      },
+      { status: 201 },
+    );
+  }) as typeof fetch;
+
+  const response = await mapIntakePost(
+    new Request("https://www.santaan.in/api/map/intake", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://map.santaan.in",
+      },
+      body: JSON.stringify({
+        submissionId: "map-submit-12345678",
+        journeyId: "journey-12345678",
+        action: "whatsapp",
+        name: "Private Map Lead",
+        phone: "9999999999",
+        consent: true,
+        language: "Odia",
+        position: "wondering",
+        concerns: ["privacy", "where-to-begin"],
+        helpRequested: "private-whatsapp",
+        location: "south-odisha",
+        satisfaction: "clearer",
+        topic: "private-guidance",
+        attribution: {
+          source: "meta",
+          channel: "instagram",
+          campaignId: "cmp-1",
+          campaignName: "Private guidance",
+          adsetId: "set-1",
+          adsetName: "South Odisha",
+          adId: "ad-1",
+          adName: "Map opener",
+          placement: "instagram_story",
+          landingPage:
+            "https://map.santaan.in/?campaign_id=cmp-1&adset_id=set-1&ad_id=ad-1",
+          utmSource: "meta",
+          utmMedium: "paid_social",
+          utmCampaign: "private_guidance",
+        },
+      }),
+    }),
+  );
+  const body = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("access-control-allow-origin"), "https://map.santaan.in");
+  assert.equal(body.accepted, true);
+  assert.match(body.journeyRef, /^MAP-/);
+  assert.equal(outboundPayload.form_kind, "map_whatsapp");
+  assert.equal(outboundPayload.landing_page?.includes("map.santaan.in"), true);
+  assert.equal(outboundPayload.attribution?.campaign_id, "cmp-1");
+  assert.equal(outboundPayload.attribution?.adset_id, "set-1");
+  assert.equal(outboundPayload.attribution?.ad_id, "ad-1");
+  assert.equal(outboundPayload.form_data?.contact_permission, "whatsapp_only");
+  assert.equal(outboundPayload.form_data?.journey_ref, body.journeyRef);
+});
+
+test("map intake rejects callback creation without explicit consent and a time window", async () => {
+  let called = false;
+  globalThis.fetch = (async () => {
+    called = true;
+    return Response.json({ accepted: true, lead_id: "unexpected" });
+  }) as typeof fetch;
+
+  const response = await mapIntakePost(
+    new Request("https://www.santaan.in/api/map/intake", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://map.santaan.in",
+      },
+      body: JSON.stringify({
+        submissionId: "map-submit-87654321",
+        journeyId: "journey-87654321",
+        action: "callback",
+        name: "No Consent",
+        phone: "9999999999",
+        consent: false,
+        language: "English",
+        position: "wondering",
+        concerns: [],
+        helpRequested: "scheduled-callback",
+        location: "not-sure",
+      }),
+    }),
+  );
+
+  assert.equal(response.status, 400);
+  assert.equal(called, false);
+});
+
+test("map intake CORS allows the Santaan map and blocks unrelated origins", async () => {
+  const allowed = mapOptions(
+    new Request("https://www.santaan.in/api/map/intake", {
+      method: "OPTIONS",
+      headers: { Origin: "https://map.santaan.in" },
+    }),
+  );
+  const blocked = mapOptions(
+    new Request("https://www.santaan.in/api/map/intake", {
+      method: "OPTIONS",
+      headers: { Origin: "https://example.com" },
+    }),
+  );
+
+  assert.equal(allowed.status, 204);
+  assert.equal(blocked.status, 403);
 });
