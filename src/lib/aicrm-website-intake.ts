@@ -146,7 +146,7 @@ export async function pushWebsiteLeadToAiCrm(request: Request, input: WebsiteInt
         },
         body: JSON.stringify(payload),
         cache: "no-store",
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(20000),
       },
     );
     const responseText = await response.text();
