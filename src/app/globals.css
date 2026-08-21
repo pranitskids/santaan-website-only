@@ -13,6 +13,45 @@
   --foreground: var(--santaan-teal);
 }
 
+.fertility-article-content > * + * {
+  margin-top: 1.15rem;
+}
+
+.fertility-article-content h2,
+.fertility-article-content h3,
+.fertility-article-content h4 {
+  margin-top: 2rem;
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-santaan-teal);
+}
+
+.fertility-article-content h2 { font-size: 1.75rem; }
+.fertility-article-content h3 { font-size: 1.45rem; }
+.fertility-article-content h4 { font-size: 1.25rem; }
+
+.fertility-article-content p,
+.fertility-article-content li {
+  line-height: 1.75;
+  color: #374151;
+}
+
+.fertility-article-content ul,
+.fertility-article-content ol {
+  margin-left: 1.25rem;
+  padding-left: 0.75rem;
+}
+
+.fertility-article-content ul { list-style: disc; }
+.fertility-article-content ol { list-style: decimal; }
+
+.fertility-article-content a {
+  color: var(--color-santaan-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @theme inline {
   --color-santaan-sage: var(--santaan-sage);
   --color-santaan-amber: var(--santaan-amber);

@@ -102,17 +102,17 @@ export function Footer() {
                         <ul className="space-y-4">
                             <li>
                                 <Link href="/ivf-clinic-bhubaneswar" className="text-gray-300 hover:text-santaan-amber transition-colors">
-                                    IVF Bhubaneswar
+                                    IVF centre in Bhubaneswar
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/ivf-clinic-berhampur" className="text-gray-300 hover:text-santaan-amber transition-colors">
-                                    IVF Berhampur
+                                    IVF centre in Berhampur
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/ivf-clinic-angul" className="text-gray-300 hover:text-santaan-amber transition-colors">
-                                    IVF Angul
+                                    IVF centre in Angul
                                 </Link>
                             </li>
                             <li>

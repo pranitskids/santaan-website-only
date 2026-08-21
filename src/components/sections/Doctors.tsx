@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import type { ElementType } from 'react';
 
 const clinicalTeam = [
@@ -35,9 +34,10 @@ const leadershipTeam = [
 
 interface DoctorsProps {
     headingAs?: Extract<ElementType, 'h1' | 'h2'>;
+    eagerImages?: boolean;
 }
 
-export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
+export function Doctors({ headingAs = 'h2', eagerImages = false }: DoctorsProps) {
     const HeadingTag = headingAs;
     const GroupHeadingTag = headingAs === 'h1' ? 'h2' : 'h3';
     const ProfileHeadingTag = headingAs === 'h1' ? 'h3' : 'h4';
@@ -59,13 +59,9 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                 <div className="mx-auto max-w-5xl">
                     <GroupHeadingTag className="sr-only">Fertility doctors</GroupHeadingTag>
                     <div className="grid gap-6 md:grid-cols-2">
-                        {clinicalTeam.map((doctor, index) => (
-                            <motion.article
+                        {clinicalTeam.map((doctor) => (
+                            <article
                                 key={doctor.name}
-                                initial={{ opacity: 0, y: 18 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.08, duration: 0.45 }}
                                 className="group overflow-hidden rounded-3xl border border-santaan-sage/20 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                             >
                                 <div className="flex h-full flex-row">
@@ -73,7 +69,7 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                                         <img
                                             src={doctor.image}
                                             alt={doctor.name}
-                                            loading="lazy"
+                                            loading={eagerImages ? 'eager' : 'lazy'}
                                             decoding="async"
                                             className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.03]"
                                         />
@@ -86,7 +82,7 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                                         <p className="mt-2 text-sm text-gray-500">{doctor.scope}</p>
                                     </div>
                                 </div>
-                            </motion.article>
+                            </article>
                         ))}
                     </div>
 
@@ -101,20 +97,16 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                         </div>
 
                         <div className="mt-7 grid gap-4 md:grid-cols-2">
-                            {leadershipTeam.map((member, index) => (
-                                <motion.article
+                            {leadershipTeam.map((member) => (
+                                <article
                                     key={member.name}
-                                    initial={{ opacity: 0, y: 16 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.08 + index * 0.08, duration: 0.45 }}
                                     className="flex items-center gap-5 rounded-2xl border border-white/10 bg-white/[0.07] p-4 transition hover:border-santaan-amber/35 hover:bg-white/10 sm:p-5"
                                 >
                                     <div className="h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-white/10 shadow-lg">
                                         <img
                                             src={member.image}
                                             alt={member.name}
-                                            loading="lazy"
+                                            loading={eagerImages ? 'eager' : 'lazy'}
                                             decoding="async"
                                             className="h-full w-full object-cover object-[center_18%]"
                                         />
@@ -126,7 +118,7 @@ export function Doctors({ headingAs = 'h2' }: DoctorsProps) {
                                         <p className="mt-2 font-semibold leading-snug text-santaan-amber">{member.role}</p>
                                         <p className="mt-2 text-sm leading-relaxed text-white/65">{member.scope}</p>
                                     </div>
-                                </motion.article>
+                                </article>
                             ))}
                         </div>
                     </div>

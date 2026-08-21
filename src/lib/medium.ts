@@ -4,6 +4,7 @@ import { blogPosts } from '@/db/schema';
 import { LEGACY_BLOG_SEEDS } from '@/content/legacyBlogSeeds';
 import { MEDIUM_ARCHIVE_SEEDS } from '@/content/mediumArchiveSeeds';
 import { getSantaanHubPostBySlug, getSantaanHubPosts } from '@/lib/skids-content-hub';
+import { PRIMARY_WHATSAPP_DISPLAY } from '@/data/centers';
 
 const MEDIUM_FEED_URL = 'https://medium.com/feed/@santaanIVF';
 
@@ -159,8 +160,8 @@ function rewriteLegacySantaanLinks(html: string): string {
 
 function normalizeLegacyPhoneCtas(html: string): string {
   return html.replace(
-    /(\+91[\s\u00a0\u2013\u2014-]*)?(?:81051[\s\u00a0]*08416|97772[\s\u00a0]*68755|9777268755|969[\s\u00a0]*208[\s\u00a0]*1966|933[\s\u00a0]*732[\s\u00a0]*6896)/g,
-    '+91 96689 04011'
+    /(\+91[\s\u00a0\u2013\u2014-]*)?(?:81051[\s\u00a0]*08416|97772[\s\u00a0]*68755|9777268755|969[\s\u00a0]*208[\s\u00a0]*1966|933[\s\u00a0]*732[\s\u00a0]*6896|96689[\s\u00a0]*04011|9668904011)/g,
+    PRIMARY_WHATSAPP_DISPLAY
   );
 }
 
@@ -172,6 +173,7 @@ function stripInternalPublishingTail(html: string): string {
     /publish\s*(?:<\/?[^>]+>\s*)*checklist\s*(?:<\/?[^>]+>\s*)*internal/i,
     /internal\s*(?:<\/?[^>]+>\s*)*use/i,
     /publishing\s*(?:<\/?[^>]+>\s*)*account/i,
+    /publishing\s*(?:<\/?[^>]+>\s*)*metadata/i,
     /mandatory\s*(?:<\/?[^>]+>\s*)*tags/i,
   ];
 

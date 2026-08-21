@@ -76,14 +76,14 @@ export const defaultSeoMetadata: Metadata = {
     template: '%s | Santaan IVF',
   },
   description:
-    'Evidence-driven fertility and IVF care across Bhubaneswar, Angul, Berhampur and Jeypore. Book a private consultation with Santaan.',
+    'Santaan Fertility provides IVF and fertility care across Odisha through centres in Bhubaneswar, Berhampur and Angul. Jeypore is coming soon.',
   alternates: {
     canonical: getSiteUrl(),
   },
   openGraph: {
     title: 'Santaan IVF | IVF & Fertility Centres in Odisha',
     description:
-      'Evidence-driven fertility and IVF care across Bhubaneswar, Angul, Berhampur and Jeypore. Book a private consultation with Santaan.',
+      'Santaan Fertility provides IVF and fertility care across Odisha through centres in Bhubaneswar, Berhampur and Angul. Jeypore is coming soon.',
     url: getSiteUrl(),
     siteName: SITE_NAME,
     locale: 'en_IN',

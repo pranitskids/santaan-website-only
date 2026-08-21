@@ -9,9 +9,9 @@ import { buildMetadata } from '@/lib/seo';
 import { buildFaqSchema } from '@/lib/schema';
 
 export const metadata = buildMetadata({
-  title: 'Pricing and EMI Options',
+  title: 'IVF Cost in Bhubaneswar | Pricing and EMI Options',
   description:
-    'Explore Santaan IVF pricing ranges, what is included, and EMI/financing options. Transparent guidance to plan your fertility journey.',
+    'Review indicative IVF cost ranges in Bhubaneswar, IUI and ICSI pricing, common inclusions, possible add-ons and EMI options at Santaan Fertility.',
   path: '/pricing',
   keywords: ['ivf pricing', 'ivf cost', 'iui cost', 'icsi cost', 'fertility emi', 'santaan pricing'],
 });
@@ -56,13 +56,16 @@ export default function PricingPage() {
       <section className="pt-40 pb-20 bg-gradient-to-br from-santaan-teal via-santaan-teal/90 to-santaan-dark-teal text-white">
         <div className="container mx-auto px-4 md:px-6">
           <p className="uppercase tracking-[0.2em] text-santaan-amber text-xs font-semibold mb-4">Planning</p>
-          <h1 className="text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-tight">Pricing and EMI Options</h1>
+          <h1 className="text-4xl md:text-6xl font-playfair font-bold max-w-4xl leading-tight">IVF Cost in Bhubaneswar: Pricing and EMI Options</h1>
           <p className="mt-6 max-w-2xl text-white/85 text-lg">
-            Indicative IVF, IUI, ICSI and fertility testing costs with inclusions. Exact pricing depends on diagnosis, protocol, medicines and lab add-ons.
+            Indicative IVF, IUI, ICSI and fertility-testing ranges for planning care in Bhubaneswar. Exact pricing depends on diagnosis, protocol, medicines and laboratory steps.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/contact-centres" className="px-5 py-2.5 bg-santaan-amber text-white rounded-full font-semibold hover:bg-[#E08E45] transition-colors">
               Explore centres
+            </Link>
+            <Link href="/ivf-clinic-bhubaneswar" className="px-5 py-2.5 border border-white/35 rounded-full font-semibold hover:bg-white/10 transition-colors">
+              IVF centre in Bhubaneswar
             </Link>
             <Link href="/at-home-fertility-testing" className="px-5 py-2.5 border border-white/35 rounded-full font-semibold hover:bg-white/10 transition-colors">
               Explore at-home testing
@@ -76,10 +79,10 @@ export default function PricingPage() {
           <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-10">
             <h2 className="text-2xl md:text-3xl font-playfair font-bold text-santaan-teal">Indicative price ranges</h2>
             <p className="text-gray-600 mt-3 max-w-3xl">
-              Ranges are shown because fertility care is personalized. Total cost may vary based on condition and protocol; these are average ranges. Your final plan will list inclusions and exclusions based on your reports.
+              Ranges are shown because fertility care is personalised. These figures support planning at Santaan Bhubaneswar and may vary by diagnosis, medicines, protocol and laboratory requirements. Your written estimate will list case-specific inclusions and exclusions after clinical review.
             </p>
 
-            <div className="mt-8">
+            <div className="mt-8 hidden sm:block">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -98,6 +101,15 @@ export default function PricingPage() {
                   ))}
                 </TableBody>
               </Table>
+            </div>
+            <div className="mt-8 grid gap-4 sm:hidden">
+              {priceRanges.map((row) => (
+                <article key={row.service} className="rounded-2xl border border-santaan-sage/25 bg-santaan-cream/35 p-5">
+                  <h3 className="font-semibold text-gray-900">{row.service}</h3>
+                  <p className="mt-2 text-lg font-bold text-santaan-teal">{row.range}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-600">Usually includes: {row.includes}</p>
+                </article>
+              ))}
             </div>
           </div>
 

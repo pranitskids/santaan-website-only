@@ -21,6 +21,8 @@ test.describe("Public website smoke checks", () => {
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Across Odisha");
     await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
+    await expect(page.locator('a[href^="https://wa.me/919777268743"]').first()).toBeVisible();
+    await expect(page.locator('a[href*="919668904011"]')).toHaveCount(0);
     await expect(page.locator('a[href="tel:+918065481541"]').first()).toBeVisible();
     await expect(page.locator('a[href="tel:+917008990586"]')).toHaveCount(0);
     await expect(page.getByText("15,000+", { exact: true })).toBeVisible();
@@ -34,7 +36,47 @@ test.describe("Public website smoke checks", () => {
     await expect(page.locator("main")).not.toContainText(
       /Four Odisha centre pages|Three active Odisha centres|City-specific enquiry routing|Prefer a calendar view/i,
     );
-    await expect(page.locator("main")).not.toContainText(/Bangalore|Bengaluru|Jayanagar|Halasuru/i);
+    await expect(page.getByText(/former Bengaluru \(Jayanagar\) centre is closed/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: "IVF centre in Bhubaneswar", exact: true }).first()).toHaveAttribute(
+      "href",
+      "/ivf-clinic-bhubaneswar",
+    );
+
+    const homepageSchemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(homepageSchemas.join(" ")).not.toContain('"@type":"MedicalClinic"');
+  });
+
+  test("commercial query ownership is assigned to the dedicated pages", async ({ page }) => {
+    await page.goto("/ivf-clinic-bhubaneswar");
+    await expect(page).toHaveTitle(/IVF Centre in Bhubaneswar/i);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("IVF Centre in Bhubaneswar");
+    await expect(page.getByRole("heading", { name: "IUI treatment in Bhubaneswar" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "IVF cost in Bhubaneswar", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "IVF cost in Bhubaneswar" })).toHaveAttribute("href", "/pricing");
+
+    const clinicSchemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(clinicSchemas.join(" ")).toContain('"@type":"MedicalClinic"');
+    expect(clinicSchemas.join(" ")).toContain('"@type":"FAQPage"');
+
+    await page.goto("/pricing");
+    await expect(page).toHaveTitle(/IVF Cost in Bhubaneswar/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("IVF Cost in Bhubaneswar");
+    await expect(page.getByRole("link", { name: "IVF centre in Bhubaneswar", exact: true }).first()).toHaveAttribute(
+      "href",
+      "/ivf-clinic-bhubaneswar",
+    );
+  });
+
+  test("priority insight uses clearer metadata and passes authority to centre pages", async ({ page }) => {
+    await page.goto("/fertility-insights/failed-iui-to-ivf-your-next-steps-in-bhubaneswar");
+    await expect(page).toHaveTitle(/After Failed IUI: When to Consider IVF in Bhubaneswar/i);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "After Failed IUI: When to Consider IVF in Bhubaneswar",
+    );
+    const centreNavigation = page.getByRole("navigation", { name: "Santaan IVF centres in Odisha" });
+    for (const city of ["Bhubaneswar", "Berhampur", "Angul"]) {
+      await expect(centreNavigation.getByRole("link", { name: `IVF centre in ${city}`, exact: true })).toBeVisible();
+    }
   });
 
   test("content routes stay reachable", async ({ page }) => {
@@ -160,6 +202,9 @@ test.describe("Public website smoke checks", () => {
     await expect(team.getByText("Founder & Head of R&D", { exact: true })).toBeVisible();
     await expect(team.getByText("Champion of Growth Projects", { exact: true })).toBeVisible();
     await expect(team.getByText("Femtech Accelerator & Incubator", { exact: true })).toBeVisible();
+
+    const physicianSchemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(physicianSchemas.join(" ")).toContain('"@type":"Physician"');
 
     const contentOrder = await team.evaluate((section) => section.textContent || "");
     expect(contentOrder.indexOf("Dr. Kaninika Panda")).toBeLessThan(contentOrder.indexOf("Dr. Satish"));

@@ -62,26 +62,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
       'Sunday: Closed',
     ],
     areaServed: ['Berhampur', 'Ganjam', 'South Odisha'],
-    reviews: [
-      {
-        author: 'Santosh Kumar Sahu',
-        meta: '6 months ago',
-        quote:
-          "Heartly thanks to Deepika madam. Madam's calm words and treatment helped bless us with a baby boy. The staff were cooperative and supportive throughout the journey.",
-      },
-      {
-        author: 'Nilu Sahu',
-        meta: '6 months ago',
-        quote:
-          'Heartly thanks to Deepika madam. Her treatment, hope, and calm guidance supported us, and the staff made the journey feel warm and familiar.',
-      },
-      {
-        author: 'Sasmita Sahu',
-        meta: '4 months ago',
-        quote:
-          'Our parenthood and pregnancy journey was very good at Santaan Hospital, and it was possible because of Dr. Deepika and the entire staff.',
-      },
-    ],
+    reviews: [],
   },
   {
     name: 'Bhubaneswar',
@@ -110,32 +91,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
       'Sunday: Closed',
     ],
     areaServed: ['Bhubaneswar', 'Khordha', 'Coastal Odisha'],
-    reviews: [
-      {
-        author: 'Sudip Saha',
-        meta: 'a month ago',
-        quote:
-          'After 14 years of marriage and many consultations, our IVF turned positive. The doctor, nurses, and support staff were very helpful through the journey.',
-      },
-      {
-        author: 'Rajat Sharma',
-        meta: '10 months ago',
-        quote:
-          'Dr. Kanika is very helpful with patients and the team gives strong treatment support to couples visiting the Bhubaneswar center.',
-      },
-      {
-        author: 'Alok Ojha',
-        meta: '11 months ago',
-        quote:
-          'If you are looking for a fertility clinic in Bhubaneswar, Santaan stands out for its expert team and modern facilities.',
-      },
-      {
-        author: 'Dipak Biswal',
-        meta: '2 years ago',
-        quote:
-          'The interaction from Dr. Kanika Panda and the nursing staff felt positive, caring, and helpful, and gave us a new ray of hope.',
-      },
-    ],
+    reviews: [],
   },
   {
     name: 'Angul',
@@ -195,7 +151,8 @@ export const CENTER_CONTACTS: CenterContact[] = CENTER_PROFILES.map(({ name, pho
 export const PRIMARY_CENTER = CENTER_PROFILES.find((center) => center.city === 'Bhubaneswar') ?? CENTER_PROFILES[0];
 export const PRIMARY_CALL_NUMBER = '+91 80654 81541';
 export const PRIMARY_CALL_HREF = `tel:${PRIMARY_CALL_NUMBER.replace(/[^0-9+]/g, "")}`;
-export const PRIMARY_WHATSAPP_NUMBER = '919668904011';
+export const PRIMARY_WHATSAPP_NUMBER = '919777268743';
+export const PRIMARY_WHATSAPP_DISPLAY = '+91 97772 68743';
 export const PRIMARY_WHATSAPP_MESSAGE = "Hi, I'd like more info on IVF";
 export const PRIMARY_WHATSAPP_BOOKING_MESSAGE = "Hi, I'd like to book a consultation";
 export function buildPrimaryWhatsappUrl(message: string = PRIMARY_WHATSAPP_MESSAGE) {
