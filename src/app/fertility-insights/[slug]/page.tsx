@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const seoOverride = getFertilityInsightSeoOverride(post.slug);
 
   return buildMetadata({
-    title: `${seoOverride?.title ?? post.title} | Santaan Fertility Insights`,
+    title: seoOverride?.title ?? post.title,
     description: seoOverride?.description ?? post.excerpt,
     path: `/fertility-insights/${post.slug}`,
     type: 'article',

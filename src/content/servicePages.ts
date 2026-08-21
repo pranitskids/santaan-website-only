@@ -30,7 +30,7 @@ export interface ServicePageData {
 export const servicePageData: Record<string, ServicePageData> = {
   'ivf-clinic-bhubaneswar': {
     slug: 'ivf-clinic-bhubaneswar',
-    title: 'IVF Centre in Bhubaneswar | Santaan Fertility Clinic',
+    title: 'IVF Centre in Bhubaneswar',
     description:
       "IVF and fertility treatment in Bhubaneswar with structured diagnostics, transparent cost ranges and private consultations. Meet Santaan's Bhubaneswar team.",
     h1: 'IVF Centre in Bhubaneswar',

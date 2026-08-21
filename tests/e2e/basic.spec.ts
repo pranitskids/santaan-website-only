@@ -48,7 +48,7 @@ test.describe("Public website smoke checks", () => {
 
   test("commercial query ownership is assigned to the dedicated pages", async ({ page }) => {
     await page.goto("/ivf-clinic-bhubaneswar");
-    await expect(page).toHaveTitle(/IVF Centre in Bhubaneswar/i);
+    await expect(page).toHaveTitle(/^IVF Centre in Bhubaneswar \| Santaan IVF$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("IVF Centre in Bhubaneswar");
     await expect(page.getByRole("heading", { name: "IUI treatment in Bhubaneswar" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "IVF cost in Bhubaneswar", exact: true })).toBeVisible();
@@ -69,7 +69,7 @@ test.describe("Public website smoke checks", () => {
 
   test("priority insight uses clearer metadata and passes authority to centre pages", async ({ page }) => {
     await page.goto("/fertility-insights/failed-iui-to-ivf-your-next-steps-in-bhubaneswar");
-    await expect(page).toHaveTitle(/After Failed IUI: When to Consider IVF in Bhubaneswar/i);
+    await expect(page).toHaveTitle(/^After Failed IUI: When to Consider IVF in Bhubaneswar \| Santaan IVF$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "After Failed IUI: When to Consider IVF in Bhubaneswar",
     );
