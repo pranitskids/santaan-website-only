@@ -1,7 +1,6 @@
 "use client";
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import type { ElementType } from 'react';
 import { CENTER_PROFILES, buildPrimaryWhatsappUrl, getCenterMapsUrl } from '@/data/centers';
@@ -44,16 +43,12 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                 </div>
 
                 <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-                    {CENTER_PROFILES.map((loc, i) => {
+                    {CENTER_PROFILES.map((loc) => {
                         const mapHref = loc.comingSoon ? null : getCenterMapsUrl(loc);
 
                         return (
-                            <motion.article
+                            <article
                                 key={loc.slug}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.12 }}
                                 className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-white/15 transition-colors flex flex-col"
                             >
                                 <div className="flex items-start justify-between mb-6">
@@ -180,7 +175,7 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         className="inline-flex items-center justify-between rounded-xl bg-white text-santaan-teal px-4 py-3 text-sm font-semibold hover:bg-santaan-cream transition-colors"
                                         onClick={() => trackLocationEvent(`location_page_${loc.city}`)}
                                     >
-                                        {loc.comingSoon ? `View ${loc.city} opening page` : `Explore ${loc.city} page`}
+                                        {loc.comingSoon ? `Jeypore centre — coming soon` : `IVF centre in ${loc.city}`}
                                         <ArrowRight className="w-4 h-4" />
                                     </Link>
                                     {loc.comingSoon ? (
@@ -209,10 +204,14 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                     </a>
                                     )}
                                 </div>
-                            </motion.article>
+                            </article>
                         );
                     })}
                 </div>
+                <p className="mx-auto mt-10 max-w-4xl rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-center text-sm leading-relaxed text-white/75">
+                    Our former Bengaluru (Jayanagar) centre is closed. Santaan currently operates in Bhubaneswar,
+                    Berhampur and Angul; Jeypore is coming soon.
+                </p>
             </div>
         </section>
     );

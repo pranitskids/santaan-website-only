@@ -32,33 +32,63 @@ export const servicePageData: Record<string, ServicePageData> = {
     slug: 'ivf-clinic-bhubaneswar',
     title: 'IVF Centre in Bhubaneswar',
     description:
-      'Santaan IVF Bhubaneswar offers evidence-driven IVF, ICSI, male infertility care, and PCOS fertility treatment with compassionate specialist support.',
+      "IVF and fertility treatment in Bhubaneswar with structured diagnostics, transparent cost ranges and private consultations. Meet Santaan's Bhubaneswar team.",
     h1: 'IVF Centre in Bhubaneswar',
     kicker: 'Bhubaneswar Fertility Care',
     intro:
-      'Santaan IVF Bhubaneswar provides private fertility consultations for individuals and couples who need a clear plan before deciding on treatment. At our Nayapalli centre, the clinical team reviews both partners together, coordinates fertility testing and diagnostics, and explains when monitored cycles, IUI, IVF or ICSI may be appropriate. The centre supports ovarian-reserve review, semen analysis, male fertility work-up, cycle monitoring and treatment planning under specialist guidance. Your first visit is focused on understanding previous reports, current concerns, likely next tests and a realistic sequence of care. Patients from Bhubaneswar, Khordha and nearby areas can use the centre phone, directions and consultation form below to plan a confidential appointment.',
+      'Santaan IVF Bhubaneswar is a fertility centre in Nayapalli for individuals and couples who need a clear, evidence-led plan before deciding on treatment. The team evaluates both partners together, reviews previous reports and explains whether timed treatment, IUI, IVF, ICSI or another pathway is clinically appropriate. Consultations are private, costs are discussed as ranges, and no treatment is assumed before the available evidence is reviewed. Patients from Bhubaneswar, Khordha, Cuttack and nearby areas can use the verified address, directions, telephone and consultation form on this page to plan a visit.',
     primaryKeyword: 'IVF centre in Bhubaneswar',
     city: 'Bhubaneswar',
     sections: [
       {
-        heading: 'Fertility evaluation before treatment decisions',
+        heading: 'What the Bhubaneswar fertility team treats',
         body:
-          'The Bhubaneswar team reviews reproductive history, hormone and ovarian-reserve findings, ultrasound results and semen parameters together. This creates a clinical starting point before IUI, IVF or ICSI is discussed.',
+          'The Bhubaneswar team supports evaluation and treatment planning for delayed conception, irregular ovulation, PCOS, reduced ovarian reserve, tubal concerns, endometriosis-related fertility questions, recurrent treatment failure and male-factor infertility. A diagnosis is not made from one number alone. Hormone results, ultrasound findings, age, cycle history, previous treatment, semen parameters and both partners’ timelines are considered together. This combined review helps distinguish situations where more investigation is useful from those where monitored cycles, IUI, IVF or ICSI may be considered.',
       },
       {
-        heading: 'Services available at this center',
+        heading: 'What happens at your first fertility consultation',
         body:
-          'We provide fertility evaluation, ovulation support, IUI, IVF, ICSI, male-factor workup, embryo culture planning, and guidance for egg-freezing decisions. Every plan is built around clinical findings, timeline needs, and budget comfort.',
+          'A first visit begins with your reproductive and medical history rather than a predetermined treatment package. The clinician reviews how long you have been trying, cycle regularity, previous pregnancies or losses, operations, medicines and earlier fertility treatment. Existing blood tests, ultrasound scans, HSG reports, semen analyses and IVF records are reviewed before repeat testing is suggested. You should leave with a written understanding of the likely problem, which questions remain unanswered, the next useful investigation and when a follow-up decision can be made. A consultation is not a commitment to IVF.',
       },
       {
-        heading: 'Clinical team in Bhubaneswar',
+        heading: 'Fertility tests for both partners',
         body:
-          'Dr. Kaninika Panda leads the Bhubaneswar centre. Consultation availability can vary, so the booking team confirms the doctor and time assigned to each appointment before the visit.',
+          'Fertility evaluation is usually more useful when both partners are assessed in parallel. Depending on the history, the female evaluation may include ovarian-reserve markers, thyroid or prolactin tests, pelvic ultrasound, ovulation assessment and review of the uterine cavity or fallopian tubes. Male evaluation commonly begins with a properly collected semen analysis and may progress only when the result or clinical history indicates it. Testing is selected to answer a decision, not to create a long checklist. The team explains what each result can and cannot predict before treatment options are discussed.',
       },
       {
-        heading: 'Plan a private consultation',
+        heading: 'IUI treatment in Bhubaneswar',
         body:
-          'Use the centre-specific form below to request an appointment. Bring prior prescriptions, scan reports and test results if available so the consultation can focus on decisions rather than repeated history-taking.',
+          'IUI may be considered for selected couples with open fallopian tubes, ovulation that can be timed and semen findings suitable for the procedure. It is not the right first step for every diagnosis. The Bhubaneswar team reviews age, duration of infertility, ovarian response, tubal status and semen parameters before advising whether an IUI cycle is reasonable. Monitoring, medication, semen preparation, the procedure and follow-up are discussed as one cycle plan. If earlier IUI cycles have not worked, the review focuses on what was learned and whether repeating IUI or moving to IVF is more appropriate.',
+      },
+      {
+        heading: 'IVF and ICSI planning in Bhubaneswar',
+        body:
+          'IVF involves ovarian stimulation, monitoring, egg retrieval, fertilisation, embryo culture and an embryo-transfer plan. ICSI is a laboratory fertilisation technique used within an IVF cycle when semen findings, sperm retrieval or previous fertilisation history support it; it is not automatically necessary for everyone. Before a cycle starts, the clinician should explain the intended protocol, expected monitoring, medication assumptions, laboratory steps, transfer strategy, freezing decisions and circumstances that could change the plan. Individual outcomes vary with age, diagnosis, egg and sperm factors, embryo development and other clinical variables.',
+      },
+      {
+        heading: 'Embryology and treatment decisions',
+        body:
+          'Embryology is central to an IVF cycle because fertilisation and embryo development are observed in the laboratory. Useful counselling separates established laboratory steps from optional add-ons and explains why a technique is being considered for a particular case. Questions to ask include whether standard IVF or ICSI is planned, how embryo development will be assessed, when freezing may be advised, what storage terms apply and whether any additional procedure changes the evidence, cost or timeline. Santaan’s approach is to connect laboratory information with the treating clinician’s decisions and the couple’s informed consent.',
+      },
+      {
+        heading: 'IVF cost in Bhubaneswar',
+        body:
+          'Fertility treatment does not have one reliable price for every patient. Santaan publishes indicative ranges because medicines, ovarian response, monitoring, anaesthesia, laboratory steps, ICSI, embryo freezing, storage, genetic testing and repeat procedures can change the total. The pricing page lists current planning ranges and common inclusions and exclusions. Before treatment, ask for a written estimate that defines what “per cycle” means, identifies likely medicines and add-ons, and explains how charges change if a cycle is cancelled, converted or deferred. Final costs are confirmed after clinical review.',
+      },
+      {
+        heading: 'Review after an earlier failed IUI or IVF attempt',
+        body:
+          'An earlier unsuccessful cycle should be reviewed as a source of information rather than treated as proof that the same plan must be repeated. Bring stimulation charts, scan records, medication doses, egg-retrieval details, fertilisation reports, embryo-development notes, transfer records and discharge summaries when available. The review looks for what happened at each stage and which changes are supported by the evidence. Sometimes the next step is another cycle with a revised protocol; sometimes further testing, a different laboratory decision or a pause is more appropriate. The recommendation depends on the complete record.',
+      },
+      {
+        heading: 'Clinical team and counselling in Bhubaneswar',
+        body:
+          'Dr. Kaninika Panda leads the Bhubaneswar centre. The wider team coordinates appointments, report collection, cycle instructions and practical questions so that patients know whom to contact between visits. Doctor availability can vary, so the booking team confirms the clinician and time assigned to each consultation. Staff names and professional details are published only after their roles and approval for public use are verified. Medical decisions remain with the treating clinician and are explained directly to the patient before consent.',
+      },
+      {
+        heading: 'Plan a private consultation at Nayapalli',
+        body:
+          'Santaan IVF Bhubaneswar is on the 3rd Floor of Utkal Pristine, N-5 Plot, IRC Village, Nayapalli, above Max Nayapalli. Use the map link on this page to confirm the route and call before travelling if you need accessibility or timing guidance. Bring identification, current prescriptions and relevant fertility reports. You can request an appointment through the centre-specific form, telephone or WhatsApp. The booking team will confirm the consultation; submitting a form does not create a treatment commitment or guarantee a particular doctor or outcome.',
       },
     ],
     faqs: [
@@ -71,6 +101,21 @@ export const servicePageData: Record<string, ServicePageData> = {
         question: 'Do you support male infertility evaluation at this center?',
         answer:
           'Yes. Male-factor evaluation is integrated into our standard pathway and includes semen quality profiling and additional tests where clinically needed.',
+      },
+      {
+        question: 'Does the Bhubaneswar centre provide IUI treatment?',
+        answer:
+          'The team evaluates whether IUI is suitable and supports monitored IUI pathways for appropriate cases. Tubal status, ovulation, age, semen findings and previous treatment are reviewed before a cycle is advised.',
+      },
+      {
+        question: 'How much does IVF cost in Bhubaneswar?',
+        answer:
+          'The total varies with medicines, monitoring, laboratory steps and clinically indicated add-ons. Review the published pricing ranges and request a written, case-specific estimate after your consultation.',
+      },
+      {
+        question: 'Can Santaan review a failed IUI or IVF cycle from another clinic?',
+        answer:
+          'Yes. Bring the protocol, scan records, medication doses, retrieval and fertilisation reports, embryo-development information and transfer summary when available so the earlier cycle can be reviewed stage by stage.',
       },
       {
         question: 'Where is Santaan IVF Bhubaneswar located?',
@@ -86,6 +131,28 @@ export const servicePageData: Record<string, ServicePageData> = {
         question: 'How can I request a private appointment in Bhubaneswar?',
         answer:
           'Submit the consultation form on this page or call the Bhubaneswar number. The team will confirm the appointment and any pre-visit instructions directly with you.',
+      },
+    ],
+    relatedPages: [
+      {
+        href: '/our-doctors',
+        label: 'Fertility doctors in Bhubaneswar',
+        description: 'Meet the verified clinical team and review published areas of responsibility.',
+      },
+      {
+        href: '/pricing',
+        label: 'IVF cost in Bhubaneswar',
+        description: 'See indicative treatment ranges, common inclusions and questions to ask before comparing estimates.',
+      },
+      {
+        href: '/treatments/iui',
+        label: 'How IUI treatment works',
+        description: 'Understand who IUI may suit, the typical steps and when another pathway may be considered.',
+      },
+      {
+        href: '/treatments/ivf',
+        label: 'How IVF treatment works',
+        description: 'Review the stages of an IVF cycle and the decisions that can affect timing and cost.',
       },
     ],
   },

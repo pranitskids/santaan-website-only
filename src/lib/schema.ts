@@ -131,8 +131,40 @@ export function buildMedicalClinicSchema(center: CenterProfile) {
   };
 }
 
-export function buildLocalClinicSchemas() {
-  return CENTER_PROFILES.filter((center) => !center.comingSoon).map((center) => buildMedicalClinicSchema(center));
+export function buildPhysicianSchemas() {
+  const baseUrl = getSiteUrl();
+  const physicians = [
+    {
+      name: 'Dr. Deepika K. N. Padhi',
+      jobTitle: 'Clinical Director and Centre Head, Berhampur',
+      center: 'Berhampur',
+      centerUrl: '/ivf-clinic-berhampur',
+    },
+    {
+      name: 'Dr. Kaninika Panda',
+      jobTitle: 'Head, Santaan Academy & Quality and Centre Head, Bhubaneswar',
+      center: 'Bhubaneswar',
+      centerUrl: '/ivf-clinic-bhubaneswar',
+    },
+  ];
+
+  return physicians.map((physician) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Physician',
+    name: physician.name,
+    jobTitle: physician.jobTitle,
+    url: `${baseUrl}/our-doctors`,
+    medicalSpecialty: 'ReproductiveHealth',
+    areaServed: {
+      '@type': 'City',
+      name: physician.center,
+    },
+    worksFor: {
+      '@type': 'MedicalClinic',
+      name: `Santaan IVF ${physician.center}`,
+      url: `${baseUrl}${physician.centerUrl}`,
+    },
+  }));
 }
 
 export function buildCenterItemListSchema() {

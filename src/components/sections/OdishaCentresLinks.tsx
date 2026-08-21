@@ -20,7 +20,7 @@ export function OdishaCentresLinks() {
                 className="group rounded-xl border border-santaan-sage/30 bg-santaan-cream/40 p-4 transition-colors hover:bg-white"
               >
                 <span className="flex items-center justify-between gap-3 font-semibold text-santaan-teal">
-                  {centre.city}
+                  {centre.comingSoon ? 'Jeypore centre — coming soon' : `IVF centre in ${centre.city}`}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
                 <span className="mt-2 block text-sm text-gray-600">

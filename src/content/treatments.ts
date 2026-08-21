@@ -31,7 +31,7 @@ export const treatmentPages: Record<string, TreatmentPage> = {
     h1: 'IVF Treatment',
     kicker: 'In Vitro Fertilization',
     intro:
-      'IVF is a treatment pathway where eggs are collected, fertilized in the lab, and an embryo is transferred into the uterus. This page is a structure for your content team to finalize.',
+      'IVF is a treatment pathway where eggs are collected, fertilised in the laboratory, and an embryo is transferred into the uterus. Suitability, protocol and timing are decided after both partners’ reports and treatment history are reviewed.',
     primaryKeyword: 'ivf treatment',
     whoItsFor: [
       'Tubal factor infertility, endometriosis, or unexplained infertility',
@@ -65,7 +65,7 @@ export const treatmentPages: Record<string, TreatmentPage> = {
     h1: 'IUI Treatment',
     kicker: 'Intrauterine Insemination',
     intro:
-      'IUI is a procedure where prepared sperm is placed inside the uterus around ovulation. This page is a structure for your content team to finalize.',
+      'IUI is a procedure where prepared sperm is placed inside the uterus around ovulation. This page explains the general pathway; local searches for IUI care in Bhubaneswar are answered by the Bhubaneswar centre page.',
     primaryKeyword: 'iui treatment',
     whoItsFor: [
       'Mild male-factor issues or unexplained infertility',
@@ -93,7 +93,7 @@ export const treatmentPages: Record<string, TreatmentPage> = {
     h1: 'ICSI Treatment',
     kicker: 'Intracytoplasmic Sperm Injection',
     intro:
-      'ICSI is a lab technique where a single sperm is injected directly into an egg during IVF. This page is a structure for your content team to finalize.',
+      'ICSI is a laboratory technique where a single sperm is injected directly into an egg during IVF. It is used when the clinical and laboratory findings support it and is not required for every IVF cycle.',
     primaryKeyword: 'icsi treatment',
     whoItsFor: [
       'Low sperm count/motility/morphology or prior fertilization failure',

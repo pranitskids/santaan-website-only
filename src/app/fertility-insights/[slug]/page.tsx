@@ -9,6 +9,7 @@ import { buildBlogPostingSchema, buildBreadcrumbSchema } from '@/lib/schema';
 import { buildMetadata } from '@/lib/seo';
 import { tagToSlug } from '@/lib/tag-utils';
 import { getSiteUrl } from '@/lib/site';
+import { getFertilityInsightSeoOverride } from '@/content/fertilityInsightSeo';
 
 type Params = Promise<{ slug: string }>;
 
@@ -29,6 +30,17 @@ function getRelatedLinks(tags: string[]) {
   return links.filter((link) => link.match.some((keyword) => normalized.some((tag) => tag.includes(keyword)))).slice(0, 3);
 }
 
+const centreLinks = [
+  { href: '/ivf-clinic-bhubaneswar', label: 'IVF centre in Bhubaneswar', city: 'bhubaneswar' },
+  { href: '/ivf-clinic-berhampur', label: 'IVF centre in Berhampur', city: 'berhampur' },
+  { href: '/ivf-clinic-angul', label: 'IVF centre in Angul', city: 'angul' },
+];
+
+function getOrderedCentreLinks(post: { title: string; excerpt: string; tags: string[] }) {
+  const context = `${post.title} ${post.excerpt} ${post.tags.join(' ')}`.toLowerCase();
+  return [...centreLinks].sort((a, b) => Number(context.includes(b.city)) - Number(context.includes(a.city)));
+}
+
 export async function generateStaticParams() {
   const posts = await getSantaanBlogPosts({ type: 'blog', limit: 90 }).catch(() => []);
   return posts.filter(isPatientReadyPost).map((post) => ({ slug: post.slug }));
@@ -46,9 +58,11 @@ export async function generateMetadata({ params }: { params: Params }) {
     });
   }
 
+  const seoOverride = getFertilityInsightSeoOverride(post.slug);
+
   return buildMetadata({
-    title: `${post.title} | Santaan Fertility Insights`,
-    description: post.excerpt,
+    title: seoOverride?.title ?? post.title,
+    description: seoOverride?.description ?? post.excerpt,
     path: `/fertility-insights/${post.slug}`,
     type: 'article',
     keywords: post.tags,
@@ -73,9 +87,12 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
   }
 
   const baseUrl = getSiteUrl();
+  const seoOverride = getFertilityInsightSeoOverride(post.slug);
+  const displayTitle = seoOverride?.title ?? post.title;
+  const displayDescription = seoOverride?.description ?? post.excerpt;
   const schema = buildBlogPostingSchema({
-    title: post.title,
-    description: post.excerpt,
+    title: displayTitle,
+    description: displayDescription,
     url: `${baseUrl}/fertility-insights/${post.slug}`,
     publishedAt: post.publishedAt,
     modifiedAt: post.publishedAt,
@@ -86,10 +103,11 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
   const breadcrumbSchema = buildBreadcrumbSchema([
     { name: 'Home', url: `${baseUrl}/` },
     { name: 'Fertility Insights', url: `${baseUrl}/fertility-insights` },
-    { name: post.title, url: `${baseUrl}/fertility-insights/${post.slug}` },
+    { name: displayTitle, url: `${baseUrl}/fertility-insights/${post.slug}` },
   ]);
 
   const relatedLinks = getRelatedLinks(post.tags);
+  const orderedCentreLinks = getOrderedCentreLinks(post);
   const latestPosts = await getSantaanBlogPosts({ type: 'blog', limit: 90 }).catch(() => []);
   const postTagSlugs = new Set(post.tags.map(tagToSlug).filter(Boolean));
   const relatedPosts = latestPosts
@@ -113,7 +131,7 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
             <ArrowLeft className="w-4 h-4" />
             Back to all insights
           </Link>
-          <h1 className="text-3xl md:text-5xl font-playfair font-bold text-gray-900 mt-6 leading-tight">{post.title}</h1>
+          <h1 className="text-3xl md:text-5xl font-playfair font-bold text-gray-900 mt-6 leading-tight">{displayTitle}</h1>
           <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-gray-500">
             <span className="inline-flex items-center gap-1"><CalendarDays className="w-4 h-4" /> {new Date(post.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
             <span className="inline-flex items-center gap-1"><Clock className="w-4 h-4" /> {post.readMinutes} min read</span>
@@ -125,7 +143,7 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
       <section className="py-10">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <article className="bg-white rounded-2xl border border-gray-100 p-6 md:p-10 prose prose-lg max-w-none prose-headings:font-playfair prose-headings:text-santaan-teal prose-headings:mt-8 prose-headings:mb-4 prose-p:my-5 prose-ul:my-5 prose-ol:my-5 prose-li:my-1.5 prose-a:text-santaan-teal hover:prose-a:text-santaan-amber">
-            <div dangerouslySetInnerHTML={{ __html: post.html }} />
+            <div className="fertility-article-content" dangerouslySetInnerHTML={{ __html: post.html }} />
           </article>
 
           {post.tags.length > 0 && (
@@ -154,6 +172,24 @@ export default async function FertilityInsightDetailPage({ params }: { params: P
               </Link>
             </div>
           </div>
+
+          <nav aria-label="Santaan IVF centres in Odisha" className="mt-10 rounded-2xl border border-gray-100 bg-white p-6 md:p-8">
+            <h2 className="text-xl font-playfair font-bold text-santaan-teal">Find fertility care in Odisha</h2>
+            <p className="mt-2 text-sm leading-relaxed text-gray-600">
+              Review verified address, timings and consultation details on the centre page for your city.
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {orderedCentreLinks.map((centre) => (
+                <Link
+                  key={centre.href}
+                  href={centre.href}
+                  className="rounded-xl border border-santaan-sage/30 bg-santaan-cream/40 px-4 py-3 text-sm font-semibold text-santaan-teal transition-colors hover:bg-white"
+                >
+                  {centre.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
 
           {relatedLinks.length > 0 && (
             <div className="mt-10 bg-white rounded-2xl border border-gray-100 p-6 md:p-8">

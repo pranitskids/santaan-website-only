@@ -25,20 +25,19 @@ import { faqs } from "@/data/faqs";
 import { SANTAAN_YOUTUBE_VIDEOS } from "@/data/youtubeVideos";
 import { SOCIAL_CAMPAIGNS } from "@/data/socialCampaigns";
 import { buildMetadata } from "@/lib/seo";
-import { buildCenterItemListSchema, buildFaqSchema, buildLocalClinicSchemas, buildOrganizationSchema } from "@/lib/schema";
+import { buildCenterItemListSchema, buildFaqSchema, buildOrganizationSchema } from "@/lib/schema";
 import { getSiteUrl } from "@/lib/site";
 import { getApprovedPatientReviews } from "@/lib/patient-reviews";
 
 export const metadata = buildMetadata({
-  title: "Santaan IVF | IVF & Fertility Centres in Odisha",
+  title: "Santaan Fertility | IVF Centre in Odisha | Science for Smile",
   description:
-    "Santaan IVF has supported 15,000+ families with evidence-led fertility care in Bhubaneswar, Angul and Berhampur. Jeypore centre coming soon.",
+    "Santaan Fertility provides IVF and fertility care across Odisha through centres in Bhubaneswar, Berhampur and Angul. Jeypore is coming soon.",
   path: "/",
   keywords: [
-    "ivf centre in bhubaneswar",
-    "ivf clinic in berhampur",
-    "ivf clinic in angul",
-    "ivf clinic in jeypore",
+    "ivf centre in odisha",
+    "fertility clinic in odisha",
+    "santaan fertility",
     "male infertility clinic",
     "pcos fertility treatment",
   ],
@@ -47,7 +46,6 @@ export const metadata = buildMetadata({
 export default function Home() {
   const faqSchema = buildFaqSchema(faqs);
   const organizationSchema = buildOrganizationSchema();
-  const localClinicSchemas = buildLocalClinicSchemas();
   const centerItemListSchema = buildCenterItemListSchema();
   const featuredPatientReviews = getApprovedPatientReviews({ featured: true, limit: 6 });
   const websiteSchema = {
@@ -78,11 +76,6 @@ export default function Home() {
         id="santaan-website-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <Script
-        id="santaan-local-clinics-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localClinicSchemas) }}
       />
       <Script
         id="santaan-odisha-centres-schema"
