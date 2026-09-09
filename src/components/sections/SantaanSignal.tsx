@@ -6,7 +6,7 @@ import { AlertCircle, CheckCircle, HelpCircle, RefreshCcw, Sprout, Activity, Cal
 import { Button } from '@/components/ui/Button';
 import { useJourney } from '@/context/JourneyContext';
 import { SeminarRegistration } from '@/components/features/SeminarRegistration';
-import { PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
+import { PRIMARY_WHATSAPP_CONCIERGE_URL } from '@/data/centers';
 
 // --- Types ---
 type SignalType = 'green' | 'yellow' | 'red';
@@ -408,13 +408,13 @@ export function SantaanSignal() {
 
                                                 <div className="flex flex-col gap-3 w-full max-w-xs">
                                                     <a
-                                                        href={PRIMARY_WHATSAPP_BOOKING_URL}
+                                                        href={PRIMARY_WHATSAPP_CONCIERGE_URL}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-santaan-teal px-8 text-base font-medium text-white shadow-lg shadow-santaan-teal/20 transition-all hover:bg-santaan-teal/90"
                                                     >
                                                         <MessageCircle className="w-4 h-4" />
-                                                        Discuss on WhatsApp
+                                                        Discuss privately on WhatsApp
                                                     </a>
                                                     <button
                                                         onClick={restart}

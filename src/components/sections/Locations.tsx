@@ -190,7 +190,9 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                     </Link>
                                     ) : (
                                     <a
-                                        href={buildPrimaryWhatsappUrl(`Hi, I'd like to book a consultation for ${loc.city}`)}
+                                        href={buildPrimaryWhatsappUrl(
+                                            `Hi Santaan, I'd like private guidance about the ${loc.city} centre. Please reply on WhatsApp; do not call unless I ask.`,
+                                        )}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         data-cta-kind="whatsapp"
@@ -200,7 +202,7 @@ export function Locations({ headingAs = 'h2' }: LocationsProps) {
                                         onClick={() => trackLocationEvent(`location_book_${loc.city}`)}
                                     >
                                         <MessageCircle className="w-4 h-4" />
-                                        Book on WhatsApp
+                                        Ask privately on WhatsApp
                                     </a>
                                     )}
                                 </div>

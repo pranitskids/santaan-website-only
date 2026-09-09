@@ -20,12 +20,21 @@ test.describe("Public website smoke checks", () => {
 
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Across Odisha");
-    await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
-    await expect(page.getByRole("link", { name: "See how IVF works" })).toHaveAttribute("href", "/fertility-map");
+    await expect(page.getByRole("link", { name: /start a private conversation with santaan on whatsapp/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Open IVF Quick Guide" }).first()).toHaveAttribute("href", "/fertility-map");
     await expect(page.locator('a[href^="https://wa.me/919777268743"]').first()).toBeVisible();
     await expect(page.locator('a[href*="919668904011"]')).toHaveCount(0);
     await expect(page.locator('a[href="tel:+918065481541"]').first()).toBeVisible();
     await expect(page.locator('a[href="tel:+917008990586"]')).toHaveCount(0);
+    await page.evaluate(() => window.scrollTo(0, 700));
+    const stickyContact = page.getByRole("navigation", { name: "Quick contact options" });
+    await expect(stickyContact.getByRole("link", { name: "Private WhatsApp" })).toBeVisible();
+    await expect(stickyContact.locator('a[href^="tel:"]')).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "5-in-1 Couple Screening Package — ₹1,000" })).toBeVisible();
+    await expect(page.getByText("Semen analysis", { exact: true })).toBeVisible();
+    await expect(page.getByText("AMH blood test", { exact: true })).toBeVisible();
+    await expect(page.getByText(/not IVF treatment, surgery or a free-treatment offer/i)).toBeVisible();
+    await expect(page.locator("main")).not.toContainText(/Book on WhatsApp/i);
     await expect(page.getByText("15,000+", { exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Different journeys deserve different fertility care" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Recognised for fertility care and innovation" })).toBeVisible();
@@ -66,6 +75,36 @@ test.describe("Public website smoke checks", () => {
       "href",
       "/ivf-clinic-bhubaneswar",
     );
+    await expect(page.getByRole("heading", { name: "Flexible monthly EMI & financing options" })).toBeVisible();
+    await expect(page.getByText(/No financing rate is guaranteed by Santaan/i)).toBeVisible();
+    await expect(page.locator("main")).not.toContainText(/0% EMI/i);
+  });
+
+  test("guide CTA is measured without creating a contact intent", async ({ page }) => {
+    let intentRequests = 0;
+    await page.route("**/api/intent", async (route) => {
+      intentRequests += 1;
+      await route.fulfill({ status: 204 });
+    });
+
+    await page.goto("/");
+    await page.evaluate(() => {
+      const analyticsWindow = window as typeof window & {
+        __testAnalyticsEvents?: unknown[][];
+        gtag?: (...args: unknown[]) => void;
+      };
+      analyticsWindow.__testAnalyticsEvents = [];
+      analyticsWindow.gtag = (...args: unknown[]) => analyticsWindow.__testAnalyticsEvents?.push(args);
+    });
+    const guide = page.locator('a[data-cta-kind="guide"][href="/fertility-map"]').first();
+    await guide.evaluate((element) => element.addEventListener("click", (event) => event.preventDefault()));
+    await guide.click();
+
+    await expect.poll(() => page.evaluate(() => {
+      const events = (window as typeof window & { __testAnalyticsEvents?: unknown[][] }).__testAnalyticsEvents || [];
+      return events.some((entry) => entry[0] === "event" && entry[1] === "guide_open");
+    })).toBeTruthy();
+    expect(intentRequests).toBe(0);
   });
 
   test("priority insight uses clearer metadata and passes authority to centre pages", async ({ page }) => {

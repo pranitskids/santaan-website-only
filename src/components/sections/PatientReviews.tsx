@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, ExternalLink, MessageCircle, Quote, Star } from 'lucide-react';
 import type { PatientReview } from '@/lib/patient-reviews';
-import { PRIMARY_WHATSAPP_URL } from '@/data/centers';
+import { PRIMARY_WHATSAPP_CONCIERGE_URL } from '@/data/centers';
 
 const platformLabels: Record<PatientReview['platform'], string> = {
   google: 'Google review',
@@ -98,16 +98,16 @@ export function PatientReviewsSection({ reviews }: { reviews: PatientReview[] })
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
-            href={PRIMARY_WHATSAPP_URL}
+            href={PRIMARY_WHATSAPP_CONCIERGE_URL}
             target="_blank"
             rel="noopener noreferrer"
             data-cta-kind="whatsapp"
             data-center="Network"
-            data-cta-target={PRIMARY_WHATSAPP_URL}
+            data-cta-target={PRIMARY_WHATSAPP_CONCIERGE_URL}
             className="inline-flex items-center justify-center gap-2 rounded-full border border-santaan-teal/30 bg-white px-6 py-3 text-sm font-semibold text-santaan-teal transition hover:border-santaan-teal hover:bg-white"
           >
             <MessageCircle className="h-4 w-4" />
-            Ask on WhatsApp
+            Ask privately on WhatsApp
           </Link>
         </div>
       </div>

@@ -115,9 +115,10 @@ export default function PricingPage() {
 
           <div className="grid lg:grid-cols-2 gap-8 mt-10">
             <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8">
-              <h3 className="text-xl font-playfair font-bold text-gray-900">EMI / financing options</h3>
+              <h3 className="text-xl font-playfair font-bold text-gray-900">Flexible monthly EMI &amp; financing options</h3>
               <p className="mt-3 text-gray-600">
-                EMI may be available through partner financial institutions, subject to eligibility, terms and documentation.
+                Discuss flexible monthly EMI and payment options with our counselling team. Availability, interest,
+                tenure, downpayment and approval depend on the finance provider and applicant eligibility.
               </p>
               <div className="mt-6 grid gap-3">
                 <div className="rounded-xl bg-santaan-sage/15 p-4">
@@ -134,7 +135,7 @@ export default function PricingPage() {
                 </div>
               </div>
               <p className="mt-4 text-xs text-gray-500">
-                *0% EMI offers, where available, are provided by third party financial institutions and may be limited to select plans and time windows.
+                No financing rate is guaranteed by Santaan. Final terms are provided by the finance partner after assessment.
               </p>
             </div>
 
