@@ -119,6 +119,15 @@ test.describe("Public website smoke checks", () => {
     }
   });
 
+  test("archived insights do not publish legacy financing or WhatsApp claims", async ({ page }) => {
+    await page.goto("/fertility-insights/pgta-testing-bhubaneswar-miscarriage-treatment");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("PGT-A Testing in Bhubaneswar");
+    await expect(page.locator("main")).not.toContainText(/0% EMI/i);
+    await expect(page.locator("main")).toContainText(/flexible monthly EMI and financing options/i);
+    await expect(page.locator("main")).not.toContainText(/81051\s*08416/i);
+    await expect(page.locator("main")).toContainText("+91 97772 68743");
+  });
+
   test("content routes stay reachable", async ({ page }) => {
     await page.goto("/fertility-guides");
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();

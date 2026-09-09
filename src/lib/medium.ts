@@ -105,6 +105,8 @@ function normalizeArchivedPost(post: SantaanBlogPost): SantaanBlogPost {
   const html = sanitizeMediumHtml(post.html);
   return {
     ...post,
+    title: normalizeLegacyFinancingClaims(post.title),
+    excerpt: normalizeLegacyFinancingClaims(post.excerpt),
     html,
     thumbnail: post.thumbnail || extractFirstImageUrl(html),
   };
@@ -162,6 +164,13 @@ function normalizeLegacyPhoneCtas(html: string): string {
   return html.replace(
     /(\+91[\s\u00a0\u2013\u2014-]*)?(?:81051[\s\u00a0]*08416|97772[\s\u00a0]*68755|9777268755|969[\s\u00a0]*208[\s\u00a0]*1966|933[\s\u00a0]*732[\s\u00a0]*6896|96689[\s\u00a0]*04011|9668904011)/g,
     PRIMARY_WHATSAPP_DISPLAY
+  );
+}
+
+function normalizeLegacyFinancingClaims(input: string): string {
+  return input.replace(
+    /(?:flexible[\s\u00a0]+)?0%[\s\u00a0]*EMI(?:[\s\u00a0]+options?)?/gi,
+    'flexible monthly EMI and financing options',
   );
 }
 
@@ -229,6 +238,7 @@ function sanitizeMediumHtml(input: string): string {
   );
   html = rewriteLegacySantaanLinks(html);
   html = normalizeLegacyPhoneCtas(html);
+  html = normalizeLegacyFinancingClaims(html);
 
   // Remove dangling separators often used before internal notes.
   html = html.replace(/<p>\s*[—-]\s*[—-]?\s*<\/p>\s*$/gi, '');
@@ -370,7 +380,7 @@ function normalizeItem(item: Rss2JsonItem): SantaanBlogPost {
 
   return {
     slug: makeSlug(item),
-    title: item.title || 'Untitled Insight',
+    title: normalizeLegacyFinancingClaims(item.title || 'Untitled Insight'),
     excerpt,
     html,
     publishedAt: item.pubDate || new Date().toISOString(),
@@ -434,7 +444,7 @@ function mapRowToPost(row: BlogRow): SantaanBlogPost {
   });
   return {
     slug: row.slug,
-    title: row.title,
+    title: normalizeLegacyFinancingClaims(row.title),
     excerpt: plainText.slice(0, 180) + (plainText.length > 180 ? '...' : ''),
     html,
     publishedAt: row.publishedAt,
