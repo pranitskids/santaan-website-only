@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { AlertCircle, CalendarDays, CheckCircle2, ExternalLink, LoaderCircle, MessageCircle, PhoneCall, ShieldCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
-import { PRACTO_BOOKING_URL, PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from "@/data/centers";
+import { PRACTO_BOOKING_URL, PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_CONCIERGE_URL } from "@/data/centers";
 import { cn } from "@/lib/utils";
 
 const practoWidgetId = process.env.NEXT_PUBLIC_PRACTO_WIDGET_ID?.trim() || "183548fb196d70a5";
@@ -38,7 +38,7 @@ function hasRenderedPractoWidget(host: HTMLElement | null) {
 
 export function PractoBookingSection() {
   const callHref = PRIMARY_CALL_HREF;
-  const whatsappBookingHref = PRIMARY_WHATSAPP_BOOKING_URL;
+  const whatsappBookingHref = PRIMARY_WHATSAPP_CONCIERGE_URL;
   const hostRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const [widgetStatus, setWidgetStatus] = useState<WidgetStatus>(practoWidgetId ? "loading" : "idle");
@@ -144,11 +144,11 @@ export function PractoBookingSection() {
                 className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
-                Book on WhatsApp
+                Start private WhatsApp
               </a>
               <a href={callHref} className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full sm:w-auto")}>
                 <PhoneCall className="mr-2 h-5 w-5" />
-                Call Santaan
+                Call clinic {PRIMARY_CALL_NUMBER}
               </a>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { ArrowRight, MessageCircle, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/Button';
-import { PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
+import { PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_CONCIERGE_URL } from '@/data/centers';
 import { cn } from '@/lib/utils';
 
 export function Hero() {
@@ -49,14 +49,14 @@ export function Hero() {
                     Jeypore is coming soon.
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 md:mb-16">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
                     <a
-                        href={PRIMARY_WHATSAPP_BOOKING_URL}
+                        href={PRIMARY_WHATSAPP_CONCIERGE_URL}
                         target="_blank"
                         rel="noopener noreferrer"
                         data-cta-kind="whatsapp"
                         data-center="Network"
-                        data-cta-target={PRIMARY_WHATSAPP_BOOKING_URL}
+                        data-cta-target={PRIMARY_WHATSAPP_CONCIERGE_URL}
                         aria-label="Start a private conversation with Santaan on WhatsApp"
                         className={cn(
                             buttonVariants({
@@ -67,12 +67,15 @@ export function Hero() {
                         )}
                     >
                         <MessageCircle className="w-5 h-5 mr-2" />
-                        Book on WhatsApp
+                        Start private WhatsApp
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                     </a>
 
                     <Link
-                        href="/fertility-insights"
+                        href="/fertility-map"
+                        data-cta-kind="guide"
+                        data-center="Network"
+                        data-cta-target="/fertility-map"
                         className={cn(
                             buttonVariants({
                                 variant: 'outline',
@@ -81,32 +84,31 @@ export function Hero() {
                             })
                         )}
                     >
-                        Read Today&apos;s Insight
+                        Open IVF Quick Guide
                     </Link>
+                </div>
 
+                <p className="text-sm text-white/85">
+                    We reply on WhatsApp. No call unless you request one.
+                </p>
+                <p className="mt-3 text-sm md:text-base text-white/80 max-w-2xl mx-auto">
+                    Prefer to speak now?{' '}
                     <a
                         href={PRIMARY_CALL_HREF}
                         data-cta-kind="call"
                         data-center="Network"
                         data-cta-target={PRIMARY_CALL_HREF}
-                        aria-label={`Call Santaan at ${PRIMARY_CALL_NUMBER}`}
-                        className={cn(
-                            buttonVariants({
-                                variant: 'outline',
-                                size: 'lg',
-                                className: 'w-full sm:w-auto border-white/40 text-white hover:bg-white/10 backdrop-blur-sm',
-                            })
-                        )}
+                        aria-label={`Call Santaan clinic hotline at ${PRIMARY_CALL_NUMBER}`}
+                        className="inline-flex items-center gap-1 font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors"
                     >
-                        <PhoneCall className="w-5 h-5 mr-2" />
-                        Call {PRIMARY_CALL_NUMBER}
+                        <PhoneCall className="h-4 w-4" />
+                        Call clinic hotline {PRIMARY_CALL_NUMBER}
                     </a>
-                </div>
-
-                <p className="mb-8 text-sm md:text-base text-white/80 max-w-2xl mx-auto">
-                    Prefer to explore first?{' '}
-                    <Link href="/fertility-map" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">
-                        See how IVF works
+                </p>
+                <p className="mb-8 mt-3 text-sm md:text-base text-white/80 max-w-2xl mx-auto">
+                    Still exploring?{' '}
+                    <Link href="/fertility-insights" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">
+                        Read today&apos;s insight
                     </Link>{' '}
                     or{' '}
                     <a href="#santaan-signal" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">

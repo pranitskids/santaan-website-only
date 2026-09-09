@@ -5,7 +5,7 @@ import { ensureMandatoryUtm, readUtmParams } from "@/lib/utm";
 import { resolveCenter } from "@/lib/lead-attribution";
 import { readMarketingAttribution } from "@/lib/marketing-attribution";
 
-type CtaAction = "call" | "whatsapp" | "book";
+type CtaAction = "call" | "whatsapp" | "book" | "guide";
 
 const VISITOR_STORAGE_KEY = "santaan_visitor_id";
 const PHONE_REGEX = /^tel:/i;
@@ -37,7 +37,7 @@ const resolveActionFromElement = (element: HTMLElement): { action: CtaAction; ta
     const ctaCenter = element.dataset.center;
     const ctaTarget = element.dataset.ctaTarget;
 
-    if (ctaKind === "call" || ctaKind === "whatsapp" || ctaKind === "book") {
+    if (ctaKind === "call" || ctaKind === "whatsapp" || ctaKind === "book" || ctaKind === "guide") {
         if (ctaTarget) {
             return { action: ctaKind, target: ctaTarget, center: ctaCenter };
         }
@@ -80,6 +80,7 @@ const resolveActionFromElement = (element: HTMLElement): { action: CtaAction; ta
 export const getGoogleEventName = (action: CtaAction) => {
     if (action === "whatsapp") return "whatsapp_click";
     if (action === "book") return "appointment_start";
+    if (action === "guide") return "guide_open";
     return "call_click";
 };
 
@@ -125,6 +126,8 @@ const emitIntentSignal = (input: {
     } else {
         analyticsWindow.dataLayer.push(["event", eventName, params]);
     }
+
+    if (input.action === "guide") return;
 
     void fetch("/api/intent", {
         method: "POST",

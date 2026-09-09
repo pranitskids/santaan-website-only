@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import { PatientReviewCard } from '@/components/sections/PatientReviews';
 import { buildMetadata } from '@/lib/seo';
 import { getApprovedPatientReviews } from '@/lib/patient-reviews';
-import { PRIMARY_WHATSAPP_URL } from '@/data/centers';
+import { PRIMARY_WHATSAPP_CONCIERGE_URL } from '@/data/centers';
 import { MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
@@ -33,16 +33,16 @@ export default function PatientStoriesPage() {
               Curated public reviews and patient feedback, anonymized when appropriate. The goal is simple: help new couples understand the care experience before they take the first step.
             </p>
             <Link
-              href={PRIMARY_WHATSAPP_URL}
+              href={PRIMARY_WHATSAPP_CONCIERGE_URL}
               target="_blank"
               rel="noopener noreferrer"
               data-cta-kind="whatsapp"
               data-center="Network"
-              data-cta-target={PRIMARY_WHATSAPP_URL}
+              data-cta-target={PRIMARY_WHATSAPP_CONCIERGE_URL}
               className="mt-8 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-950/20 transition hover:bg-emerald-400"
             >
               <MessageCircle className="h-4 w-4" />
-              Talk to Santaan on WhatsApp
+              Ask privately on WhatsApp
             </Link>
           </div>
         </div>

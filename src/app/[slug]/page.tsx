@@ -62,7 +62,9 @@ export default async function ServicePage({ params }: { params: Params }) {
   const clinicSchema = centerProfile && !centerProfile.comingSoon ? buildMedicalClinicSchema(centerProfile) : null;
   const callNumber = centerProfile?.phones[0] || PRIMARY_CALL_NUMBER;
   const callHref = `tel:${callNumber.replace(/[^0-9+]/g, '')}`;
-  const whatsappHref = buildPrimaryWhatsappUrl(`Hi, I'd like to book a consultation about ${page.h1}`);
+  const whatsappHref = buildPrimaryWhatsappUrl(
+    `Hi Santaan, I'd like private guidance about ${page.h1}. Please reply on WhatsApp; do not call unless I ask.`,
+  );
   const mapsHref = centerProfile && !centerProfile.comingSoon ? getCenterMapsUrl(centerProfile) : null;
   const otherCenters = centerProfile
     ? CENTER_PROFILES.filter((center) => center.slug !== centerProfile.slug)
@@ -191,7 +193,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                     className="flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-400 transition-colors"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    Book on WhatsApp
+                    Ask privately on WhatsApp
                   </a>
                   )}
                   <a
@@ -202,7 +204,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                     className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
                   >
                     <PhoneCall className="w-4 h-4" />
-                    Call Santaan
+                    Call clinic
                   </a>
                   {mapsHref ? (
                     <a

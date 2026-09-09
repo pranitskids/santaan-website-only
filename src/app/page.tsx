@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { TrustBar } from "@/components/sections/TrustBar";
+import { CoupleScreeningPackage } from "@/components/sections/CoupleScreeningPackage";
 import { FertilityJourneys } from "@/components/sections/FertilityJourneys";
 import { MythBusting } from "@/components/sections/MythBusting";
 import { WonderOfLife } from "@/components/sections/WonderOfLife";
@@ -86,6 +87,7 @@ export default function Home() {
       <Header />
       <Hero />
       <TrustBar />
+      <CoupleScreeningPackage />
       
       {/* 1. Build relevance and trust */}
       <FertilityJourneys />

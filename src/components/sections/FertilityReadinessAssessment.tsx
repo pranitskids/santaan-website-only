@@ -536,7 +536,9 @@ export function FertilityReadinessAssessment() {
                                         </p>
                                         <div className="flex flex-col sm:flex-row gap-3">
                                             <a
-                                                href={buildPrimaryWhatsappUrl("Hi, I'd like to book a consultation after checking my fertility score")}
+                                                href={buildPrimaryWhatsappUrl(
+                                                    "Hi Santaan, I'd like private guidance after checking my fertility score. Please reply on WhatsApp; do not call unless I ask.",
+                                                )}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                             >
@@ -554,7 +556,7 @@ export function FertilityReadinessAssessment() {
                                                     }}
                                                 >
                                                     <MessageCircle className="w-4 h-4" />
-                                                    Book on WhatsApp
+                                                    Discuss privately on WhatsApp
                                                 </motion.button>
                                             </a>
                                             <a href={PRIMARY_CALL_HREF}>
@@ -572,7 +574,7 @@ export function FertilityReadinessAssessment() {
                                                     }}
                                                 >
                                                     <PhoneCall className="w-4 h-4" />
-                                                    Call Santaan
+                                                    Call clinic
                                                 </motion.button>
                                             </a>
                                         </div>

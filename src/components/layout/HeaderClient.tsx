@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Calendar, MessageCircle, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, BookOpen, MessageCircle, ChevronDown } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { CENTER_PROFILES, PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_BOOKING_URL } from '@/data/centers';
+import { CENTER_PROFILES, PRIMARY_CALL_HREF, PRIMARY_CALL_NUMBER, PRIMARY_WHATSAPP_CONCIERGE_URL } from '@/data/centers';
 
 type GtagWindow = Window & { gtag?: (...args: unknown[]) => void };
 
@@ -166,24 +166,12 @@ export function HeaderClient() {
                             Search
                         </button>
                         <a
-                            href={PRIMARY_CALL_HREF}
-                            data-cta-kind="call"
-                            data-center="Network"
-                            data-cta-target={PRIMARY_CALL_HREF}
-                            className={actionLinkClass}
-                            onClick={() => trackHeaderEvent('header_call_primary')}
-                        >
-                            <Phone className="w-4 h-4" />
-                            <span>Call</span>
-                            <span className="hidden lg:inline">{PRIMARY_CALL_NUMBER}</span>
-                        </a>
-                        <a
-                            href={PRIMARY_WHATSAPP_BOOKING_URL}
+                            href={PRIMARY_WHATSAPP_CONCIERGE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
                             data-cta-kind="whatsapp"
                             data-center="Network"
-                            data-cta-target={PRIMARY_WHATSAPP_BOOKING_URL}
+                            data-cta-target={PRIMARY_WHATSAPP_CONCIERGE_URL}
                             className={cn(
                                 buttonVariants({
                                     size: 'sm',
@@ -194,8 +182,20 @@ export function HeaderClient() {
                             onClick={() => trackHeaderEvent('header_whatsapp_primary')}
                         >
                             <MessageCircle className="w-4 h-4" />
-                            <span className="hidden xl:inline">Book on WhatsApp</span>
+                            <span className="hidden xl:inline">Private WhatsApp</span>
                             <span className="xl:hidden">WhatsApp</span>
+                        </a>
+                        <a
+                            href={PRIMARY_CALL_HREF}
+                            data-cta-kind="call"
+                            data-center="Network"
+                            data-cta-target={PRIMARY_CALL_HREF}
+                            className={actionLinkClass}
+                            onClick={() => trackHeaderEvent('header_call_secondary')}
+                        >
+                            <Phone className="w-4 h-4" />
+                            <span className="hidden xl:inline">Clinic hotline</span>
+                            <span>{PRIMARY_CALL_NUMBER}</span>
                         </a>
                     </div>
 
@@ -266,7 +266,7 @@ export function HeaderClient() {
                         exit={{ opacity: 0, height: 0 }}
                         className="lg:hidden bg-white border-t border-gray-100 overflow-hidden"
                     >
-                        <div className="space-y-1 px-4 pb-3 pt-2">
+                        <div className="flex flex-col gap-1 px-4 pb-3 pt-2">
                             {navigation.map((item) => (
                                 <Link
                                     key={item.name}
@@ -277,27 +277,15 @@ export function HeaderClient() {
                                     {item.name}
                                 </Link>
                             ))}
-                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+                            <div className="order-first mb-3 space-y-3 border-b border-gray-100 pb-4">
                                 <div className="space-y-4">
                                     <a
-                                        href={PRIMARY_CALL_HREF}
-                                        data-cta-kind="call"
-                                        data-center="Network"
-                                        data-cta-target={PRIMARY_CALL_HREF}
-                                        aria-label={`Call ${PRIMARY_CALL_NUMBER}`}
-                                        className={cn(
-                                            buttonVariants({ variant: 'outline', fullWidth: true, className: 'w-full justify-center' })
-                                        )}
-                                    >
-                                        Call {PRIMARY_CALL_NUMBER}
-                                    </a>
-                                    <a
-                                        href={PRIMARY_WHATSAPP_BOOKING_URL}
+                                        href={PRIMARY_WHATSAPP_CONCIERGE_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         data-cta-kind="whatsapp"
                                         data-center="Network"
-                                        data-cta-target={PRIMARY_WHATSAPP_BOOKING_URL}
+                                        data-cta-target={PRIMARY_WHATSAPP_CONCIERGE_URL}
                                         aria-label="Chat with Santaan on WhatsApp"
                                         className={cn(
                                             buttonVariants({
@@ -307,13 +295,16 @@ export function HeaderClient() {
                                         )}
                                     >
                                         <MessageCircle className="w-4 h-4 mr-2" />
-                                        Book on WhatsApp
+                                        Start private WhatsApp
                                     </a>
+                                    <p className="text-center text-xs text-gray-500">
+                                        We reply on WhatsApp. No call unless you request one.
+                                    </p>
                                     <Link
-                                        href="/#book-consultation"
-                                        data-cta-kind="book"
+                                        href="/fertility-map"
+                                        data-cta-kind="guide"
                                         data-center="Network"
-                                        data-cta-target="/#book-consultation"
+                                        data-cta-target="/fertility-map"
                                         onClick={() => setMobileMenuOpen(false)}
                                         className={cn(
                                             buttonVariants({
@@ -323,9 +314,22 @@ export function HeaderClient() {
                                             })
                                         )}
                                     >
-                                        <Calendar className="w-4 h-4 mr-2" />
-                                        Open booking options
+                                        <BookOpen className="w-4 h-4 mr-2" />
+                                        Open IVF Quick Guide
                                     </Link>
+                                    <a
+                                        href={PRIMARY_CALL_HREF}
+                                        data-cta-kind="call"
+                                        data-center="Network"
+                                        data-cta-target={PRIMARY_CALL_HREF}
+                                        aria-label={`Call clinic hotline ${PRIMARY_CALL_NUMBER}`}
+                                        className={cn(
+                                            buttonVariants({ variant: 'outline', fullWidth: true, className: 'w-full justify-center' })
+                                        )}
+                                    >
+                                        <Phone className="w-4 h-4 mr-2" />
+                                        Call clinic {PRIMARY_CALL_NUMBER}
+                                    </a>
                                     <div className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-xs text-gray-600">
                                         Local clinic phone numbers are listed on each centre page with the address, timings, and directions.
                                     </div>

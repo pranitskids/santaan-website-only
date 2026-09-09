@@ -155,11 +155,14 @@ export const PRIMARY_WHATSAPP_NUMBER = '919777268743';
 export const PRIMARY_WHATSAPP_DISPLAY = '+91 97772 68743';
 export const PRIMARY_WHATSAPP_MESSAGE = "Hi, I'd like more info on IVF";
 export const PRIMARY_WHATSAPP_BOOKING_MESSAGE = "Hi, I'd like to book a consultation";
+export const PRIMARY_WHATSAPP_CONCIERGE_MESSAGE =
+  "Hi Santaan, I'd like private fertility guidance. Please reply on WhatsApp; do not call unless I ask.";
 export function buildPrimaryWhatsappUrl(message: string = PRIMARY_WHATSAPP_MESSAGE) {
   return `https://wa.me/${PRIMARY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 export const PRIMARY_WHATSAPP_URL = buildPrimaryWhatsappUrl();
 export const PRIMARY_WHATSAPP_BOOKING_URL = buildPrimaryWhatsappUrl(PRIMARY_WHATSAPP_BOOKING_MESSAGE);
+export const PRIMARY_WHATSAPP_CONCIERGE_URL = buildPrimaryWhatsappUrl(PRIMARY_WHATSAPP_CONCIERGE_MESSAGE);
 export const PRACTO_BOOKING_URL =
   'https://www.practo.com/ganjam/clinic/santaan-fertility-centre-and-research-institute-berhampur-city/infertility-specialist-ps-329';
 
