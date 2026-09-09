@@ -1,4 +1,12 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/guide",
+      "destination": "https://map.santaan.in",
+      "statusCode": 301
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/meta-audiences",
