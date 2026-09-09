@@ -141,6 +141,11 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/fertility-map" className="text-gray-300 hover:text-santaan-amber transition-colors">
+                                    IVF quick guide
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/patient-stories" className="text-gray-300 hover:text-santaan-amber transition-colors">
                                     Patient stories
                                 </Link>

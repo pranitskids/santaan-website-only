@@ -15,6 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/know-your-score',
     '/fertility-conditions',
     '/fertility-guides',
+    '/fertility-map',
     '/fertility-tips',
     '/fertility-insights',
     '/clinical-insights',

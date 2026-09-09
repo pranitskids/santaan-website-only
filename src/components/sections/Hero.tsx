@@ -105,8 +105,12 @@ export function Hero() {
 
                 <p className="mb-8 text-sm md:text-base text-white/80 max-w-2xl mx-auto">
                     Prefer to explore first?{' '}
+                    <Link href="/fertility-map" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">
+                        See how IVF works
+                    </Link>{' '}
+                    or{' '}
                     <a href="#santaan-signal" className="font-semibold text-white underline underline-offset-4 hover:text-santaan-amber transition-colors">
-                        Know your fertility score
+                        know your fertility score
                     </a>
                     .
                 </p>

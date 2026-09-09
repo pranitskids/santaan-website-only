@@ -21,6 +21,7 @@ test.describe("Public website smoke checks", () => {
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Across Odisha");
     await expect(page.getByRole("link", { name: /book on whatsapp/i }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "See how IVF works" })).toHaveAttribute("href", "/fertility-map");
     await expect(page.locator('a[href^="https://wa.me/919777268743"]').first()).toBeVisible();
     await expect(page.locator('a[href*="919668904011"]')).toHaveCount(0);
     await expect(page.locator('a[href="tel:+918065481541"]').first()).toBeVisible();
@@ -87,6 +88,31 @@ test.describe("Public website smoke checks", () => {
     await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
   });
 
+  test("IVF quick guide has indexable content and an English interactive embed", async ({ page }) => {
+    await page.goto("/fertility-map");
+    await expect(page).toHaveTitle(/^IVF Process Guide: Steps, Timeline and FAQs \| Santaan IVF$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "What Happens in IVF? A Step-by-Step Guide",
+    );
+    await expect(page.getByRole("heading", { name: "The main steps in an IVF cycle" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Common IVF questions" })).toBeVisible();
+    await expect(page.locator('iframe[title="Santaan IVF process quick guide"]')).toHaveAttribute(
+      "src",
+      /^https:\/\/map\.santaan\.in\/en\?embed=1/,
+    );
+
+    const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(schemas.join(" ")).toContain('"@type":"FAQPage"');
+    expect(schemas.join(" ")).toContain('"@type":"ItemList"');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    const dimensions = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      content: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.content).toBeLessThanOrEqual(dimensions.viewport);
+  });
+
   test("robots endpoint responds", async ({ request }) => {
     const response = await request.get("/robots.txt");
     expect(response.ok()).toBeTruthy();
@@ -107,6 +133,8 @@ test.describe("Public website smoke checks", () => {
       expect(xml).toContain(`/${slug}</loc>`);
     }
     expect(xml).not.toContain("ivf-clinic-bangalore-aecs-layout");
+    expect(xml).toContain("/fertility-map</loc>");
+    expect(xml).not.toContain("/guide</loc>");
   });
 
   test("Jeypore coming-soon form preserves attribution and emits one confirmed lead event", async ({ page }) => {
