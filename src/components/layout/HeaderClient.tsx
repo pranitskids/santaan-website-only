@@ -37,6 +37,7 @@ const secondaryNavigation = [
     { name: 'Male fertility', href: '/male-infertility-clinic' },
     { name: 'Fertility conditions', href: '/fertility-conditions' },
     { name: 'Fertility guides', href: '/fertility-guides' },
+    { name: 'IVF quick guide', href: '/fertility-map' },
     { name: 'Know your score', href: '/know-your-score' },
     { name: 'Patient stories', href: '/patient-stories' },
     { name: 'Fertility tips', href: '/fertility-tips' },

@@ -7,11 +7,13 @@ const MAP_ORIGIN = "https://map.santaan.in";
 type FertilityMapEmbedProps = {
   topic?: string;
   className?: string;
+  language?: "en" | "or";
 };
 
 export function FertilityMapEmbed({
   topic = "private-guidance",
   className = "",
+  language = "en",
 }: FertilityMapEmbedProps) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(760);
@@ -34,7 +36,7 @@ export function FertilityMapEmbed({
     return () => window.removeEventListener("message", receive);
   }, []);
 
-  const source = `${MAP_ORIGIN}/?embed=1&channel=website&source=santaan_website&topic=${encodeURIComponent(
+  const source = `${MAP_ORIGIN}/${language}?embed=1&channel=website&source=santaan_website&topic=${encodeURIComponent(
     topic,
   )}&utm_source=santaan_website&utm_medium=owned&utm_campaign=fertility_map`;
 
@@ -42,7 +44,7 @@ export function FertilityMapEmbed({
     <iframe
       ref={frameRef}
       src={source}
-      title="Santaan private fertility guidance map"
+      title="Santaan IVF process quick guide"
       className={`w-full rounded-3xl border border-slate-200 bg-[#f7f5ef] shadow-sm ${className}`}
       style={{ height }}
       loading="lazy"
