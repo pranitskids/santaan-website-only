@@ -57,7 +57,7 @@ export function Footer() {
     return (
         <footer id="footer" className="bg-santaan-teal text-white pt-20 pb-10">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
 
                     {/* Brand Column */}
                     <div className="space-y-6">
@@ -171,6 +171,17 @@ export function Footer() {
                                 </li>
                             ))}
                         </ul>
+                    </div>
+
+                    {/* Legal & Company */}
+                    <div>
+                        <h4 className="font-bold text-lg mb-6 text-santaan-sage">Legal &amp; Company</h4>
+                        <p className="text-sm text-gray-300 leading-relaxed mb-4">
+                            SANTAAN FERTILITY CENTER &amp; RESEARCH INSTITUTE PRIVATE LIMITED
+                        </p>
+                        <Link href="/legal-business-information" className="text-gray-300 hover:text-santaan-amber transition-colors">
+                            Business information
+                        </Link>
                     </div>
 
                     {/* Newsletter */}

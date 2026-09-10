@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/treatments',
     '/privacy',
     '/terms',
+    '/legal-business-information',
   ];
 
   const serviceRoutes = servicePageSlugs.map((slug) => `/${slug}`);
