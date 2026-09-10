@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
                     <li>You can request deletion of your data at any time.</li>
                 </ul>
                 <p className="text-gray-700 mt-6">
-                    For questions, email <a href="mailto:info@santaan.in" className="text-santaan-teal font-semibold">info@santaan.in</a>.
+                    For questions, email <a href="mailto:santaan.social@gmail.com" className="text-santaan-teal font-semibold">santaan.social@gmail.com</a>.
                 </p>
               </div>
             </section>

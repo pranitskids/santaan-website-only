@@ -44,7 +44,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     fullAddress: 'Gajapati Nagar 1st Ln, off Sales Tax Square, Extn, Gajapati Nagar, Brahmapur, Odisha 760004',
     addressLine: 'Gajapati Nagar 1st Ln, off Sales Tax Square, Extn, Gajapati Nagar, Brahmapur, Odisha 760004',
     region: 'Odisha',
-    email: 'info@santaan.in',
+    email: 'santaan.social@gmail.com',
     phones: ['+91 7008990582', '+91 9777989739'],
     summary:
       'A South Odisha access point for fertility workup, IVF planning, and coordinated follow-up for couples who want specialist guidance closer to home.',
@@ -73,7 +73,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     fullAddress: '3rd Floor, Utkal Pristine, N-5 Plot, IRC Village, Nayapalli, Bhubaneswar, Odisha 751012',
     addressLine: '3rd Floor, Utkal Pristine, IRC Village, Nayapalli, Bhubaneswar, Odisha 751012',
     region: 'Odisha',
-    email: 'info@santaan.in',
+    email: 'santaan.social@gmail.com',
     phones: ['+91 80654 81541'],
     summary:
       'Our Odisha hub for IVF, ICSI, male-factor review, fertility diagnostics, and step-wise treatment planning built around each couple’s reports and timelines.',
@@ -102,7 +102,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     fullAddress: 'Shankar Cinema Rd, Bazarapada, Angul, Odisha 759122',
     addressLine: 'Shankar Cinema Rd, Bazarapada, Angul, Odisha 759122',
     region: 'Odisha',
-    email: 'info@santaan.in',
+    email: 'santaan.social@gmail.com',
     phones: ['+91 80654 81541'],
     summary:
       'A local fertility access point for Angul families who need early evaluation, practical next steps, and a smoother path into specialist-led treatment planning.',
@@ -131,7 +131,7 @@ export const CENTER_PROFILES: CenterProfile[] = [
     fullAddress: 'Jeypore, Koraput, Odisha 764001',
     addressLine: 'Jeypore, Koraput, Odisha — opening details coming soon',
     region: 'Odisha',
-    email: 'info@santaan.in',
+    email: 'santaan.social@gmail.com',
     phones: ['+91 80654 81541'],
     summary:
       'Santaan is preparing a Jeypore access point for fertility consultations and coordinated treatment planning. Register your interest and our Odisha team will share verified opening details when they are confirmed.',

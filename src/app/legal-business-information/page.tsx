@@ -19,7 +19,7 @@ const businessDetails = [
     'Fertility healthcare, reproductive medicine, fertility diagnostics and assisted reproductive technology services',
   ],
   ['Business Address', PRIMARY_CENTER.fullAddress],
-  ['Business Email', 'info@santaan.in'],
+  ['Business Email', 'santaan.social@gmail.com'],
   ['Business Phone', PRIMARY_CALL_NUMBER],
 ];
 
@@ -46,7 +46,7 @@ export default function LegalBusinessInformationPage() {
                 <dt className="font-semibold text-santaan-teal">{label}</dt>
                 <dd className="text-gray-700 leading-relaxed">
                   {label === 'Business Email' ? (
-                    <a href="mailto:info@santaan.in" className="text-santaan-teal font-semibold hover:text-santaan-amber">
+                    <a href="mailto:santaan.social@gmail.com" className="text-santaan-teal font-semibold hover:text-santaan-amber">
                       {value}
                     </a>
                   ) : label === 'Business Phone' ? (
