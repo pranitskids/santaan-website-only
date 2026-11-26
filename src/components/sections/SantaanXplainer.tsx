@@ -26,9 +26,9 @@ const CARDS = [
     title: "Tech + empathy, not a factory",
     icon: BrainCircuit,
     points: [
-      "Advanced diagnostics help us choose the right protocol earlier and reduce trial-and-error.",
-      "Decisions are personalized and paced to the person, not a production line.",
-      "Our Santaan Lab R&D work continuously improves decision quality and consistency.",
+      "Evidence-linked safety checks and clear bilingual prescriptions (English & ଓଡ଼ିଆ) with 2–8 °C cold-chain guidance.",
+      "Private Santaan Care phone companion for enrolled couples: doctor-signed daily medication reminders with Odia voice playback and post-procedure symptom check-ins.",
+      "Decisions are personalized and paced to the couple, backed by our Santaan Lab R&D — never a production line.",
     ],
     cta: { label: "See Santaan Lab", href: "#santaan-lab" },
   },

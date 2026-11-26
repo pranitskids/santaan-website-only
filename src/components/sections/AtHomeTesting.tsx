@@ -250,7 +250,9 @@ export default function AtHomeTesting({ headingAs = 'h2' }: AtHomeTestingProps) 
                         <p className="text-sm text-gray-700">
                             <strong className="text-gray-900">Clinical Note:</strong> Teleconsultations without lab parameters 
                             can only provide general guidance. Comprehensive testing enables your doctor to make precise medical 
-                            decisions equivalent to in-person consultations—making virtual care as effective as clinic visits.
+                            decisions equivalent to in-person consultations—making virtual care as effective as clinic visits. 
+                            Enrolled couples can also photograph and share prior AMH, semen, or HSG reports securely through 
+                            Santaan Care, with automatic clarity checks so doctors review legible reports.
                         </p>
                     </div>
                 </div>
